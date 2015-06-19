@@ -1,0 +1,11 @@
+/CATKIN_IGNORE
+/catkin_make.cache
+/cmake_install.cmake
+/CMakeCache.txt
+/CTestTestfile.cmake
+/baxter_common/
+/catkin/
+/catkin_generated/
+/gtest/
+/itt_robot_metapackage/
+/Makefile
