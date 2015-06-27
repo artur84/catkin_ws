@@ -1,0 +1,7 @@
+<launch>
+	<node pkg="rosbag" type="record" name="record_wheelchair_data" output="screen" args=" /odom /base_scan /tf /cmd_vel /move_base_simple/goal  -o /home/jorge/bagfiles/wheelchair_data"/>
+	<node pkg="rosbag" type="record" name="record_raw_kinect" output="screen" args=" /camera/depth_registered/image_raw /camera/depth_registered/camera_info /camera/rgb/image_raw /camera/rgb/camera_info -o /home/jorge/bagfiles/kinect_raw_images"/>
+	<node pkg="rosbag" type="record" name="record_amcl_pose" output="screen" args=" / -o /home/jorge/bagfiles/amcl_pose"/>
+	<node pkg="rosbag" type="record" name="record_head_poses" output="screen" args=" /head_pose_filtered /head_pose /head_dir  -o /home/jorge/bagfiles/head_poses"/>
+	<node pkg="rosbag" type="record" name="record_markers" output="screen" args=" /recognizer/output /command_marker /goal_marker /text_marker  -o /home/jorge/bagfiles/markers"/>
+</launch>

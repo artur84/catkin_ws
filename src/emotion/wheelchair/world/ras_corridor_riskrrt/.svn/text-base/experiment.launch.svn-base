@@ -1,0 +1,9 @@
+<launch>
+
+  #riskrrt
+  <node pkg="nav_tools" type="send_goal" name="send_robot_goal" args="-18 1 3.14 /robot_0/goal 1" />  
+
+  #crowd simulator
+  <node pkg="nav_tools" type="send_goal" name="send_crowd_goal" args="-20 2 1.57 /crowd/goal 1" />
+
+</launch>

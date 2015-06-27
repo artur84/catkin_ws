@@ -1,0 +1,72 @@
+<!-- To perform a demo with the wheelchair using the voice control, head pose control or keyboard -->
+<!-- author: Gregoire, Arturo -->
+
+<!-- PREREQUISITES: Launch demo_nav.launch before -->
+<!-- Args: 
+	user_intentions:=0 
+	voice:=0, 
+	head:=0, 
+	keyboard:=0 -->
+
+
+
+
+<launch>
+
+  	<arg name="input" default="keyboard" /> <!-- voice, head, or keyboard -->
+    <arg name="user_intentions" default="0" />
+    
+	#if user_intentions == 1
+    <group if="$(arg user_intentions)">
+	      <!-- if we want tu use voice control -->
+  	     <group if="$(arg voice)">
+         	<include file="$(find wheelchairconf)/launch/wheelchairint/voice_cmd.launch"> 
+				<arg name="sim" value="0" />  
+				<arg name="user_intentions" value="1" />
+			</include>
+  	     </group> 	
+	     <!-- if we want to use head control -->
+  	     <group if="$(arg head)">
+			<include file="$(find wheelchairconf)/launch/wheelchairint/head_cmd.launch"> 
+				<arg name="sim" value="0" />    
+				<arg name="user_intentions" value="1" />
+			</include>
+  	     </group>
+
+        <group if="$(arg keyboard)">
+          	<include file="$(find wheelchairconf)/launch/wheelchairint/keyboard_cmd.launch"> 
+				<arg name="sim" value="0" />    
+				<arg name="user_intentions" value="1" />
+			</include>
+		</group>
+    </group>
+    
+	#if user intentions == 0
+    <group unless="$(arg user_intentions)">
+          <!-- if we want tu use voice control -->
+         <group if="$(arg voice)">               
+ 			<include file="$(find wheelchairconf)/launch/wheelchairint/voice_cmd.launch"> 
+				<arg name="sim" value="0" />    
+				<arg name="user_intentions" value="0" />
+			</include>
+         </group>   
+         <!-- if we want to use head control -->
+         <group if="$(arg head)">
+   			<include file="$(find wheelchairconf)/launch/wheelchairint/head_cmd.launch"> 
+				<arg name="sim" value="0" />    
+				<arg name="user_intentions" value="0" />
+			</include>
+         </group>
+
+        <group if="$(arg keyboard)">
+            <include file="$(find wheelchairconf)/launch/wheelchairint/keyboard_cmd.launch"> 
+				<arg name="sim" value="0" />    
+				<arg name="user_intentions" value="0" />
+			</include>
+         </group>
+    </group>
+
+          
+    
+</launch>
+

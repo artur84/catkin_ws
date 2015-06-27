@@ -1,0 +1,24 @@
+<stack>
+  <description brief="emotion"> 
+    This stack contains tools developed by the EMOTION team at INRIA Rhone-Alpes.
+        https://team.inria.fr/e-motion/en    
+  </description>
+  <author> Maintained by Arturo Escobedo arturoescobedo.iq@gmail.com </author>
+  <license>BSD</license>  
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/emotion</url>
+  <depend stack="common" /> <!-- actionlib -->
+  <depend stack="common_msgs" /> <!-- nav_msgs, sensor_msgs, geometry_msgs, visualization_msgs -->
+  <depend stack="common_rosdeps" /> <!-- eigen -->
+  <depend stack="geometry" /> <!-- tf -->
+  <depend stack="navigation" /> <!-- move_base_msgs, nav_core -->
+  <depend stack="slam_gmapping" /> <!-- gmapping -->
+  <depend stack="openni_kinect" /> <!-- openni_launch -->
+  <depend stack="ros" /> <!-- roslib -->
+  <depend stack="ros_comm" /> <!-- std_msgs, rosbag, rospy, roscpp -->
+  <depend stack="vision_opencv" /> <!-- cv_bridge -->
+  <depend stack="pi_vision" /> <!--face pose tracker -->
+  <depend stack="head_tracking" /> <!--face pose tracker -->
+  <depend stack="inria_wheelchair" />  <!-- another stack from emotion team -->
+  <depend stack="pal-ros-pkg" /> <!-- stack from pal project shared with arobas team at INRIA sophia-antipolis-->
+</stack>

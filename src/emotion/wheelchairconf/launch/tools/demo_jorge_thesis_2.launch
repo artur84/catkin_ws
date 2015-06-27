@@ -1,0 +1,18 @@
+<!--
+Read header in demo_jorge_thesis.launch for information.
+-->
+
+<launch>
+        
+        <!--machine name="bleu_demo" address="194.199.16.53" env-loader="/opt/ros/fuerte/env.sh"/>
+        <machine name="violet_demo" address="194.199.16.92" env-loader="/opt/ros/fuerte/env.sh"/-->
+        #### Necessary static_transform_publishers ####
+        <node pkg="tf" type="static_transform_publisher" name="map_to_opennilaunch_kinect" args="2.55 -1.4 1.0 0.76 0 0 /wheelchair/map /camera_link 50" />
+        <node pkg="tf" type="static_transform_publisher" name="opennilaunch_to_opennitracker" args="0 0 0 0 0 0 /camera_depth_frame /openni_depth_frame 100"/>
+        
+        #### Kinect Stuff ####
+        <include file="$(find openni_launch)/launch/openni.launch"/>
+        <node pkg="openni_tracker" type="openni_tracker" name="openni_tracker"/>
+       
+
+</launch>

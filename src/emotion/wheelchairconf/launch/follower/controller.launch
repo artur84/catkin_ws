@@ -1,0 +1,33 @@
+<!--This launch file is supposed to be runned in a different machine (connected to a different kinect) from that used for the face_pose_estimator -->
+<!-- This launch file is called from start_follower.launch file -->
+
+<launch>
+  	<arg name="tf_prefix" default="robot_0"/>
+  	<arg name="cmd_vel" default="cmd_vel"/>
+	<arg name="camera" default="top_kinect"/> <!--the name of the kinect to be used to track people in the environment -->
+	
+	<node pkg="controller" name="ctrl_node" type="controller" output="screen">
+			<remap from="ctrl_node/target_pose" to="/$(arg tf_prefix)/person_pose" />
+			<!--remap from="robot_ctrl" to="/$(arg tf_prefix)/follower_vel" /-->
+			<remap from="robot_ctrl" to="/$(arg tf_prefix)/$(arg cmd_vel)" />
+			<param name="ctrl_laws" value="parametric" />
+			<param name="Pfm_x" value="0.8" /> <!--g_Pfm[0] = config.Pfm_x-->
+			<param name="Pfm_y" value="0.0" /> <!--g_Pfm[1] = config.Pfm_y-->
+			<param name="k1" value="0.9" />
+			<param name="k2" value="0.8" />
+			<param name="k3" value="0.15" />
+			<param name="k4" value="0.15" />
+	  		<param name="enable_debug" value="true" />
+	   		<param name="debug_frame_id" value="/$(arg tf_prefix)/base_link" />
+	</node>
+<!--	
+	 <node pkg="tf" type="static_transform_publisher" name="map2wheelchair_map" args="0 0 0 0 0 0 /map /$(arg tf_prefix)/map 100" />
+        
+     <node pkg="tf" type="static_transform_publisher" name="wheel2top_kinect" args="-0.5 0 1.5 0 0 0 /$(arg tf_prefix)/base_link /$(arg camera)_link 100" />
+		
+     
+     
+     <node pkg="kinect_people_detector" type="kinect_people_detector" name="ppl_detector" output="screen">
+        <param name="enable_debug" value="True"/>
+	 </node> -->
+</launch>

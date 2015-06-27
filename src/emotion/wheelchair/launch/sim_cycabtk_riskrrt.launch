@@ -1,0 +1,81 @@
+<!-- Simulation for RiskRRT experiments using Stage -->
+<!-- author: Jorge and Procopio -->
+<!-- usage: scenario:=xxxx to change the scenario -->
+<!-- each scenario has a folder inside world folder, and it must have -->
+<!-- the following files: map.yaml, image.pgm, scenario.world and social_filter.launch -->
+
+<!-- usage: move_base:=0 to use RiskRRT home-made executor -->
+
+<launch>
+  <remap from="/robot_0/cmd_vel" to="/robot_0/twistCommand"/>
+  <remap from="/robot_0/odom" to="/robot_0/ground_vehicle_odometry"/>
+  <arg name="scenario" default="airport" />
+  <arg name="move_base" default="1" />
+  <arg name="ros_fuerte" default="0"/>
+  <param name="/use_sim_time" value="true" /> 
+  <arg name="log" default="" /> 
+
+  <!-- Publish our map --> 
+  <node pkg="map_server" type="map_server" name="map_server" output="screen" args="/local_home/nath/roswheelchair/Simulation/launchfiles/map.yaml" respawn="false" >
+    <param name="frame_id" value="/map" />
+  </node>
+ 
+  <!-- Start stage >
+  <group if="$(arg ros_fuerte)">
+  <node pkg="stage" type="stageros" name="stageros" args="$(find wheelchair)/world/$(arg scenario)/scenario_fuerte.world" respawn="false" output="screen">
+    <param name="base_watchdog_timeout" value="0.2"/>
+  </node>
+  </group>
+
+  <group unless="$(arg ros_fuerte)">
+  <node pkg="stage" type="stageros" name="stageros" args="$(find wheelchair)/world/$(arg scenario)/scenario.world" respawn="false" output="screen">
+    <param name="base_watchdog_timeout" value="0.2"/>
+  </node>
+  </group-->
+
+  <!-- BEGIN ROBOT 0 = WHEELCHAIR -->
+  <group ns="robot_0">
+    <param name="tf_prefix" value="robot_0" />
+
+    <!-- initialize amcl -->
+    <include file="/local_home/nath/roswheelchair/Simulation/launchfiles/amcl.launch"/>
+
+    <!-- Social Filter  -->
+    <include file="$(find wheelchair)/world/$(arg scenario)/social_filter.launch"/>
+    
+    <!-- RiskRRT Node-->
+    <node pkg="RiskRRT" type="rosplanner_static" name="rosplanner_static" args="$(find RiskRRT)/wheelchair.config " output="screen" >
+    <rosparam file="$(find RiskRRT)/planning.yaml" command="load" />
+    </node>
+
+    ### ROS move_base  
+    <group if="$(arg move_base)">
+      <node pkg="move_base" type="move_base" respawn="false" name="move_base_node" output="screen">
+        <remap from="map" to="/map" />  
+        <!-- RiskRRT planner as global planner for move_base-->
+        <remap from="/robot_0/move_base_simple/goal" to="/robot_0/move_base_simple/next_pose"/>
+        <param name="base_global_planner" value="RiskRRT_planner/RiskRRTPlanner"/>
+        <param name="RiskRRTPlanner/plan_topic" value="/robot_0/plan"/>
+        <!-- -->
+        <param name="controller_frequency" value="5.0" />
+        <rosparam file="$(find wheelchair)/move_base_config/cycabtk/sim_costmap_common_params.yaml" command="load" ns="global_costmap" />
+        <rosparam file="$(find wheelchair)/move_base_config/cycabtk/sim_costmap_common_params.yaml" command="load" ns="local_costmap" />
+        <rosparam file="$(find wheelchair)/move_base_config/cycabtk/local_costmap_params.yaml" command="load" />
+        <rosparam file="$(find wheelchair)/move_base_config/cycabtk/global_costmap_params.yaml" command="load" />
+        <rosparam file="$(find wheelchair)/move_base_config/cycabtk/base_local_planner_params.yaml" command="load" />
+      </node>
+    </group>
+    
+    ### RiskRRT home-made executor  
+    <group unless="$(arg move_base)">
+      <node pkg="RiskRRT" type="rosexecWheelchair" name="rosexecWheelchair" args="$(find RiskRRT)/planning.config $(find RiskRRT)/wheelchair.config" output="screen" respawn="true"/>
+    </group>
+
+    
+
+  </group>
+  <!-- END ROBOT 0 -->
+
+  <node pkg="rviz" type="rviz" name="rviz" args="-d $(find wheelchair)/conf/sim_riskrrt.vcg" />
+
+</launch>

@@ -1,0 +1,51 @@
+<!--Static transformations for pedestrian to /map scenario -->
+<!-- author: Jorge -->
+<launch>
+  <!--Verify the correct assign of names with scenario.world-->
+
+
+<!-- static front -->
+<!--
+<node pkg="tf" type="static_transform_publisher" name="robot1_broadcast" args="-1.7 2 0 -1.57 0 0 /map  /robot_1/odom  10" />
+-->
+<!-- static left -->
+<!--
+<node pkg="tf" type="static_transform_publisher" name="robot1_broadcast" args="-1.7 2 0 3.14 0 0 /map  /robot_1/odom  10" />
+-->
+<!-- static right -->
+<!--
+<node pkg="tf" type="static_transform_publisher" name="robot1_broadcast" args="-1.7 2 0 0 0 0 /map  /robot_1/odom  10" />
+-->
+<!-- moving -->
+
+<node pkg="tf" type="static_transform_publisher" name="robot1_broadcast" args="-12.0 -10.0 0 1.57 0 0 /map  /robot_1/odom  10" />
+<node pkg="tf" type="static_transform_publisher" name="robot2_broadcast" args="-9.0 10.0 0 4.71 0 0 /map  /robot_2/odom  10" />
+<node pkg="tf" type="static_transform_publisher" name="robot3_broadcast" args="-6.0 -10.0 0 1.57 0 0 /map  /robot_3/odom  10" />
+<node pkg="tf" type="static_transform_publisher" name="robot4_broadcast" args="-3.0 10.0 0 4.71 0 0 /map  /robot_4/odom  10" />
+<node pkg="tf" type="static_transform_publisher" name="robot5_broadcast" args="0.0 -10.0 0 1.57 0 0 /map  /robot_5/odom  10" />
+<node pkg="tf" type="static_transform_publisher" name="robot6_broadcast" args="3.0 10.0 0 4.71 0 0 /map  /robot_6/odom  10" />
+<node pkg="tf" type="static_transform_publisher" name="robot7_broadcast" args="6.0 -10.0 0 1.57 0 0 /map  /robot_7/odom  10" />
+<node pkg="tf" type="static_transform_publisher" name="robot8_broadcast" args="9.0 10.0 0 4.71 0 0 /map  /robot_8/odom  10" />
+<node pkg="tf" type="static_transform_publisher" name="robot9_broadcast" args="12.0 -10.0 0 1.57 0 0 /map  /robot_9/odom  10" />
+<!--
+<node pkg="tf" type="static_transform_publisher" name="robot2_broadcast" args="-1.7 4.5 0 -1.57 0 0 /map  /robot_2/odom  10" />
+
+<node pkg="tf" type="static_transform_publisher" name="robot2_broadcast" args="-3.5 2.0 0 0.0 0 0 /map  /robot_2/odom  10" />
+
+<node pkg="tf" type="static_transform_publisher" name="robot3_broadcast" args="-1.0 2.0 0 3.14 0 0 /map  /robot_3/odom  10" />
+-->
+<arg name="persons" value="9" /> 
+
+<node pkg="social_filter" type="fform_detect" name="fform_detect" output="screen" respawn="true"/>
+  
+<node pkg="social_filter"  type="human_proc" name="human_proc" args="$(arg persons)" output="screen"/>
+<!--<node pkg="social_filter"  type="kinect_human_proc" name="kinect_human_proc" args="$(arg persons)" output="screen"/>-->	
+
+<node pkg="social_filter" type="human_markers" name="human_markers" args="11101" output="screen"/>
+
+ <node pkg="nav_tools" type="send_initialpose" name="send_initialpose" args="-3.7 -5.0 1.57 " />
+ 
+<!--<node pkg="tf" type="static_transform_publisher" name="kinect_to_map" args="-5.0 0 0 0 0 0 /map /openni_depth_frame 10"/>--> 
+<!--<node pkg="tf" type="static_transform_publisher" name="laser_pos" args="0 0 0 0 0 0 /robot_0/base_laser_link /laser 10"/>-->
+<node pkg="social_filter" type="go" name="go"/>
+</launch>

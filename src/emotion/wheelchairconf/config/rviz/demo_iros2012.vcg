@@ -1,0 +1,178 @@
+Background\ ColorB=0
+Background\ ColorG=0
+Background\ ColorR=0
+Camera\ Config=0.785399 3.13039 20.8607 4.68246 8.50476 4.32615
+Camera\ Type=rviz::OrbitViewController
+Fixed\ Frame=/map
+Grid\ Cells.Alpha=1
+Grid\ Cells.ColorB=0
+Grid\ Cells.ColorG=1
+Grid\ Cells.ColorR=0.1
+Grid\ Cells.Enabled=1
+Grid\ Cells.Topic=/wheelchair/move_base/global_costmap/inflated_obstacles
+Grid.Alpha=0.5
+Grid.Cell\ Size=1
+Grid.ColorB=0.5
+Grid.ColorG=0.5
+Grid.ColorR=0.5
+Grid.Enabled=1
+Grid.Line\ Style=0
+Grid.Line\ Width=0.03
+Grid.Normal\ Cell\ Count=0
+Grid.OffsetX=0
+Grid.OffsetY=0
+Grid.OffsetZ=0
+Grid.Plane=0
+Grid.Plane\ Cell\ Count=10
+Grid.Reference\ Frame=<Fixed Frame>
+Laser\ Scan..AxisColorAutocompute\ Value\ Bounds=1
+Laser\ Scan..AxisColorAxis=2
+Laser\ Scan..AxisColorMax\ Value=10
+Laser\ Scan..AxisColorMin\ Value=-10
+Laser\ Scan..AxisColorUse\ Fixed\ Frame=1
+Laser\ Scan..FlatColorColorB=1
+Laser\ Scan..FlatColorColorG=1
+Laser\ Scan..FlatColorColorR=1
+Laser\ Scan..IntensityAutocompute\ Intensity\ Bounds=1
+Laser\ Scan..IntensityChannel\ Name=intensity
+Laser\ Scan..IntensityMax\ ColorB=1
+Laser\ Scan..IntensityMax\ ColorG=1
+Laser\ Scan..IntensityMax\ ColorR=1
+Laser\ Scan..IntensityMax\ Intensity=0
+Laser\ Scan..IntensityMin\ ColorB=0
+Laser\ Scan..IntensityMin\ ColorG=0
+Laser\ Scan..IntensityMin\ ColorR=0
+Laser\ Scan..IntensityMin\ Intensity=0
+Laser\ Scan..IntensityUse\ full\ RGB\ spectrum=0
+Laser\ Scan.Alpha=1
+Laser\ Scan.Billboard\ Size=0.01
+Laser\ Scan.Color\ Transformer=Intensity
+Laser\ Scan.Decay\ Time=0
+Laser\ Scan.Enabled=1
+Laser\ Scan.Position\ Transformer=XYZ
+Laser\ Scan.Queue\ Size=10
+Laser\ Scan.Selectable=1
+Laser\ Scan.Style=0
+Laser\ Scan.Topic=/wheelchair/base_scan
+Map.Alpha=0.7
+Map.Draw\ Behind=0
+Map.Enabled=1
+Map.Topic=/map
+Marker.Enabled=1
+Marker.Marker\ Topic=/command_marker
+Marker.Queue\ Size=100
+Marker2.Enabled=1
+Marker2.Marker\ Topic=/text_marker
+Marker2.Queue\ Size=100
+MarkerArray.Enabled=1
+MarkerArray.Marker\ Array\ Topic=/goal_marker
+MarkerArray.Queue\ Size=100
+Path.Alpha=1
+Path.ColorB=0
+Path.ColorG=0
+Path.ColorR=0
+Path.Enabled=1
+Path.Topic=/wheelchair/move_base/NavfnROS/plan
+Pose.Alpha=1
+Pose.ColorB=0
+Pose.ColorG=0.1
+Pose.ColorR=1
+Pose.Enabled=1
+Pose.Head\ Length=0.3
+Pose.Head\ Radius=0.2
+Pose.Shaft\ Length=1
+Pose.Shaft\ Radius=0.1
+Pose.Shape=0
+Pose.Topic=/wheelchair/move_base/current_goal
+Property\ Grid\ Splitter=548,78
+Property\ Grid\ State=;splitterratio=0.5
+QMainWindow=000000ff00000000fd000000030000000000000140000002c6fc0200000002fb000000100044006900730070006c006100790073010000003a000002c6000000f000fffffffb0000000a0049006d00610067006500000001ff0000010100000000000000000000000100000137000002c6fc0200000003fb0000001e0054006f006f006c002000500072006f0070006500720074006900650073010000003a000000b50000006700fffffffb0000000a0056006900650077007301000000f500000150000000bf00fffffffb0000001200530065006c0065006300740069006f006e010000024b000000b50000006700ffffff000000030000064000000040fc0100000001fb0000000800540069006d0065010000000000000640000002dd00ffffff000003bd000002c600000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+TF.All\ Enabled=1
+TF.Enabled=1
+TF.Frame\ Timeout=15
+TF.Marker\ Scale=1
+TF.Show\ Arrows=0
+TF.Show\ Axes=1
+TF.Show\ Names=0
+TF.Update\ Interval=0
+Target\ Frame=<Fixed Frame>
+Tool\ 2D\ Nav\ GoalTopic=/wheelchair/move_base_simple/goal
+Tool\ 2D\ Pose\ EstimateTopic=wheelchair/initialpose
+footprint.Alpha=1
+footprint.ColorB=0
+footprint.ColorG=0.317647
+footprint.ColorR=0.0313726
+footprint.Enabled=1
+footprint.Topic=/wheelchair/move_base/local_costmap/robot_footprint
+global\ plan.Alpha=1
+global\ plan.ColorB=0
+global\ plan.ColorG=1
+global\ plan.ColorR=0.1
+global\ plan.Enabled=1
+global\ plan.Topic=/wheelchair/move_base/TrajectoryPlannerROS/global_plan
+inflated\ obstacles.Alpha=1
+inflated\ obstacles.ColorB=1
+inflated\ obstacles.ColorG=0
+inflated\ obstacles.ColorR=0.133333
+inflated\ obstacles.Enabled=1
+inflated\ obstacles.Topic=/wheelchair/move_base/local_costmap/inflated_obstacles
+local\ plan.Alpha=1
+local\ plan.ColorB=1
+local\ plan.ColorG=0
+local\ plan.ColorR=0.0901961
+local\ plan.Enabled=1
+local\ plan.Topic=/wheelchair/move_base/TrajectoryPlannerROS/local_plan
+[Display0]
+ClassName=rviz::GridDisplay
+Name=Grid
+[Display1]
+ClassName=rviz::MapDisplay
+Name=Map
+[Display10]
+ClassName=rviz::MarkerArrayDisplay
+Name=MarkerArray
+[Display11]
+ClassName=rviz::MarkerDisplay
+Name=Marker
+[Display12]
+ClassName=rviz::GridCellsDisplay
+Name=Grid Cells
+[Display13]
+ClassName=rviz::MarkerDisplay
+Name=Marker2
+[Display2]
+ClassName=rviz::TFDisplay
+Name=TF
+[Display3]
+ClassName=rviz::LaserScanDisplay
+Name=Laser Scan
+[Display4]
+ClassName=rviz::PathDisplay
+Name=Path
+[Display5]
+ClassName=rviz::PoseDisplay
+Name=Pose
+[Display6]
+ClassName=rviz::PathDisplay
+Name=local plan
+[Display7]
+ClassName=rviz::PathDisplay
+Name=global plan
+[Display8]
+ClassName=rviz::GridCellsDisplay
+Name=inflated obstacles
+[Display9]
+ClassName=rviz::PolygonDisplay
+Name=footprint
+[TF.Frames.]
+map.Enabled=1
+[TF.Frames./wheelchair]
+base_laser.Enabled=1
+base_link.Enabled=1
+map.Enabled=1
+odom.Enabled=1
+[Window]
+Height=870
+Width=1600
+X=-1
+Y=-31

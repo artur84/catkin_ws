@@ -1,0 +1,102 @@
+<!-- This starts the follower developed by Lucca Marchetti 
+		Previous steps:
+      		-	Start the wheelchair driver
+			- 	Connect the kinect to the computer
+		(Im still not sure that this will work: NOT TESTED)
+-->
+<launch>
+	<arg name="sim" default="1" />
+	<arg name="user_intentions" default="0" />
+	<arg name="camera" default="camera" /> 
+	#Start the kinect
+	<include file="$(find openni_launch)/launch/openni.launch">
+		<!-- "camera" should uniquely identify the device. All topics are pushed down
+       into the "camera" namespace, and it is prepended to tf frame ids. -->
+		<arg name="camera" value="$(arg camera)"/>
+		<!-- device_id can have the following formats:
+         "B00367707227042B": Use device with given serial number
+         "#1"              : Use first device found
+         "2@3"             : Use device on USB bus 2, address 3
+	 	"2@0"             : Use first device found on USB bus 2
+    	-->
+  		<!--arg name="device_id" default="#1" /-->
+	</include>
+	<!--node pkg="openni_tracker" type="openni_tracker" name="$(arg camera)_tracker" respawn="true">
+    	 <param name="camera_frame_id" value="/$(arg camera)_depth_frame" />
+	 </node-->
+####################         SIMULATIONS           ###########################	
+	<group unless="$(arg sim)">
+		<group ns="wheelchair">
+			<param name="tf_prefix" value="wheelchair" />		
+			<node pkg="pal_launch" name="x_r_m" type="Pose2BaseLink.py" output="screen">
+			    <remap from="input" to="/ppl_detector/best_pose" />
+	            <remap from="output" to="person_pose" />
+			</node>
+		</group>
+		# If using user_intentions module
+		<group if="$(arg user_intentions)">
+			<include file="$(find wheelchairconf)/launch/follower/controller.launch">
+	    	    <arg name="tf_prefix" value="wheelchair"/>
+	    	    <arg name="cmd_vel" value="follower_vel"/>
+	    	    <arg name="camera" value="$(arg camera)"/>
+	    	</include>
+	    </group>
+	    #If not using user_intentions module
+	    <group unless="$(arg user_intentions)">
+			<include file="$(find wheelchairconf)/launch/follower/controller.launch">
+	    	    <arg name="tf_prefix" value="wheelchair"/>
+	    	    <arg name="camera" value="$(arg camera)"/>
+	    	</include>
+	    </group>
+        
+     <node pkg="tf" type="static_transform_publisher" name="link_broadcaster_kinect" args="-0.6 0 1.5 0 0 -0.2 /wheelchair/base_link /camera_link 50" />
+	    <node pkg="openni_tracker" type="openni_tracker" name="openni_tracker"/>
+        <node pkg="tf" type="static_transform_publisher" name="openni_to_camera" args="0 0 0 0 0 0 camera_depth_frame   openni_depth_frame 100"/>
+     <node pkg="kinect_people_detector" type="kinect_people_detector" name="ppl_detector" output="screen">
+        <param name="enable_debug" value="True"/>
+	 </node>
+	</group>
+	
+	<group if="$(arg sim)">
+		<param name="/use_sim_time" value="true" />
+		<!--the wheelchair-->
+		<group ns="robot_0">
+			<param name="tf_prefix" value="robot_0" />		
+			<node pkg="pal_launch" name="x_r_m" type="Pose2BaseLink.py" output="screen">
+				<remap from="input" to="/ppl_detector/best_pose" />
+	            <remap from="output" to="person_pose" />
+			</node>
+		</group>
+		<!-- The tracked robot in simulation-->
+		<group ns="robot_1">
+
+		<include file="$(find pal_launch)/launch/person.launch" />
+
+		<param name="tf_prefix" value="robot_1" />
+
+		<param name="amcl/initial_pose_x" value="6.593" />
+		<param name="amcl/initial_pose_y" value="6.008" />
+		<param name="amcl/initial_pose_a" value="1.567" />
+
+		<node pkg="tf" type="static_transform_publisher" name="map2robot_1_map" args="0 0 0 0 0 0 /map /robot_1/map 100" />
+
+		</group>
+		<group if="$(arg user_intentions)">
+			<include file="$(find wheelchairconf)/launch/follower/controller.launch">
+	    	    <arg name="tf_prefix" value="robot_0"/>
+	    	    <remap from="cmd_vel" to="user_vel"/>
+	    	    <arg name="camera" value="$(arg camera)"/>
+	    	</include>
+	    </group>
+	    <group unless="$(arg user_intentions)">
+			<include file="$(find wheelchairconf)/launch/follower/controller.launch">
+	    	    <arg name="tf_prefix" value="robot_0"/>
+	    	    <remap from="cmd_vel" to="cmd_vel"/>
+	    	    <arg name="camera" value="$(arg camera)"/>
+	    	</include>
+	    </group>
+	</group>
+   
+
+	
+</launch>  		 

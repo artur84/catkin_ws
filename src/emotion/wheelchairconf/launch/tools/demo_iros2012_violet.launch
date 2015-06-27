@@ -1,0 +1,25 @@
+<!--  	This launch file should be launched in "violet" laptop which should be connected to the upper kinect-->
+<!--	and the arduino board	-->
+<launch>
+	<group ns="violet">
+		<param name="tf_prefix" value="violet" />
+
+		<!-- launch kinect images -->
+		<include file="$(find openni_launch)/launch/openni.launch">
+			<arg name="camera" value="violet_camera" /> #This will lcreate frames of the type /$(arg camera)_rgb_optical_frame and /$(arg camera)_depth_optical_frame
+		</include>
+		<!-- Launch Kinect Tracker -->
+		<node pkg="openni_tracker" type="openni_tracker" name="openni_tracker" output="screen"  respawn="True" />
+	
+		<!-- Launch servo motor following  -->
+		<node pkg="wheelchair_kinect" type="servo_following.py" name="servo_following" respawn="True" />
+	
+		<!-- Static transform for the openni_tracker -->
+		######## Publish an static Transformation to relate the robot and the kinect ######
+	    <node pkg="tf" type="static_transform_publisher" name="rgb_camera_tf__broadcaster" args="-0.5 0 1.4 0 0 0 /base_link /violet_camera_link 100" />
+	    <node pkg="tf" type="static_transform_publisher" name="depth_camera_tf__broadcaster" args="-0.5 0 1.4 0 0 0 /base_link openni_depth_frame 100" />
+	</group>
+	
+	<!-- Connect computer with arduino board -->
+	<node pkg="rosserial_python" type="serial_node.py" name="arduino_comunication_usb" args="/dev/ttyACM0" output="screen"  respawn="True" />
+</launch>

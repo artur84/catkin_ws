@@ -1,0 +1,15 @@
+<!--Static transformations for pedestrian to /map scenario -->
+<!-- author: Jorge -->
+<launch>
+
+  <node pkg="tf" type="static_transform_publisher" name="robot1_broadcast" args=" 0.0 -5.0 0 1.57 0.0 0.0 /map  /robot_1/odom  10" />
+  <node pkg="tf" type="static_transform_publisher" name="robot2_broadcast" args=" 1.5  2.0 0 3.14 0.0 0.0 /map  /robot_2/odom  10" />
+  <node pkg="tf" type="static_transform_publisher" name="robot3_broadcast" args="-0.6  2.0 0 0.00 0.0 0.0 /map  /robot_3/odom  10" />
+  <arg name="persons" value="4" />
+  <node pkg="social_filter" type="fform_detect" name="fform_detect" output="screen" respawn="true"/>
+  <node pkg="social_filter"  type="human_proc" name="human_proc" args="$(arg persons)" output="screen"/>
+  <node pkg="social_filter" type="human_markers" name="human_markers" args="11100" output="screen"/>
+
+  <node pkg="nav_tools" type="send_initialpose" name="send_initialpose" args="4.0 -5.0 1.57 " />
+
+</launch>

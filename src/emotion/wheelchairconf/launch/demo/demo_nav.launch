@@ -1,0 +1,73 @@
+<!-- Run navigation demo with the wheelchair (using riskrrt or move_base) in different scenarios -->
+<!-- author: Arturo Escobedo -->
+
+<!-- usage: to use RiskRRT, the argument riskrrt must be set to 1 (riskrrt:=1) -->
+<!--        to change the default map (inria hall) the argument map:=xxx.yaml should be used -->
+<!--        to use social filters, the argument social must be set to 1 (social:=1) -->
+
+<!-- examples: roslaunch wheelchair demo_nav.launch riskrrt:=1 (default map, riskrrt planner, no social filter) -->
+<!--           roslaunch wheelchair demo_nav.launch scenario:=lab.yaml (lab map, ros planner, no social filter) -->
+<!--           roslaunch wheelchair demo_nav.launch riskrrt:=1 social:=1 (default map, riskrrt planner with social filter) -->
+
+<launch>
+  	<arg name="scenario" default="lab" />
+  	<arg name="social" default="0" />
+  	<arg name="riskrrt" default="0" />
+  	<arg name="riskrrt_exec" default="0" />
+  	<arg name="mode_selector" default="0"/>
+  	
+  	<!-- Publish our map --> 
+    <node pkg="map_server" type="map_server" name="map_server" args="$(find wheelchairconf)/world/$(arg scenario).yaml" respawn="true">
+	    <param name="frame_id" value="map" /> <!--Check this in rviz yo have to change the reference frame to wheelchair/map to work-->
+    </node>
+    <node pkg="tf" type="static_transform_publisher" name="map_to_wheelchairmap" args="0 0 0 0 0 0 /map /wheelchair/map 50" />
+    
+    #### WHEELCHAIR ROBOT ####
+    <group ns="wheelchair">
+		<param name="tf_prefix" value="wheelchair" />
+		<param name="amcl/initial_pose_x" value="4." />
+		<param name="amcl/initial_pose_y" value="13.5" />
+		<param name="amcl/initial_pose_a" value="-1.4." />
+		<!--Wheelchair driver -->
+		<include file="$(find wheelchair)/launch/bb_auto.launch" />
+		<!-- Navigation -->
+		<group if="$(arg riskrrt)">
+		    <include file="$(find wheelchairconf)/launch/navigation_riskrrt.launch" >
+		        <arg name="riskrrt_exec" value="$(arg riskrrt_exec)" />
+		    </include>
+		    <param name="move_base/RiskRRTPlanner/plan_topic" value="/wheelchair/plan"/>  
+		</group>
+		
+		<group unless="$(arg riskrrt)">
+		    <include file="$(find wheelchairconf)/launch/navigation_planner_ros.launch" >
+		    		<arg name="mode_selector" value="$(arg mode_selector)" />
+		    </include>
+		</group>
+		
+		<!-- Social Filter  -->
+		<group if="$(arg social)">
+            <node pkg="social_filter" type="fform_detect" name="fform_detect" output="screen" respawn="true" /> 
+            <!--node pkg="social_filter" type="ar_human_proc" name="ar_human_proc" output="screen"/-->
+            <node pkg="social_filter"  type="kinect_human_proc" name="human_proc" args="$(arg persons)" output="screen"/>	
+            <!-- human markers "args"= 1->human, 2->draw personal space, 3-> draw o-space, 4-> draw ips, 5 -> draw interesting objects -->
+            <node pkg="social_filter" type="human_markers" name="human_markers" args="11101" output="screen"/> 
+        </group>      
+	</group>
+	
+	<!-- start navigation -->
+  	<!--include file="$(find wheelchairconf)/launch/nav.launch">
+		<arg name="sim" value="0"/>
+		<arg name="cmd_vel" value="cmd_vel" />  
+		<arg name="riskrrt" value="$(arg riskrrt)" />
+		<arg name="riskrrt_exec" value="$(arg riskrrt_exec)" />
+  	</include--> <!-- from previous use (before migration to FUERTE) -->
+  	
+	<!-- Visualizer -->
+	<group if="$(arg riskrrt)">
+	    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find wheelchairconf)/config/rviz/demo_nav_riskrrt.vcg" />
+    </group>
+    <group unless="$(arg riskrrt)">
+	    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find wheelchairconf)/config/rviz/demo_nav.vcg" />
+    </group>
+		
+</launch>

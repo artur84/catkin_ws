@@ -1,0 +1,24 @@
+<!-- test mario's tracker  -->
+<!-- author: Procopio -->
+
+<launch>
+
+  <arg name="map" default="small_corridor" />
+
+  #### start wheelchair base and localization (amcl)
+  <include file="$(find wheelchair)/launch/start_wheelchair.launch"/>
+  
+  #### Launch Kinect Stuff ####
+<!--   <node pkg="openni_tracker" type="openni_tracker" name="openni_tracker" output="screen" /> -->
+  <node pkg="openni_camera" type="openni_node" name="openni_node" output="screen" />
+<!--   <node pkg="tf" type="static_transform_publisher" name="kinect_to_wheelchair" args="-0.5 0 1.4 0 0 0 1 /base_link /openni_depth_frame 100" /> -->
+
+  <node pkg="map_server" type="map_server" name="map_server" output="screen" args="$(find wheelchair)/world/small_corridor.yaml" />
+    
+  <node pkg="rviz" type="rviz" name="rviz" args="-d $(find wheelchair)/conf/demo_nav.rviz" /> 
+   
+  ### launch laser ###
+  <node pkg="LMS1xx" type="LMS100" name="lms_laser" output="screen" args="_host:=194.199.21.200"/>
+       
+</launch>
+

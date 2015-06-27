@@ -1,0 +1,41 @@
+<!-- Third PART Used to run a simultaion of user intentions module and my ui_local_planner using the keyboard and face direction as input	-->
+<!-- USAGE:
+    (1) roslaunch wheelchairconf sim_ui_local_planner_destination_face_keyboard_1.launch
+    Then in other terminal
+    (2) roslaunch wheelchairconf sim_ui_local_planner_destination_face_keyboard_2.launch
+    Then in other terminal
+    (3) roslaunch wheelchairconf sim_ui_local_planner_destination_face_keyboard_3.launch
+
+-->
+<launch>
+	<arg name="scenario" default="hall_inria"/>
+
+	### Start the recognizer ###
+	<!-- if we want to use google recognizer -->
+	<!--group ns="robot_0">
+	    <node name="google_recognizer" pkg="wheelchairint" type="wheelchair_recognizer.py" output="screen" respawn="True">
+	   	</node>
+	</group-->
+
+
+   	### Start voice and head command ###
+   	<group ns="robot_0">
+        <node pkg="wheelchairint" type="voice_and_head.py" name="voice_and_head" respawn="true">
+	        <remap from="voice_and_head_vel" to="face_vel"/><!-- input for the mode_selector -->
+	        <remap from="voice_and_head_dir" to="face_dir"/><!-- input for the mode_selector -->
+        </node>
+	</group>
+
+	### START KEYBOARD ###
+	<group ns="robot_0">
+		<param name="/use_sim_time" value="true" />
+    	<node pkg="wheelchairint" type="keyboard.py" name="keyboard" respawn="true" output="screen">
+			<remap from="key_vel" to="user_vel"/>
+			<remap from="key_dir" to="face_dir"/>#this is in order to simulate user face with the keyboard so I dont have to launch the kinect
+		</node>
+	</group>
+
+	##### START RVIZ   #####
+	<node pkg="rviz" type="rviz" name="rviz"/>
+
+</launch>

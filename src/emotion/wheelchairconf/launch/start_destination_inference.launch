@@ -1,0 +1,33 @@
+<!-- Loads the destination inference node in sim or demo mode,
+		useful to quicly access  while debugging
+		To start the destination_inference module with the desired interface
+		set the proper value of <arg name="control" default="key" /> -->
+<!-- author: Arturo -->
+<!-- PREREQUISITES: Launch sim_nav.launch or demo_nav.launch -->
+<!-- USE: roslaunch wheelchairconf start_destination_inference.launch sim:=1 -->
+<launch>
+	#Params for this launch file
+	<arg name="sim" default="1" />
+	<arg name="scenario" default="hall_inria"/>
+	<arg name="planner" default="ros_planner"/><!-- it can be riskrrt, ros_planner or ui_planner -->
+	<arg name="mode" default="autonomous"/><!-- it can be manual or autonomous -->
+	#For a simulation
+	<group if="$(arg sim)" ns="robot_0">
+		<param name="/use_sim_time" value="true" />
+		<param name="tf_prefix" value="robot_0" />
+    	<node pkg="user_intentions" type="destination_inference.py" name="destination_inference" respawn="true" output="screen" >
+			<param name="mode" value="$(arg mode)"/> #Set to "autonomous" to be active
+			<param name="BN_goals_file" value="$(find wheelchairconf)/world/$(arg scenario)_goals.yaml"/>
+			<param name="planner" value="$(arg planner)"/>
+    	</node>
+    </group>
+    #For a demo
+	<group unless="$(arg sim)" ns="wheelchair">
+	<param name="tf_prefix" value="wheelchair" />
+    	<node pkg="user_intentions" type="destination_inference.py" name="destination_inference" respawn="true" output="screen" >
+			<param name="mode" value="$(arg mode)"/> #Set to "autonomous" to be active
+			<param name="BN_goals_file" value="$(find wheelchairconf)/world/$(arg scenario)_goals.yaml"/>
+			<param name="planner" value="$(arg planner)"/>
+    	</node>
+    </group>
+</launch>

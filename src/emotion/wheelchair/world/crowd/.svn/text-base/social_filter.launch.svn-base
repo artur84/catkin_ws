@@ -1,0 +1,33 @@
+<!--Static transformations for pedestrians to /map in crowd scenario -->
+<!-- author: procopio -->
+<launch>
+
+<node pkg="tf" type="static_transform_publisher" name="robot1_tf" args="-12.0 12.0 0 1.57 0 0 /map  /robot_1/odom  10" />
+<!--<node pkg="tf" type="static_transform_publisher" name="robot2_tf" args="-11.0 12.0 0 1.57 0 0 /map  /robot_2/odom  10" />
+<node pkg="tf" type="static_transform_publisher" name="robot3_tf" args="-10.0 12.0 0 1.57 0 0 /map  /robot_3/odom  10" />
+
+<node pkg="tf" type="static_transform_publisher" name="robot4_tf" args="-12.0 13.0 0 1.57 0 0 /map  /robot_4/odom  10" />
+<node pkg="tf" type="static_transform_publisher" name="robot5_tf" args="-11.0 13.0 0 1.57 0 0 /map  /robot_5/odom  10" />
+<node pkg="tf" type="static_transform_publisher" name="robot6_tf" args="-10.0 13.0 0 1.57 0 0 /map  /robot_6/odom  10" />
+
+<node pkg="tf" type="static_transform_publisher" name="robot7_tf" args="-12.0 14.0 0 1.57 0 0 /map  /robot_7/odom  10" />
+<node pkg="tf" type="static_transform_publisher" name="robot8_tf" args="-11.0 14.0 0 1.57 0 0 /map  /robot_8/odom  10" />
+<node pkg="tf" type="static_transform_publisher" name="robot9_tf" args="-10.0 14.0 0 1.57 0 0 /map  /robot_9/odom  10" />
+
+<node pkg="tf" type="static_transform_publisher" name="robot10_tf" args="12.0 15.0 0 1.57 0 0 /map  /robot_10/odom  10" />
+<node pkg="tf" type="static_transform_publisher" name="robot11_tf" args="11.0 15.0 0 1.57 0 0 /map  /robot_11/odom  10" />
+<node pkg="tf" type="static_transform_publisher" name="robot12_tf" args="10.0 15.0 0 1.57 0 0 /map  /robot_12/odom  10" />
+
+<node pkg="tf" type="static_transform_publisher" name="robot13_tf" args="12.0 16.0 0 1.57 0 0 /map  /robot_13/odom  10" />
+<node pkg="tf" type="static_transform_publisher" name="robot14_tf" args="11.0 16.0 0 1.57 0 0 /map  /robot_14/odom  10" />
+<node pkg="tf" type="static_transform_publisher" name="robot15_tf" args="10.0 16.0 0 1.57 0 0 /map  /robot_15/odom  10" />-->
+
+<node pkg="nav_tools" type="send_initialpose" name="send_initialpose" args="-11.5 0.0 1.57" />
+
+<arg name="persons" value="2" /> 
+  
+<remap from="/robot_0/map" to="/map" />  
+<node pkg="crowd_simulator" type="crowd_behavior" name="behavior" args="$(arg persons)" output="screen"/>	
+
+</launch>
+

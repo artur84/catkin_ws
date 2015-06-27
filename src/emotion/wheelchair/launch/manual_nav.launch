@@ -1,0 +1,78 @@
+<!-- run navigation demo with the wheelchair  -->
+<!-- author: Procopio, Jorge, Arturo -->
+
+<!-- usage: to use RiskRRT, the argument riskrrt must be set to 1 (riskrrt:=1) -->
+<!--        to change the default map (inria hall) the argument map:=xxx.yaml should be used -->
+<!--        to use social filters, the argument social must be set to 1 (social:=1) -->
+
+<!-- examples: roslaunch wheelchair demo_nav.launch riskrrt:=1 (default map, riskrrt planner, no social filter) -->
+<!--           roslaunch wheelchair demo_nav.launch map:=labo.yaml (labo map, ros planner, no social filter) -->
+<!--           roslaunch wheelchair demo_nav.launch riskrrt:=1 social:=1 (default map, riskrrt planner with social filter) -->
+
+<launch>
+
+  <arg name="scenario" default="emotion_corridor" />
+
+
+  <!-- start wheelchair base and localization (amcl) -->
+  <include file="$(find wheelchair)/launch/bb_manual.launch"/>
+  
+    <!-- initialize amcl -->
+  <include file="$(find wheelchair)/launch/amcl.launch"/>
+
+  <!-- Publish our map --> 
+  <node pkg="map_server" type="map_server" name="map_server" output="screen" args="$(find wheelchair)/world/$(arg scenario)/map.yaml" respawn="false" >
+    <param name="frame_id" value="/map" />
+  </node>  
+  ### Social Filters
+  #### Launch Kinect Stuff ####
+  <!--<include file="$(find openni_launch)/launch/openni.launch"/>
+  <node pkg="openni_tracker" type="openni_tracker" name="openni_tracker" output="screen" respawn="true"/>-->
+
+  ######## Publish an static Transformation to relate the robot and the kinect ######
+  <node pkg="tf" type="static_transform_publisher" name="kinect_to_wheelchair" args="0.65 0 0.55 0 0 0 /base_link /openni_depth_frame 20" />
+
+  <!--<node pkg="social_filter"  type="kinect_human_proc" name="kinect_human_proc" args="10" output="screen" respawn="true"/>-->
+  <node pkg="social_filter" type="fform_detect" name="fform_detect" output="screen"/>
+  ##### args is to select what kind of markers we will create ######
+  ##### 0000 means nothing, it is the default #######
+  ##### [3dModel,PS,OS,IPS,screen], 1001 means 3dModel and IPS #####
+
+  <node pkg="social_filter" type="human_markers" name="human_markers" args="11100" output="screen" respawn="true" /> 
+
+  <!--upper laser-->
+  <node pkg="lms1xx"
+    type="LMS1xx_node"
+    name="lms_laser"
+    output="screen"
+    args="_host:=194.199.21.200"/>
+    
+  <node pkg="tf"
+        type="static_transform_publisher"
+        name="base_to_laser"
+        args="0.65 0 0.5 0 0 0 /base_link /laser 20" />
+
+    
+   ### RiskRRT  
+   <!-- <node pkg="RiskRRT" type="rosplanner_static" name="rosplanner_static" output="screen" >
+      <rosparam file="$(find RiskRRT)/planning.yaml" command="load" />
+    </node>
+
+    <node pkg="RiskRRT" type="rosexecWheelchair" name="rosexecWheelchair" output="screen" >
+      <rosparam file="$(find RiskRRT)/planning.yaml" command="load" />
+    </node>-->
+    
+      ###leg detector
+  <node pkg="leg_detector" type="leg_detector" name="leg_detector" args="scan:=scan $(find leg_detector)/config/trained_leg_detector.yaml" output="screen">
+    <param name="leg_reliability_limit" value="0.1" />
+    <param name="connection_threshold" value="0.1" />
+    <param name="leg_pair_separation" value="0.4" />
+  </node>
+
+  <node name="velocity_tracker" pkg="people_velocity_tracker" type="tracker.py" respawn="true" />
+  
+  <node pkg="social_filter" type="leg_detector_proc" name="leg_detector_proc" output="screen"/>
+      
+  <node pkg="rviz" type="rviz" name="rviz" args="-d /home/greg/.rviz/riskrrt_wheelchair.rviz" />
+  
+</launch>

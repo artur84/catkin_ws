@@ -1,0 +1,68 @@
+<!-- Run a demo using the voice and the head to control the wheelchair
+using the destination inference and mode_selector.py.
+It takes place in a given map, with known goals. To start moving autonomously
+say "OK GO", to stopo say: "OK STOP"-->
+
+<!-- Make sure that the microphone is connected and working :) -->
+<!-- Make sure that you have internet to use google recognizer:) -->
+<!-- Connect the wheelchair -->
+<!-- Connect the kinect -->
+
+<!-- BEFORE: Please launch
+	roslaunch wheelchairconf demo_iros_2013_1.launch
+	roslaunch wheelchairconf demo_iros_2013_2.launch
+
+	AFTER:
+	rosrun rviz rviz -d ~/.rviz/wheelchair.rviz
+-->
+
+<launch>
+	<arg name="scenario" default="hall_inria"/>
+	<arg name="use_keyboard" default="0" /> <!-- if we want to use the keyboard to simulate the direction of the face instead using the kinect -->
+	<arg name="mode_selector" default="1"/><!--If we want to use (1) or not (0) the mode_selector node or pass the cmd_vel directly to the wheelchair -->
+
+
+	##IF not using the keyboard ###
+	<group unless="$(arg use_keyboard)">
+
+		### Start the recognizer ###
+	   	<!-- if we want to use google recognizer -->
+	    <group ns="wheelchair">
+	        <node name="google_recognizer" pkg="wheelchairint" type="wheelchair_recognizer.py" output="screen" respawn="True">
+	       	</node>
+	   	</group>
+
+		### Start the face pose estimator ###
+		<!-- Calls the kinect face tracker, use this file to quickly access this
+		in simulation /or demos while debugging -->
+		<group>#We are not setting the "ns" because if we do it, the tracker does not work
+			<include file="$(find wheelchairconf)/launch/wheelchairint/kinect_face_pose_estimator.launch">
+	    	    <arg name="tf_prefix" value="wheelchair"/>
+	    	</include>
+	    </group>
+
+
+	   	### Start voice and head command ###
+	   	<group ns="wheelchair">
+	        <node pkg="wheelchairint" type="voice_and_head.py" name="voice_and_head" respawn="true">
+		        <remap from="voice_and_head_vel" to="user_vel"/><!-- input for the mode_selector -->
+		        <remap from="voice_and_head_dir" to="user_dir"/><!-- input for the mode_selector -->
+	        </node>
+		</group>
+	</group>
+
+	### if using KEYBOARD ###
+	<group if="$(arg use_keyboard)" ns="wheelchair">
+		<param name="tf_prefix" value="wheelchair"/>
+    	<node pkg="wheelchairint" type="keyboard.py" name="keyboard"  output="screen" respawn="true">
+			<remap from="key_vel" to="user_vel"/>
+			<remap from="key_dir" to="user_dir"/>
+		</node>
+	</group>
+
+	##### START RVIZ   #####
+	<!--node pkg="rviz" type="rviz" name="rviz" args="-d sim_voice_cmd.rviz"/-->
+	<node pkg="rviz" type="rviz" name="rviz_iros_2013" args="-d /home/arturo/.rviz/wheelchair.rviz" />
+
+
+</launch>

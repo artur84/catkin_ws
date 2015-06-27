@@ -1,0 +1,30 @@
+#hola
+include "common/map.inc"
+include "common/wheelchair.inc"
+include "common/person.inc"
+
+window
+(
+  size [ 510.000 540.000 ]
+  center [8.4 8.75]
+  rotate [ 0.000 0 ]
+  scale 30.0
+  show_data 1
+)
+
+# load an environment bitmap
+floorplan
+(
+  name "hall_inria"
+  bitmap "hall_inria.pgm"
+  #size of image times 30/550 got from real size and image comparison
+  #Stage adjust the map, then is convenient to have a frame for the image
+  size [16.8 17.5 2.5]
+  pose [8.4 8.75 0 0 ]
+)
+
+# throw in a robot
+wheelchair( pose [ 3.5 11.5 0 -90 ] name "bibabot" )
+person (  pose [8.5 7.0 0.000 -90] name "robot_1")
+person (  pose [8.5 5.0 0.000 90] name "robot_2")
+#If you add a person don't forget to edit the NAME_OF_WORLD.launch (lab.launch, inria.launch...) file to set the necessary tf's

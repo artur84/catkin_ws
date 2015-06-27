@@ -1,0 +1,141 @@
+define sick_laser ranger
+(
+  sensor(
+    range [ 0 90 ]
+    fov 180.0
+    samples 181
+  )
+  size [ 0.14 0.14 0.1 ]
+  color "blue"
+  block(
+    points 6
+    point[0] [  0.0375  0.015 ]
+    point[1] [  0.0225  0.03 ]
+    point[2] [ -0.0375  0.03 ]
+    point[3] [ -0.0375 -0.03 ]
+    point[4] [  0.0225 -0.03 ]
+    point[5] [  0.0375 -0.015 ]
+    z [ 0 0.06 ]
+  )
+)
+
+define dummy_laser ranger
+(
+  sensor(
+    range [ 0 1 ]
+    fov 1.0
+    samples 1
+  )
+)
+
+define wheelchair position
+(
+  size [1 0.8 0.8]    
+  origin [0 0 0 0]  
+  gui_nose 1  
+  drive "diff"  
+  sick_laser( pose [0.6 0 1.0 0 ] )
+  # [ xmin xmax ymin ymax zmin zmax amin amax ]
+  velocity_bounds [-10 10 -10 10 -10 10 -90 90 ]
+) 
+
+define dynamic_human position
+(
+  # actual size in meters
+  size [0.6 0.6 0.1]    
+  origin [0 0 0 0]
+  gui_nose 1  
+  drive "omni"
+  dummy_laser( pose [0.4 0 -0.7 0 ] )
+  # [ xmin xmax ymin ymax zmin zmax amin amax ]
+  velocity_bounds [-10 10 -10 10 -10 10 -90 90 ]
+  
+  block(
+    points 8
+    point[0] [0.34 -1]
+    point[1] [1 -0.34]
+    point[2] [1 0.34]
+    point[3] [0.34 1]
+    point[4] [-0.35 1]
+    point[5] [-1 0.35]
+    point[6] [-1 -0.34]
+    point[7] [-0.34 -1]
+    z [ 0 0.06 ]
+  )
+  
+) 
+
+define static_human position
+(
+  size [0.5 0.5 1.8]    
+  origin [0 0 0 0]  
+  gui_nose 1  
+  drive "omni" 
+  #sick_laser( pose [0.4 0 -0.7 0 ] ) 
+) 
+
+
+define floorplan model
+(
+  # sombre, sensible, artistic
+  color "gray30"
+
+  # most maps will need a bounding box
+  boundary 1.0
+  gui_nose 0
+  gui_grid 0
+  gui_outline 0
+  gripper_return 0
+  fiducial_return 0
+  ranger_return 1
+)
+
+window
+( 
+  size [ 800.000 400.000 ] 
+  rotate [ 0.000 0 ]
+  scale 10.0 
+)
+
+# load an environment bitmap
+floorplan
+( 
+  name "corridor"
+  bitmap "image.pgm" 
+  size [80 40 2.5]
+  pose [0 0 0 0.0 ]
+)
+
+# throw in robots
+wheelchair( pose [ 16.0 1.0 0 180.0 ] name "robot" color "blue")
+dynamic_human(pose [12.0 0.0 0 90.0] name "person_l1" color "cyan")
+dynamic_human(pose [12.0 1.0 0 90.0] name "person_l2" color "cyan")
+dynamic_human(pose [12.0 2.0 0 90.0] name "person_l3" color "cyan")
+
+dynamic_human(pose [11.0 0.0 0 90.0] name "person_l4" color "cyan")
+dynamic_human(pose [11.0 1.0 0 90.0] name "person_l5" color "cyan")
+dynamic_human(pose [11.0 2.0 0 90.0] name "person_l6" color "cyan")
+
+dynamic_human(pose [10.0 0.0 0 90.0] name "person_l7" color "cyan")
+dynamic_human(pose [10.0 1.0 0 90.0] name "person_l8" color "cyan")
+dynamic_human(pose [10.0 2.0 0 90.0] name "person_l9" color "cyan")
+
+dynamic_human(pose [-12.0 0.0 0 90.0] name "person_r1" color "red")
+dynamic_human(pose [-12.0 1.0 0 90.0] name "person_r2" color "red")
+dynamic_human(pose [-12.0 2.0 0 90.0] name "person_r3" color "red")
+
+dynamic_human(pose [-11.0 0.0 0 90.0] name "person_r4" color "red")
+dynamic_human(pose [-11.0 1.0 0 90.0] name "person_r5" color "red")
+dynamic_human(pose [-11.0 2.0 0 90.0] name "person_r6" color "red")
+
+dynamic_human(pose [-10.0 0.0 0 90.0] name "person_r7" color "red")
+dynamic_human(pose [-10.0 1.0 0 90.0] name "person_r8" color "red")
+dynamic_human(pose [-10.0 2.0 0 90.0] name "person_r9" color "red")
+
+interval_sim             10
+quit_time                 0
+resolution                0.02
+
+show_clock                0
+show_clock_interval     100
+threads                   4

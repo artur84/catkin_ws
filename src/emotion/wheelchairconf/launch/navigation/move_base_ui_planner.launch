@@ -1,0 +1,58 @@
+<!--
+Launches move base with the default ROS planner, The parameters have been set so that we got the best possible behaviour on the wheelchair.
+-->
+<launch>
+	<arg name="cmd_vel" default="cmd_vel"/>
+	<arg name="tf_prefix" default="robot_0"/>
+	<arg name="social_grid" default="1"/>
+	<node pkg="ui_move_base" type="move_base" respawn="false" name="move_base" output="screen">
+		<remap from="map" to="/map" />
+		<remap from="cmd_vel" to="$(arg cmd_vel)" />
+		<remap from="face_dir" to="face_dir" />
+		<remap from="user_input" to="user_vel" />
+		<param name="controller_frequency" value="10.0" />
+
+			<rosparam file="$(find wheelchairconf)/config/navigation/ui_planner/costmap_common_params.yaml"
+			command="load" ns="global_costmap" />
+			<rosparam file="$(find wheelchairconf)/config/navigation/ui_planner/costmap_common_params.yaml"
+			command="load" ns="local_costmap" />
+			<rosparam file="$(find wheelchairconf)/config/navigation/ui_planner/local_costmap_params.yaml"
+			command="load" />
+			<rosparam file="$(find wheelchairconf)/config/navigation/ui_planner/global_costmap_params.yaml"
+			command="load" />
+
+		<rosparam file="$(find wheelchairconf)/config/navigation/ui_planner/move_base_params.yaml"
+			command="load" />
+
+		<rosparam file="$(find wheelchairconf)/config/navigation/ui_planner/base_local_planner_params.yaml"
+			command="load" />
+		<rosparam file="$(find wheelchairconf)/config/navigation/ui_planner/navfn_params.yaml"
+			command="load" />
+
+        ## alternative global planners ##
+
+		<!--param name="base_global_planner" value="goal_passer/GoalPasser"/-->
+		<!-- <param name="base_global_planner" value="carrot_planner/CarrotPlanner"/> -->
+		<!-- <param name="base_global_planner" value="SBPLLatticePlanner"/>-->
+
+
+        ## OMPL global planners ##
+
+		<!--param name="base_global_planner" value="ompl_planner_base/OMPLPlannerBase" />
+			<param name="OMPLPlannerBase/publish_diagnostics" value="true" />  <param name="OMPLPlannerBase/interpolate_path"
+			value="true" /-->
+		<!--param name="OMPLPlannerBase/global_planner_type" value="LazyRRT" /-->
+		<!-- KPIECE, BKPIECE, LBKPIECE, SBL, pSBL, EST, PRM, RRT, RRTConnect, pRRT, LazyRRT
+			-->
+
+
+        ## alternative local planners ##
+
+		<param name="base_local_planner" value="ui_local_planner/TrajectoryPlannerROS"/>
+		<!--param name="base_local_planner" value="base_local_planner/TrajectoryPlannerROS"/-->
+		<!-- <param name="base_local_planner" value="pose_follower/PoseFollower"/> -->
+		<!--<param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS"/>-->
+		<!-- <param name="base_local_planner" value="eband_local_planner/EBandPlannerROS"/>
+			-->
+	</node>
+</launch>

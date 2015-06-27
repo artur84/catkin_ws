@@ -1,0 +1,65 @@
+<!-- SECOND PART Used to run a simultaion of user intentions module and my ui_local_planner using the keyboard as input, 	-->
+<!-- USAGE:
+    (1) roslaunch wheelchairconf sim_ui_local_planner_destination_1.launch
+    Then in other terminal
+    (2) roslaunch wheelchairconf sim_ui_local_planner_destination_2.launch
+
+-->
+<launch>
+
+	<arg name="scenario" default="hall_inria" />
+	<arg name="planner" default="ui_planner" />
+	<arg name="mode" default="autonomous"/><!-- it can be manual or autonomous -->
+	<arg name="persons" default="2"/> <!--For social filter: change this according to the  number of persons in the environment -->
+
+	##### START NAVIGATION ####
+    ####### Publish the map: It should be global so no namespace is defined #####
+	<param name="/use_sim_time" value="true" />
+	<node pkg="map_server" type="map_server" name="map_server" output="log" args="$(find wheelchairconf)/world/$(arg scenario).yaml" respawn="true" >
+		<param name="frame_id" value="/map" />
+	</node>
+
+	##### MOVE BASE #######
+	<group ns="robot_0">
+		<param name="/use_sim_time" value="true" />
+		<param name="tf_prefix" value="robot_0" />
+		<param name="move_base/RiskRRTPlanner/plan_topic" value="/robot_0/plan"/>  <!--Just needed for the riskrrt-->
+		<include file="$(find wheelchairconf)/launch/navigation/amcl.launch" />
+		<include file="$(find wheelchairconf)/launch/navigation/move_base_ui_planner.launch" >
+			<arg name="cmd_vel" value="ui_local_planner_vel"/>#changes the cmd_vel topic's name
+		</include>
+		<node pkg="tf" type="static_transform_publisher" name="tf_map_to_wheelchair" args="0 0 0 0 0 0 /map /robot_0/map 100" />
+        <node pkg="tf" type="static_transform_publisher" name="tf_stage_laser_to_real_laser" args="0 0 0 0 0 0 base_laser_link base_laser 100" />
+	</group>
+
+	##### START SOCIAL FILTER ####
+    <!--group ns="robot_0">
+        <param name="/use_sim_time" value="true" />
+		<param name="tf_prefix" value="robot_0" />
+	    <include file="$(find wheelchairconf)/launch/social_filter/social_filter.launch" >
+	    		<arg name="persons" value="$(arg persons)" />
+	    </include>
+	</group-->
+
+	### Start the face pose estimator ###
+	<!-- Calls the kinect face tracker, use this file to quickly access this
+	in simulation /or demos while debugging -->
+	<group>#We are not setting the "ns" because if we do it, the tracker does not work
+		<include file="$(find wheelchairconf)/launch/wheelchairint/kinect_face_pose_estimator.launch">
+    	    <arg name="tf_prefix" value="robot_0"/>
+    	</include>
+    </group>
+
+	##### START DESTINATION INFERENCE ####
+	<group  ns="robot_0">
+		<param name="/use_sim_time" value="true" />
+		<param name="tf_prefix" value="robot_0" />
+    	<node pkg="user_intentions" type="destination_inference.py" name="destination_inference" respawn="true" output="screen" >
+			<param name="BN_goals_file" value="$(find wheelchairconf)/world/$(arg scenario)_goals.yaml"/>
+			<param name="planner" value="$(arg planner)"/>
+			<remap from="user_dir" to="face_dir"/>
+    	</node>
+    </group>
+
+
+</launch>

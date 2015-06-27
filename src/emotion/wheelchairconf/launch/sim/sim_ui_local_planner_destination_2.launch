@@ -1,0 +1,22 @@
+<!-- SECOND PART Used to run a simultaion of user intentions module and my ui_local_planner using the keyboard as input, 	-->
+<!-- USAGE:
+    (1) roslaunch wheelchairconf sim_ui_local_planner_destination_1.launch
+    Then in other terminal
+    (2) roslaunch wheelchairconf sim_ui_local_planner_destination_2.launch
+
+-->
+<launch>
+	<arg name="sim" default="1" />
+	<arg name="mode_selector" default="0"/>
+
+
+	### START KEYBOARD ###
+	<group ns="robot_0">
+		<param name="/use_sim_time" value="true" />
+    	<node pkg="wheelchairint" type="keyboard.py" name="keyboard" respawn="true" output="screen">
+			<remap from="key_dir" to="face_dir"/>
+			<remap from="key_vel" to="user_vel"/>#this is in order to simulate user face with the keyboard so I dont have to launch the kinect
+		</node>
+	</group>
+
+</launch>

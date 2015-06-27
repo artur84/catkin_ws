@@ -1,0 +1,26 @@
+map_type: costmap
+transform_tolerance: 0.2
+obstacle_range: 8.9
+raytrace_range: 9
+
+#The footprint of the robot and associated padding
+footprint: [[-0.7, -0.425], [-0.7, 0.425], [0.7, 0.425],[0.7, -0.425]]
+
+#Cost function parameters
+inflation_radius: 0.325
+cost_scaling_factor: 10.0
+
+
+observation_sources: base_scan
+
+base_scan: {sensor_frame: base_laser,
+            data_type: LaserScan,
+            topic: base_scan,
+            expected_update_rate: 0.25,
+            observation_persistence: 0.0,
+            marking: true,
+            clearing: true,
+            min_obstacle_height: -0.10,
+            max_obstacle_height: 2.0,
+            max_obstacle_range: 6.0}
+

@@ -1,0 +1,107 @@
+<!--
+Final version of demo for "person following"
+using Hannibal, a laser and a Kinect
+-->
+
+<launch>
+
+        <arg name="debug" default="false" />
+
+	<arg if="$(arg debug)" name="launch_prefix" value="xterm -e gdb -ex r --args" />
+	<arg unless="$(arg debug)" name="launch_prefix" value="" />
+	<param if="$(arg debug)" name="/bond_disable_heartbeat_timeout" value="true" />
+        
+        
+        <arg name="map" default="hall_inria" />
+
+  
+  	<!-- Publish our map --> 
+	<node pkg="map_server" type="map_server" name="map_server" args="$(find pal_launch)/maps/grenoble_rob_hall.yaml" respawn="false">
+		<param name="frame_id" value="/map" />
+	</node>
+	
+	<!-- start the wheelchair -->
+        <include file="$(find wheelchair)/launch/bb_auto.launch" />
+        <include file="$(find pal_launch)/launch/navigation_wheelchair.launch" />
+		<param name="amcl/initial_pose_x" value="11" />
+		<param name="amcl/initial_pose_y" value="5." />
+		<param name="amcl/initial_pose_a" value="-1.5" />
+
+
+	<node pkg="tf" type="static_transform_publisher" name="base_footprint_2_base_link" args="0 0 0.13 0 0 0 base_footprint base_link 100"/>
+
+	
+
+	
+
+	<!-- ### Kinect ### -->
+	<include file="$(find openni_launch)/launch/openni.launch"/>
+	<node pkg="tf" type="static_transform_publisher" name="link_broadcaster_1" args="0 0 0 0 0 0  base_link base_footprint 50" />
+	<node pkg="tf" type="static_transform_publisher" name="laser2pantilt" args="-0.5 0 1.4 0 0 0 base_laser pantilt_link 100"/>
+	<node pkg="tf" type="static_transform_publisher" name="pantiltL2pantiltF" args="0 0 0 0 0 0 pantilt_link pantilt_frame 100"/>
+	<node pkg="tf" type="static_transform_publisher" name="pantilt2camera" args="0 0 0 0 0 0 pantilt_frame camera_link 100"/>
+	<node pkg="tf" type="static_transform_publisher" name="camera2openni_depth" args="0 0 0 0 0 0 camera_depth_frame openni_depth_frame 100"/>
+	
+	<arg name="ref_point_x" default="1" />
+	<arg name="ref_point_y" default="0" />
+
+	<!-- ##################### Processing ###################### -->
+
+
+	<!-- ### Kinect pose tracker ### -->
+	<node pkg="openni_tracker" type="openni_tracker" name="openni_tracker" />
+	<node name="ppl_camera" pkg="kinect_people_detector" type="kinect_people_detector">
+		<remap from="base_link" to="/base_link" />
+		<remap from="ppl_camera/kinect_poses" to="ppl_camera/camera_positions" />
+		<param name="enable_debug" value="true" />
+	</node>
+	<node pkg="arobas_utils" name="ppl_camera_vel" type="velocity_estimator.py">
+		<remap from="robot_pose" to="base_link" />
+		<remap from="poses" to="ppl_camera/camera_positions" />
+		<remap from="output" to="ppl_camera/camera_poses" />
+		<param name="use_synch" value="False" />
+	</node>
+
+	<!-- ### Laser-based people tracker ### -->
+	<node pkg="people_tracker_srl" name="ppl_tracker_srl" type="people_tracker">
+		<remap from="ppl_tracker_srl/scan" to="/scan" />
+		<remap from="ppl_tracker_srl/laser_poses" to="ppl_tracker_df/laser_poses"/>
+		<param name="enable_debug" value="true" />
+		<param name="config_file" value="$(find arobas_launch)/config/robot/config.ini" />
+	</node>
+
+	<!-- ### People position estimator (data fusion) ### -->
+	<node pkg="people_tracker" name="ppl_tracker_df" type="people_tracker" launch-prefix="$(arg launch_prefix)" output="screen">
+		<remap from="ppl_tracker_df/selected_pose" to="person_pose" />
+		<remap from="ppl_tracker_df/robot_odom" to="/odom" />
+		<remap from="ppl_tracker_df/reference_point" to="ctrl_node/Pfm" />
+		<param name="config_file" value="$(find arobas_launch)/config/robot/people_tracker.cfg" />
+		<param name="enable_debug" value="true" />
+		<param name="enable_log" value="true" />
+		<param name="frame_id" value="/base_link" />
+		<param name="initial_reference_point_x" value="$(arg ref_point_x)" />
+		<param name="initial_reference_point_y" value="$(arg ref_point_y)" />
+	</node>
+
+	<node pkg="people_tracker" name="ppl_tracker_converter_camera" type="PoseArray2BaseLink.py" output="screen">
+		<remap from="input" to="ppl_camera/camera_poses" />
+		<remap from="output" to="ppl_tracker_df/camera_poses" />
+		<param name="target_frame_id" value="/base_link" />
+	</node>
+
+	<!-- ### Control ### -->
+	<node pkg="controller" name="ctrl_node" type="controller">
+		<remap from="ctrl_node/target_pose" to="person_pose_gt" />
+		<remap from="robot_ctrl" to="cmd_vel" />
+		<param name="k1" value="0.6" />
+		<param name="k2" value="0.5" />
+		<param name="k3" value="0.3" />
+		<param name="k4" value="0.3" />
+		<param name="ctrl_laws" value="parametric" />
+		<param name="Pfm_1" value="$(arg ref_point_x)" />
+		<param name="Pfm_2" value="$(arg ref_point_y)" />
+		<param name="enable_debug" value="true"/>
+		<param name="debug_frame_id" value="/base_link" />
+	</node>
+
+</launch>

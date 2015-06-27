@@ -1,0 +1,20 @@
+<!-- This launches the head pose estimator for the wheelchair or a simulation tf_prefix:=robot_0 -->
+<!-- prerequisites: I got many trouble when trying to launch openni.launch and this launch file together
+so normally you should first start openni.launch and then use this file -->
+<!-- author: Arturo -->
+
+
+<launch>
+ 	<arg name="tf_prefix" default="robot_0"/>
+	#Starts kinect
+	<!--include file="$(find openni_launch)/launch/openni.launch"/--><!--Some times it can't be launched at the same time so you have to launch it separately-->
+	#Start the head_pose_estimator
+	<include file="$(find wheelchairconf)/launch/stacks/estimator.launch">
+		<arg name="tf_prefix" value="$(arg tf_prefix)"/>
+	</include>
+	#Some necessary transformations
+	<node pkg="tf" type="static_transform_publisher" name="base_to_kinect"
+    args="0 0 0 0 0 2.6 0 /camera_depth_frame /new_ref 50" />
+	<node pkg="tf" type="static_transform_publisher" name="base_to_kinect_rgb"
+	args="0.8 0 0.5 0 0 3.1416 0 /$(arg tf_prefix)/base_link /camera_link 50" />
+</launch>

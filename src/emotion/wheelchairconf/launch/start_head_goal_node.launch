@@ -1,0 +1,17 @@
+<!-- Send a goal in the direction of the face as far as possible
+
+	MATERIAL: plug in the kinect and the wheelchair to the computer.
+	PREREQUISITES: launch sim_nav.launch or demo_nav.launch.
+-->
+<launch>
+ 	<arg name="sim" default="1" />	
+
+	<group if="$(arg sim)" ns="robot_0">
+		<node pkg="user_intentions" type="face_control.py" name="face_control" output="screen" respawn="true"/>
+	</group>
+	
+	<group unless="$(arg sim)" ns="wheelchair">
+		<node pkg="user_intentions" type="face_control.py" name="face_control" output="screen" respawn="true"/>
+	</group>
+</launch>
+

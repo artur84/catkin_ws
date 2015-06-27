@@ -1,0 +1,72 @@
+footprint: [[-0.65, -0.4], [-0.65, 0.4], [0.65, 0.4],[0.65, -0.4]]
+
+planner:
+  transform_tolerance: 0.2
+  costmap_visualization_rate: 0.5
+  world_model: costmap
+  meter_scoring: true
+  # Robot Configuration Parameters
+  acc_lim_x: 1.0
+  acc_lim_y: 0.0
+  acc_lim_th: 1.0
+  max_vel_x: 1.6
+  min_vel_x: 0.0
+  max_vel_theta: 3.0
+  min_vel_theta: -3.0
+  min_in_place_vel_th: 0.20
+  escape_vel: -0.2
+  holonomic_robot: false
+
+  # Goal Tolerance Parameters
+  xy_goal_tolerance: 0.35
+  yaw_goal_tolerance: 3.15
+  latch_xy_goal_tolerance: true
+  # Forward Simulation Parameters
+  sim_time: 3.0
+  sim_granularity: 0.025
+  vx_samples: 4
+  vtheta_samples: 20
+  # Trajectory Scoring Parameters
+  pdist_scale: 0.8
+  gdist_scale: 0.6
+  occdist_scale: 0.05
+  forward_point_distance: 0.325
+  heading_lookahead: 2.0
+  dwa: true
+  heading_scoring: false
+  heading_scoring_timestep: 0.1
+  # Oscillation Prevention Parameters
+  oscillation_reset_dist: 0.1
+  escape_reset_dist: 0.4
+  escape_reset_theta: 1.55
+
+costmap:
+  publish_voxel_map: true
+  global_frame: map
+  robot_base_frame: base_link
+  update_frequency: 5.0
+  publish_frequency: 2.0
+  static_map: false
+  rolling_window: true
+  width: 10.0
+  height: 10.0
+  resolution: 0.025
+  origin_x: -5.0
+  origin_y: -5.0
+  lethal_cost_threshold: 50
+  inflation_radius: 0.65
+  obstacle_range: 5.5
+  max_obstacle_height: 2.0
+  raytrace_range: 6.0
+
+  observation_sources: base_scan
+  base_scan: {
+            data_type: LaserScan,
+            topic: base_scan,
+            expected_update_rate: 0.4,
+            observation_persistence: 0.0,
+            marking: true,
+            clearing: true,
+            min_obstacle_height: -0.10,
+            max_obstacle_height: 2.0,
+            max_obstacle_range: 10.0}

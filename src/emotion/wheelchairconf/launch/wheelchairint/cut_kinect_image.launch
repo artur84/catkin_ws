@@ -1,0 +1,22 @@
+<!--launch the cut_kinect_image.py node for the complete demo-->
+<!-- author: Arturo -->
+<!-- PREREQUISITES: None -->
+<launch>
+	
+	<node pkg="wheelchairint" name="cut_kinect" type="cut_kinect_image.py" output="screen" respawn="true">
+		<remap from="in_img" to="/camera/rgb/image_color" />
+		<remap from="out_img" to="out_img" />
+<rosparam>
+ROI_x_offset: 170
+ROI_y_offset: 105
+ROI_height: 260
+ROI_width: 245
+cols: 640
+rows: 480
+</rosparam>
+	</node>
+
+
+	
+	
+</launch>

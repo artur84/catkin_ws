@@ -1,0 +1,95 @@
+define sick_ranger ranger
+(
+sensor (
+  fov 180.0
+  samples 181
+  # generic model properties
+  size [ 0.14 0.14 0.1 ]
+  range [0.0 16.0]
+)
+ color_rgba [ 0 1 0 0.15 ]
+)
+
+define wheelchair position
+(
+  # actual size in meters
+  # (need height so it shows up on ranger scans)
+  size [0.8 0.56 0.8]    
+  origin [0 0 0 0]  
+  gui_nose 1  
+  drive "diff"  
+  sick_ranger( pose [0.6 0 -0.7 0 ] ) 
+) 
+
+define dynamic_human position
+(
+  # actual size in meters
+  # (need height so it shows up on ranger scans)
+  size [0.5 0.5 1.8]    
+  origin [0 0 0 0]  
+  gui_nose 1  
+  drive "omni" 
+  sick_ranger( pose [0.4 0 -0.7 0 ] )
+ # ctrl "wander" 
+) 
+
+define static_human position
+(
+  # actual size in meters
+  # (need height so it shows up on ranger scans)
+  size [0.5 0.5 1.8]    
+  origin [0 0 0 0]  
+  
+
+  gui_nose 1  
+  drive "omni" 
+  sick_ranger( pose [0.4 0 -0.7 0 ] )
+ # ctrl "wander" 
+) 
+
+
+define floorplan model
+(
+  # sombre, sensible, artistic
+  color "gray30"
+
+  # most maps will need a bounding box
+  boundary 1.0
+  gui_nose 0
+  gui_grid 0
+  gui_outline 0
+  gripper_return 0
+  fiducial_return 0
+  ranger_return 1
+)
+
+
+# set the resolution of the underlying raytrace model in meters
+resolution 0.02
+
+#interval_sim 100  # simulation timestep in milliseconds
+#interval_real 100  # real-time interval between simulation updates in milliseconds 
+
+window
+( 
+  size [ 650.000 700.000 ] 
+  rotate [ 0.000 0 ]
+  scale 30.0 
+)
+
+# load an environment bitmap
+floorplan
+( 
+  name "hall_inria"
+  bitmap "world.pgm"
+  #size of image times 30/550 got from real size and image comparison
+  #Stage adjust the map, then is convenient to have a frame for the image
+  size [17.8 18.75 2.5]
+  pose [8.9 9.325 0 0.0 ]
+)
+
+# throw in a robot
+wheelchair( pose [ 14.9 10.4 0 -80.0 ] name "bibabot" color "blue")
+static_human(pose [8.0 8.0 0 -90.0] name "VisVis1" color "green")
+static_human(pose [8.0 6.0 0 90.0] name "VisVis2" color "green")
+dynamic_human(pose [2.0 2.0 0 -90.0] name "moving_obs" color "red")

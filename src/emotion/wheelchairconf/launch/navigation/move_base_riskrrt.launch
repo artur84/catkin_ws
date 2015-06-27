@@ -1,0 +1,38 @@
+<!-- 
+Launches Risk RRT 
+-->
+<launch>
+	<arg name="riskrrt_exec" default="0" />
+	<arg name="cmd_vel" default="cmd_vel"/>
+	
+        <!-- RiskRRT Node-->
+    <node pkg="RiskRRT" type="rosplanner_static" name="rosplanner_static" args="$(find RiskRRT)/wheelchair.config " output="screen" >
+        <remap from="goal" to="move_base_simple/goal"/> <!--this change is just to use the same configuration in rvz for riskrrt and ros planner -->
+        <rosparam file="$(find RiskRRT)/planning.yaml" command="load" />
+    </node>
+        
+        
+        <group if="$(arg riskrrt_exec)">
+                <node pkg="RiskRRT" type="rosexecWheelchair" name="rosexecWheelchair" args="$(find RiskRRT)/planning.config $(find RiskRRT)/wheelchair.config" output="screen" respawn="true"/>
+        </group>
+        
+        <group unless="$(arg riskrrt_exec)">
+	        <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+	              	<remap from="map" to="/map" />       
+		            <remap from="cmd_vel" to="$(arg cmd_vel)" /> 
+	              	<remap from="move_base_simple/goal" to="move_base_simple/next_pose"/>
+                    <param name="base_global_planner" value="RiskRRT_planner/RiskRRTPlanner"/>
+                    <param name="base_local_planner" value="base_local_planner/TrajectoryPlannerROS"/>
+                    <!--param name="move_base/RiskRRTPlanner/plan_topic" value="/wheelchair/plan"/-->
+	              	<param name="controller_frequency" value="10.0" />
+	            
+	              	
+	                <rosparam file="$(find wheelchairconf)/config/navigation/riskrrt/move_base_params.yaml" command="load" />
+		        <rosparam file="$(find wheelchairconf)/config/navigation/riskrrt/costmap_common_params.yaml" command="load" ns="global_costmap" />
+		        <rosparam file="$(find wheelchairconf)/config/navigation/riskrrt/costmap_common_params.yaml" command="load" ns="local_costmap" />
+		        <rosparam file="$(find wheelchairconf)/config/navigation/riskrrt/local_costmap_params.yaml" command="load" />
+		        <rosparam file="$(find wheelchairconf)/config/navigation/riskrrt/global_costmap_params.yaml" command="load" />
+		        <rosparam file="$(find wheelchairconf)/config/navigation/riskrrt/base_local_planner_params.yaml" command="load" />
+	        </node>
+        </group>
+</launch>

@@ -1,0 +1,18 @@
+<!-- receives markers from remote tracker and show them on map with social interactions -->
+<!-- author: Procopio -->
+
+<launch>
+
+ <node pkg="map_server" type="map_server" name="map_server" output="screen" args="$(find wheelchair)/world/hall_inria.yaml" />
+
+ <node pkg="tf" type="static_transform_publisher" name="map_to_cam" args="6.4 4.7 4.2 3.14 0 -3.14 map prosilica_optical_frame 1" /> 
+ 
+ <node pkg="rviz" type="rviz" name="rviz" args="-d $(find wheelchair)/conf/wheelchair.vcg" />
+
+ <node pkg="social_filter" type="ar_human_proc" name="ar_human_proc" output="screen"/>
+  
+ <node pkg="social_filter" type="fform_detect" name="fform_detect" output="screen"/>
+
+ <node pkg="social_filter" type="human_markers" name="human_markers" output="screen"/>
+
+</launch>

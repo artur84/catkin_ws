@@ -1,0 +1,24 @@
+<!-- This launches the voice controller to drive the wheelchair -->
+<!-- author: Arturo -->
+
+<!-- PREREQUISITES: Launch the recognizer "start_recognizer.launch" -->
+<!-- usage: set mode_selector:=0 in order to drive directly the wheelchair -->
+
+<launch>
+ 	<arg name="mode_selector" default="0" />
+
+
+	<group if="$(arg mode_selector)">
+		<node pkg="wheelchairint" type="voice.py" name="voice" output="screen">
+			<remap from="voice_vel" to="user_vel"/>
+			<remap from="voice_dir" to="user_dir"/>
+		</node>
+	</group>
+
+	#if mode_selector == 0
+	<group unless="$(arg mode_selector)">
+		<node pkg="wheelchairint" type="voice.py" name="voice" output="screen">
+			<remap from="voice_vel" to="cmd_vel"/>
+		</node>
+	</group>
+</launch>

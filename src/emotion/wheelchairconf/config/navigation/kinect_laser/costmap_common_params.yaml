@@ -1,0 +1,21 @@
+#when I tried to use both the laser an the kinect I realized that it wasn't possible. Whenever I tried to 
+# the costmap only respects the first observation source listed. so finally i give up, and didn't try to fix it
+# maybe with some more time it is possible to modify the source code of the cosmap2D ROS package.
+
+map_type: costmap
+transform_tolerance: 0.2
+
+inflation_radius: 0.65
+footprint: [[-0.65, -0.325], [-0.65, 0.325], [0.65, 0.325],[0.65, -0.325]]
+observation_sources:   kinect_scan
+                 
+kinect_scan: {
+            data_type: LaserScan,
+            topic: kinect_scan,
+            expected_update_rate: 0.4,
+            observation_persistence: 0.0,
+            marking: true,
+            clearing: true,
+            min_obstacle_height: 0.30,
+            max_obstacle_height: 2.2,
+            max_obstacle_range: 4.0}

@@ -1,0 +1,30 @@
+<!-- This launches the voice controller to drive the wheelchair 
+ 	
+	Author: Arturo Escobedo
+	
+	WARNING: For some reason the head.py node cannot be started from the same launch as the kinect 
+	face_pose_estimator	so it should always be launch separately.
+-->
+<!-- PREREQUISITES:
+1) launch openni.launch
+2) start_kinect_face_pose_estimator.launch
+3) start_recognizer.launch
+ -->
+<launch>
+ 	<arg name="sim" default="1" />	
+	<arg name="mode_selector" default="0" />
+	
+	
+	<group if="$(arg sim)" ns="robot_0">
+	    <arg name="tf_prefix" value="robot_0" />
+		<include file="$(find wheelchairconf)/launch/wheelchairint/voice_and_head_cmd.launch">
+			 <arg name="mode_selector" value="$(arg mode_selector)"/>
+		</include>
+	</group>
+    <group unless="$(arg sim)" ns="wheelchair">
+        <arg name="tf_prefix" value="wheelchair" />
+		<include file="$(find wheelchairconf)/launch/wheelchairint/voice_and_head_cmd.launch">
+			<arg name="mode_selector" value="$(arg mode_selector)"/>
+		</include>
+	</group>
+</launch>

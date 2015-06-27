@@ -1,0 +1,51 @@
+Language model created by QuickLM on Fri Jan 11 06:33:46 EST 2013
+Copyright (c) 1996-2000
+Carnegie Mellon University and Alexander I. Rudnicky
+
+This model based on a corpus of 6 sentences and 9 words
+The (fixed) discount mass is 0.5
+
+\data\
+ngram 1=9
+ngram 2=13
+ngram 3=10
+
+\1-grams:
+-0.9031 </s> -0.3010
+-0.9031 <s> -0.2218
+-1.6812 BRAKE -0.2430
+-1.3802 DESK -0.2430
+-1.3802 DOOR -0.2430
+-1.3802 GO -0.2825
+-1.6812 STOP -0.2430
+-1.3802 THE -0.2632
+-1.3802 TO -0.2825
+
+\2-grams:
+-1.0792 <s> BRAKE 0.0000
+-1.0792 <s> DESK 0.0000
+-1.0792 <s> DOOR 0.0000
+-0.7782 <s> GO 0.0000
+-1.0792 <s> STOP 0.0000
+-0.3010 BRAKE </s> -0.3010
+-0.3010 DESK </s> -0.3010
+-0.3010 DOOR </s> -0.3010
+-0.3010 GO TO 0.0000
+-0.3010 STOP </s> -0.3010
+-0.6021 THE DESK 0.0000
+-0.6021 THE DOOR 0.0000
+-0.3010 TO THE 0.0000
+
+\3-grams:
+-0.3010 <s> BRAKE </s>
+-0.3010 <s> DESK </s>
+-0.3010 <s> DOOR </s>
+-0.3010 <s> GO TO
+-0.3010 <s> STOP </s>
+-0.3010 GO TO THE
+-0.3010 THE DESK </s>
+-0.3010 THE DOOR </s>
+-0.6021 TO THE DESK
+-0.6021 TO THE DOOR
+
+\end\

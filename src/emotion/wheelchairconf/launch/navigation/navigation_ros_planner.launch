@@ -1,0 +1,21 @@
+<!-- Use this file to quickly include the wheelchair configuration to navigate using ROS move base
+     *Call this file from a correctly defined namespace.
+
+		<include file="$(find wheelchairconf)/launch/navigation_planner_ros.launch" />
+-->
+<launch>
+	<arg name="mode_selector" default="0"/>
+	<arg name="tf_prefix" default="robot_0"/>
+
+	<group unless="$(arg mode_selector)">
+		<include file="$(find wheelchairconf)/launch/navigation/amcl.launch" />
+		<include file="$(find wheelchairconf)/launch/navigation/move_base_ros_planner.launch" />
+	</group>
+
+	<group if="$(arg mode_selector)">
+		<include file="$(find wheelchairconf)/launch/navigation/amcl.launch" />
+		<include file="$(find wheelchairconf)/launch/navigation/move_base_ros_planner.launch" >
+			<arg name="cmd_vel" value="move_base_vel"/>
+		</include>
+	</group>
+</launch>

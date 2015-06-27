@@ -1,0 +1,3 @@
+NavFn:
+    allow_unknown: false
+    default_tolerance: 1.0

@@ -1,0 +1,12 @@
+<!-- This file should be launched in the remote machine, -->
+<!-- this will send a goal to the local computer running "simulation_receiver.launch" -->
+<!-- Author: Arturo Escobedo  -->
+
+<launch>
+ 
+  <param name="/use_sim_time" value="true"/>  
+
+	<node pkg="rviz" type="rviz" name="rviz_sender" args="-d $(find wheelchairconf)/conf/simulation_remote_goal_sender.vcg" >
+	</node>
+   
+</launch>

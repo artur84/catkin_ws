@@ -1,0 +1,2 @@
+configfile.cc:2087 error   : Couldn't find driver "hokuyo_aist"
+server.cc:152 error   : failed to parse config file hokuyo_aist.cfg

@@ -1,0 +1,32 @@
+<!-- Send a goal in the direction of the face as far as possible
+    Author: Jesus Arturo Escobedo Cabello
+	MATERIAL: plug in the kinect and the wheelchair to the computer.
+	
+	REQUIREMENTS: first start the wheelchair driver.
+	roslaunch pal_launch launch wheelchair_driver.launch
+	<include file="$(find pal_launch)/launch/wheelchair_driver.launch">
+-->
+
+
+<launch>
+  	<arg name="cut_image" default="0"/>
+  	<arg name="sim" default="1"/>
+  	<arg name="scenario" default="lab"/>
+  	
+  	<!-- Start the kinect face tracker -->
+  	<include file="$(find wheelchairconf)/launch/wheelchairint/start_kinect_face_pose_estimator.launch">
+  	    <arg name="sim" value="$(arg sim)"/>
+  	</include>
+	
+	<!-- Launch head-goal node -->
+  	<include file="$(find wheelchairconf)/launch/user_intentions/start_head_goal_node.launch">
+  	    <arg name="sim" value="$(arg sim)"/>
+  	</include>
+	
+    <!-- Start the navigation -->
+    <include file="$(find wheelchairconf)/launch/sim/sim_nav.launch">
+    	<arg name="riskrrt" value="0" />
+    	<arg name="scenario" value="$(arg scenario)"/>
+	</include>
+
+</launch>

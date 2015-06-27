@@ -1,0 +1,54 @@
+<!-- Run a demo using the voice and the head to control the wheelchair
+using the destination inference and mode_selector.py.
+It takes place in a given map, with known goals. To start moving autonomously
+say "OK GO", to stopo say: "OK STOP"-->
+
+<!-- Make sure that the microphone is connected and working :) -->
+<!-- Make sure that you have internet to use google recognizer:) -->
+<!-- Connect the wheelchair -->
+<!-- Connect the kinect -->
+
+<!-- BEFORE: Please launch
+	roslaunch wheelchairconf demo_iros_2013_1.launch
+
+
+	AFTER:
+	roslaunch wheelchairconf demo_iros_2013_3.launch
+-->
+
+
+<launch>
+	<arg name="planner" default="ros_planner" /><!--can also be: ui_planner, riskrrt -->
+	<arg name="mode_selector" default="1"/><!--If we want to use (1) or not (0) the mode_selector node or pass the cmd_vel directly to the wheelchair -->
+	<arg name="scenario" default="hall_inria"/>
+
+
+	### Start navigation ###
+    <!-- Publish the map: It should be global so no namespace is defined -->
+    <group>
+		<node pkg="map_server" type="map_server" name="map_server" output="log" args="$(find wheelchairconf)/world/$(arg scenario).yaml" respawn="true" >
+			<param name="frame_id" value="/map" />
+		</node>
+	</group>
+	<!-- Start  -->
+	<group ns="robot_0">
+		<param name="tf_prefix" value="robot_0" />
+		<param name="move_base/RiskRRTPlanner/plan_topic" value="/robot_0/plan"/>  <!--Just needed for the riskrrt-->
+	    <include file="$(find wheelchairconf)/launch/navigation/navigation_$(arg planner).launch" >
+	    		<arg name="mode_selector" value="$(arg mode_selector)" />
+	    </include>
+		<node pkg="tf" type="static_transform_publisher" name="tf_map_to_wheelchair" args="0 0 0 0 0 0 /map /robot_0/map 100" />
+        <node pkg="tf" type="static_transform_publisher" name="tf_stage_laser_to_real_laser" args="0 0 0 0 0 0 base_laser_link base_laser 100" />
+	</group>
+
+	##### START DESTINATION INFERENCE ####
+	<group ns="robot_0">
+		<param name="tf_prefix" value="robot_0" />
+    	<node pkg="user_intentions" type="destination_inference.py" name="destination_inference" respawn="true" >
+			<param name="BN_goals_file" value="$(find wheelchairconf)/world/$(arg scenario)_goals.yaml"/>
+			<param name="planner" value="$(arg planner)"/>
+    	</node>
+    </group>
+
+
+</launch>

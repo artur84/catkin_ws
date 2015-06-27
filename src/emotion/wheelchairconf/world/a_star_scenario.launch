@@ -1,0 +1,11 @@
+<!--Static transformations for pedestrians to /map in the scenario -->
+<!-- author: Arturo -->
+<launch>
+<!--Initial pose for the wheelchair -22.5 49.5 0-->
+<group ns="robot_0">
+		<param name="amcl/initial_pose_x" value="3" />
+		<param name="amcl/initial_pose_y" value="3" />
+		<param name="amcl/initial_pose_a" value="0." />
+</group>
+</launch>
+

@@ -1,0 +1,46 @@
+<!-- 	Used to test run all the necessary nodes to perform our study of "user as sensor"						
+ 		This demo consisted in using the face tracker to read the position and orientation of user's face			
+	 	while he is driving the wheelchair with the joystick. the idea is to understand how related is the real control 
+		the user gives to the wheelchair with the orientation of the face.  	-->
+
+<!-- author: Arturo Escobedo-->
+
+<!-- PREREQUISITES: 
+		The computer where this script will run should be connected to the wheelchair.
+		The kinect should be connected to this computer. -->
+
+
+<launch>
+	<arg name="scenario" default="hall_inria" />
+	
+	<!-- Start the wheelchair in manual mode -->
+	<node pkg="wheelchair" type="bb_robot" name="bb_robot" output="screen" args="194.199.21.27 1234 1000000" >
+	    <param name="xScanOffset" value="0.268999993801117"/>
+	    <param name="yScanOffset" value="0.0"/>
+	    <param name="startAngle" value="-1.57079632679489661923"/>
+	    <param name="endAngle" value="1.57079632679489661923"/>
+	    <param name="rangeMin" value="0.0"/>
+	    <param name="rangeMax" value="16.0"/>
+	    <param name="beams" value="181"/>
+	    <param name="autonomousMode" value="false"/>
+	</node>	
+  	
+	<!-- start localization (amcl) -->
+  	<include file="$(find wheelchairconf)/launch/amcl.launch">
+		<arg name="sim" value="0"/>
+  	</include>
+
+	<!-- Publish our map -->
+	<node pkg="map_server" type="map_server" name="map_server" output="screen" args="$(find wheelchairconf)/world/$(arg scenario)/map.yaml" respawn="false" >
+		<param name="frame_id" value="/map" />
+	</node>
+	
+	<!-- Launch head controller -->
+	<include file="$(find wheelchairconf)/launch/wheelchairint/head_cmd.launch"> 
+		<arg name="sim" value="0" />    #It won't be a simulation
+		<arg name="user_intentions" value="0" /> #We will not use the user's intention estimation module.
+	</include>
+	 
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find wheelchairconf)/config/rviz/sim_face_control_analysis.vcg" />
+
+</launch>

@@ -1,0 +1,55 @@
+<!-- Simulation for RiskRRT experiments using Gazebo -->
+<!-- author: Greg -->
+<!-- usage: scenario:=xxxx to change the scenario -->
+<!-- each scenario has a folder inside world folder, and it must have -->
+<!-- the following files: map.yaml, image.pgm, scenario.world and social_filter.launch -->
+
+<!-- usage: move_base:=0 to use RiskRRT home-made executor -->
+
+<launch>
+
+  <arg name="scenario" default="case1" />
+  <param name="/use_sim_time" value="true" /> 
+  <arg name="log" default="" /> 
+
+  <!-- Publish our map --> 
+  <node pkg="map_server" type="map_server" name="map_server" output="screen" args="$(find wheelchair)/world/$(arg scenario)/map.yaml" respawn="false" >
+    <param name="frame_id" value="/map" />
+  </node>
+ 
+  <!-- Start gazebo -->
+    <!-- start empty world -->
+    <node name="gazebo" pkg="gazebo" type="gazebo" args="-u $(find gazebo_worlds)/worlds/empty.world" respawn="false" output="screen"/>
+
+    <!-- start gui -->
+    <node name="gazebo_gui" pkg="gazebo" type="gui" respawn="false" output="screen"/>
+    
+    <include file="$(find erratic_description)/launch/erratic_mobile_base.launch" />
+
+
+  <!-- BEGIN ROBOT 0 = WHEELCHAIR -->
+
+
+    <!-- initialize amcl -->
+    <include file="$(find wheelchair)/launch/amcl_sim.launch"/>
+
+    <!-- Social Filter  -->
+    <include file="$(find wheelchair)/world/$(arg scenario)/social_filter.launch"/>
+    
+    <node pkg="social_filter" type="social_space_manage" name="social_space_manage" output="screen" />
+    
+    <!-- RiskRRT Node-->
+    <node pkg="RiskRRT" type="rosplanner_static" name="rosplanner_static" output="screen" >
+      <rosparam file="$(find RiskRRT)/planning.yaml" command="load" />
+    </node>
+
+    <node pkg="RiskRRT" type="rosexecWheelchair" name="rosexecWheelchair" output="screen" >
+      <rosparam file="$(find RiskRRT)/planning.yaml" command="load" />
+    </node>
+
+
+  <!-- END ROBOT 0 -->
+
+  <node pkg="rviz" type="rviz" name="rviz" args="-d $(find wheelchair)/conf/riskrrt_config.rviz"/> 
+
+</launch>

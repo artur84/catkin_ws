@@ -1,0 +1,28 @@
+<!-- To use it from another launch file
+	*Call this file from a correctly defined namespace.
+	*Change /robot_0/plan to /wheelchair/plan ... according to the namespace, for example:
+
+		<include file="$(find wheelchair_config)/launch/navigation_riskrrt.launch" >
+        	<param name="move_base/RiskRRTPlanner/plan_topic" value="/robot_0/plan"/> (CHANGE THIS)
+		</include>
+-->
+<launch>
+    <arg name="riskrrt_exec" default="0" />
+    <arg name="mode_selector" default="0"/>
+    <arg name="tf_prefix" default="robot_0"/>
+
+    <group unless="$(arg mode_selector)">
+	    <include file="$(find wheelchairconf)/launch/navigation/amcl.launch" />
+	    <include file="$(find wheelchairconf)/launch/navigation/move_base_riskrrt.launch" >
+	        <arg name="riskrrt_exec" value="$(arg riskrrt_exec)" />
+        </include>
+    </group>
+
+    <group if="$(arg mode_selector)">
+        <include file="$(find wheelchairconf)/launch/navigation/amcl.launch" />
+	    <include file="$(find wheelchairconf)/launch/navigation/move_base_riskrrt.launch" >
+	        <arg name="riskrrt_exec" value="$(arg riskrrt_exec)" />
+	        <arg name="cmd_vel" value="move_base_vel"/>
+        </include>
+    </group>
+</launch>

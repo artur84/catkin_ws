@@ -1,0 +1,92 @@
+<!--
+In this demo we use the kinect to track people in the environment so that the social filter can use this information to compute the personal space and interactions. The navigation is done using the riskrrt planner. 
+The computer should be connected to both, the wheelchair and the kinect and you should run first the wheelchair driver, then this file and at the end demo_jorge_thesis_2.launch
+
+ (1) roslaunch pal_launch wheelchair_driver.launch 
+ (2) roslaunch wheelchairconf demo_jorge_thesis.launch 
+ (3) roslaunch wheelchairconf demo_jorge_thesis.launch riskrrt:=0 (THIS LINE riskrrt can be either 0 or 1)
+
+-->
+
+<launch>
+       <arg name="persons" default="2" /> <!-- for the social filter -->
+       <arg name="riskrrt" default="1"/> <!-- Use 1 to use riskrrt planner or 0 to use the ros planner-->
+        
+        <group if="$(arg riskrrt)">
+        #### Map server ####
+        <node pkg="map_server" type="map_server" name="map_server" args="$(find wheelchairconf)/world/lab/map.yaml" respawn="false">
+	        <param name="frame_id" value="/map" />
+	        <!--Check this in rviz yo have to change the reference frame to wheelchair/map to work-->
+        </node>
+        <!--group ns="kinect_1">
+                <param name="tf_prefix" value="kinect_1" />
+                <include file="$(find openni_launch)/launch/openni.launch">
+                        <arg name="camera" value="kinect_1" />
+                </include>
+                <node pkg="openni_tracker" type="openni_tracker" name="openni_tracker"/>
+                <node pkg="tf" type="static_transform_publisher" name="map_to_opennilaunch_kinect_broad" args="-0.5 0 1.5 0 0 0 /wheelchair/map /kinect_1_link 50" />
+                <node pkg="tf" type="static_transform_publisher" name="opennilaunch_to_opennitracker_broad" args="0 0 0 0 0 0 /kinect_1_depth_frame openni_depth_frame 100"/>
+        </group--><!--this is working -->
+
+        
+        
+        #### wheelchair robot ####
+        <group ns="wheelchair">
+		<param name="tf_prefix" value="wheelchair" />
+		
+		<!-- Social Filter  -->
+                <node pkg="social_filter" type="fform_detect" name="fform_detect" output="screen" respawn="true" />
+                <node pkg="social_filter"  type="kinect_human_proc" name="human_proc" args="$(arg persons)" output="screen"/>	
+                <!-- human markers "args"
+                1->human, 2->draw personal space, 3-> draw o-space, 4-> draw ips, 5 -> draw interesting objects
+                -->
+                <node pkg="social_filter" type="human_markers" name="human_markers" args="11101" output="screen"/>                             
+				
+		<include file="$(find wheelchairconf)/launch/navigation_riskrrt.launch" />
+        <param name="move_base/RiskRRTPlanner/plan_topic" value="/wheelchair/plan"/>
+		<param name="amcl/initial_pose_x" value="0." />
+		<param name="amcl/initial_pose_y" value="0." />
+		<param name="amcl/initial_pose_a" value="0." />
+		
+						
+        </group>
+        
+         <node pkg="rviz" name="rviz" type="rviz" args="-d $(find wheelchairconf)/conf/demo_jorge_thesis.vcg"/>
+
+        <node pkg="tf" type="static_transform_publisher" name="map_to_wheelchairmap" args="0 0 0 0 0 0 /map /wheelchair/map 50" />
+        </group>
+
+################################     USING MOVE _BASE     ######################
+        <group unless="$(arg riskrrt)">
+        #### Map server ####
+        <node pkg="map_server" type="map_server" name="map_server" args="$(find wheelchairconf)/world/lab/map.yaml" respawn="false">
+	        <param name="frame_id" value="/map" />
+	        <!--Check this in rviz yo have to change the reference frame to wheelchair/map to work-->
+        </node>
+
+        
+        
+        #### wheelchair robot ####
+        <group ns="wheelchair">
+		<param name="tf_prefix" value="wheelchair" />
+		
+		                             
+				
+		<include file="$(find wheelchairconf)/launch/navigation_planner_ros.launch" />
+       
+		<param name="amcl/initial_pose_x" value="0." />
+		<param name="amcl/initial_pose_y" value="0." />
+		<param name="amcl/initial_pose_a" value="0." />
+		
+						
+        </group>
+         <node pkg="rviz" name="rviz" type="rviz" args="-d $(find wheelchairconf)/conf/demo_jorge_thesis_move_base.vcg"/>
+        <node pkg="tf" type="static_transform_publisher" name="map_to_wheelchairmap" args="0 0 0 0 0 0 /map /wheelchair/map 50" />
+        </group>        
+        
+     
+
+    
+	
+
+</launch>

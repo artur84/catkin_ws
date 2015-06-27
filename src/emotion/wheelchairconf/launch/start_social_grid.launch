@@ -1,0 +1,19 @@
+<!-- Use this to start the social grid node -->
+<launch>
+	<arg name="sim" default="1"/>
+	<!-- In simulation -->
+    <group if="$(arg sim)"  ns="robot_0">
+        <param name="/use_sim_time" value="true" />
+		<param name="tf_prefix" value="robot_0" />
+	    <include file="$(find wheelchairconf)/launch/social_filter/social_grid.launch" >
+	    		<arg name="tf_prefix" value="robot_0" />
+	    </include>
+	</group>
+	<!-- In Real -->
+    <group unless="$(arg sim)"  ns="wheelchair">
+		<param name="tf_prefix" value="wheelchair" />
+	    <include file="$(find wheelchairconf)/launch/social_filter/social_grid.launch" >
+	    		<arg name="tf_prefix" value="wheelchair" />
+	    </include>
+	</group>
+</launch>

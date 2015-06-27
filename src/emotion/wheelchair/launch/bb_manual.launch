@@ -1,0 +1,15 @@
+<!-- Puts the wheelchair in manual mode   -->
+<!-- author: Arturo -->
+<launch>
+  <node pkg="wheelchair" type="bb_robot" name="bb_robot" output="screen" args="194.199.21.27 1234 1000000" >
+    <param name="xScanOffset" value="0.268999993801117"/>
+    <param name="yScanOffset" value="0.0"/>
+    <param name="startAngle" value="-1.57079632679489661923"/>
+    <param name="endAngle" value="1.57079632679489661923"/>
+    <param name="rangeMin" value="0.0"/>
+    <param name="rangeMax" value="16.0"/>
+    <param name="beams" value="181"/>
+    <param name="autonomousMode" value="false"/>
+  </node>
+
+</launch>

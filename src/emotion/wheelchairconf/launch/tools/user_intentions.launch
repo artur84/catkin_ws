@@ -1,0 +1,24 @@
+<!-- To start the user_intentions module with the desired interface -->
+<!-- author:Arturo -->
+
+<!-- Args: 	control:=(keyboard, head, voice) -->
+<!--		sim:=(0,1) "If we are using it in simulation or in a demo" -->
+
+<!-- examples: roslaunch user_intentions user_intentions.launch control:=head sim:=0  -->
+<!-- launches user_intentions to work with head control using the real wheelchair -->
+
+<launch>
+    <arg name="control" default="key" /> <!-- input can be key, head, voice -->
+	<arg name="riskrrt" default="0"/>
+	<arg name="mode" default="autonomous"/>
+	<arg name="scenario" default="hall_inria"/>
+    
+
+    <node pkg="user_intentions" type="user_intentions.py" name="user_intentions" respawn="true" output="screen" >    
+		<param name="mode" value="$(arg mode)"/> #Set to "autonomous" to be active
+		<param name="BN_goals_file" value="$(find wheelchairconf)/world/$(arg scenario)_goals.yaml"/>
+		<param name="riskrrt" value="$(arg riskrrt)"/>
+        <remap from="cmd_dir" to="$(arg control)_dir" /> 
+    </node>
+    
+</launch>

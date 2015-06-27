@@ -1,0 +1,32 @@
+<!-- Creates a map using SLAM with the wheelchair -->
+<!-- author: Arturo -->
+
+<launch>
+  <node pkg="wheelchair" type="bb_robot" name="bb_robot"  output="screen" args="194.199.21.27 1234 1000000" >
+	<param name="xScanOffset" value="0.268999993801117"/>
+	<param name="yScanOffset" value="0.0"/>
+	<param name="startAngle" value="-1.57079632679489661923"/>
+	<param name="endAngle" value="1.57079632679489661923"/>
+	<param name="rangeMin" value="0.0"/>
+	<param name="rangeMax" value="16.0"/>
+	<param name="beams" value="181"/>
+	<param name="autonomousMode" value="false"/>
+  </node>
+  
+  <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" output="screen"> 
+	<remap from="scan" to="base_scan"/> 
+	<param name="delta" value="0.025"/>  
+	<param name="xmin" value="-25"/> 
+	<param name="ymin" value="-25"/>
+	<param name="xmax" value="25"/> 
+	<param name="ymax" value="25"/>
+  </node> 
+
+  <node pkg="map_server" type="map_saver" name="map_saver" args="-f $(find wheelchair)/world/map_test" >
+  </node>
+	
+  <node pkg="rviz" type="rviz" name="rviz" args="-d $(find wheelchair)/conf/configrviz_navigation.vcg" >
+  </node> 
+
+</launch>
+ 

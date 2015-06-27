@@ -1,0 +1,24 @@
+<!-- This launches the voice controller to drive the wheelchair -->
+<!-- author: Arturo -->
+
+<!-- PREREQUISITES: Launch sim_nav.launch or sim_riskrrt.launch -->
+
+
+<!-- usage: set user_intentions:=0 in order to drive directly the wheelchair -->
+<!-- examples: roslaunch wheelchair_kinect voice_cmd.launch user_intentions:=1 -->
+<launch>
+ 	<arg name="sim" default="1" />	
+ 	<arg name="mode_selector" default="0" />
+
+	<group if="$(arg sim)" ns="robot_0">
+		<include file="$(find wheelchairconf)/launch/wheelchairint/voice_cmd.launch">
+		    <arg name="mode_selector" value="$(arg mode_selector)" /> 
+		</include>
+	</group>
+	
+	<group unless="$(arg sim)" ns="wheelchair">
+		<include file="$(find wheelchairconf)/launch/wheelchairint/voice_cmd.launch">
+		    <arg name="mode_selector" value="$(arg mode_selector)" /> 
+		</include>
+	</group>
+</launch>

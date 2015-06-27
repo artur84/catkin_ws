@@ -1,0 +1,23 @@
+<!-- Launches the social grid node -->
+<!-- author: Arturo Escobedo -->
+<launch>
+	<arg name="tf_prefix" default="robot_0"/>
+
+	<node pkg="social_filter" type="human_grids" name="social_grid" respawn="false" >
+		<remap from="map" to="/map"/>
+		<param name="x" value="4.0"/>
+		<param name="y" value="3.0"/>
+		<param name="resolution" value="0.1"/>
+		<param name="steps" value="2.0"/>
+		<param name="time_step" value="0.5"/>
+		<param name="width" value="100"/>
+		<param name="height" value="65"/>
+		<param name="max_cost" value="30"/>
+		<param name="ps_sigma" value="0.4"/> <!--0.22-->
+		<!--remap from="interaction_grid" to="/$(arg tf_prefix)/interaction_grid"/-->
+		<!--remap from="interaction_list" to="/$(arg tf_prefix)/interaction_list"/-->
+		<!--remap from="human_poses" to="/$(arg tf_prefix)/human_poses"/-->
+	</node>
+
+</launch>
+

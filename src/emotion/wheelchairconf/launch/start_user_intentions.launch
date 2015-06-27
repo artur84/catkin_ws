@@ -1,0 +1,35 @@
+<!-- This launches the two main modules from user_intentions package "destination_inference.py and mode_selector.py"
+	Those two thing are normally used together so I did this to launch file to do it faster
+	Author: Arturo Escobedo.
+-->
+
+<launch>
+	<arg name="scenario" default="hall_inria" />
+	<arg name="planner" default="ui_planner" /> <!--riskrrt, ui_planner, ros_planner -->
+	<arg name="mode" default="autonomous"/><!--For mode selector: can be manual,autonomous,follow, or brake. -->
+    <arg name="sim" default="1"/>
+    <arg name="control" default="keyboard"/> <!-- keyboard, head, voice_and_head, or voice -->
+
+	##### START USER_INTENTIONS ####
+	<include file="$(find wheelchairconf)/launch/start_destination_inference.launch">
+		<arg name="sim" value="$(arg sim)"/>
+	    <arg name="scenario" value="$(arg scenario)"/>
+	    <arg name="planner" value="$(arg planner)"/>
+	    <arg name="mode" value="$(arg mode)"/>
+	</include>
+
+	##### START MODE_SELECTOR ####
+	<include file="$(find wheelchairconf)/launch/start_mode_selector.launch">
+	    <arg name="sim" value="$(arg sim)"/>
+	    <arg name="mode" value="$(arg mode)"/>
+	</include>
+	
+	
+	##### START control_CMD ####
+	<include file="$(find wheelchairconf)/launch/start_$(arg control)_cmd.launch">
+		<arg name="sim" value="$(arg sim)"/>
+		<arg name="mode_selector" value="1"/>
+	</include> <!-- can't be launched in the same terminal as riskrrt-->
+
+
+</launch>

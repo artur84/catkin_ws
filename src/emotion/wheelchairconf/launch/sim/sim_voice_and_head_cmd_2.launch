@@ -1,0 +1,76 @@
+<!-- Run a simulation using the voice_and_head controller, to move say "ok wheelchair go", "ok wheelchair back", "ok wheelchair left"-->
+<!-- Make sure that the microphone is connected and working :) -->
+<!-- Make sure that you have internet to use google recognizer:) -->
+<!-- Connect the kinect -->
+
+<!-- prerequisites:
+	roslaunch wheelchairconf sim_voice_and_head_cmd_1.launch
+
+I got many troubles when trying to launch openni.launch and kinect_face_pose_estimator.launch file together
+	so normally you should first start openni.launch and then use this file -->
+
+
+
+<launch>
+    <param name="/use_sim_time" value="true" />
+    <arg name="sim" default="1"/><!--not used in this launch file I just didn't want to remove it -->
+	<arg name="planner" default="ros_planner" /><!--can also be: ui_planner, riskrrt -->
+	<arg name="mode_selector" default="0"/><!--If we want to use (1) or not (0) the mode_selector node or pass the cmd_vel directly to the wheelchair -->
+	<arg name="scenario" default="hall_inria"/>
+	<arg name="google" default= "1"/> <!-- set if using the google_recognizer.py node -->d
+
+	### Start Simulation ###
+    <node pkg="stage" type="stageros" name="stageros" args="$(find wheelchairconf)/world/$(arg scenario).world" respawn="false" output="screen">
+	    <param name="base_watchdog_timeout" value="0.2"/>
+    </node>
+
+    <include file="$(find wheelchairconf)/world/$(arg scenario).launch"/>
+
+
+    ### Start navigation ###
+    <!-- Publish the map: It should be global so no namespace is defined -->
+    <group if="$(arg sim)">
+		<param name="/use_sim_time" value="true" />
+		<node pkg="map_server" type="map_server" name="map_server" output="log" args="$(find wheelchairconf)/world/$(arg scenario).yaml" respawn="true" >
+			<param name="frame_id" value="/map" />
+		</node>
+	</group>
+
+	<!-- Start  -->
+	<group if="$(arg sim)" ns="robot_0">
+		<param name="/use_sim_time" value="true" />
+		<param name="tf_prefix" value="robot_0" />
+		<param name="move_base/RiskRRTPlanner/plan_topic" value="/robot_0/plan"/>  <!--Just needed for the riskrrt-->
+	    <include file="$(find wheelchairconf)/launch/navigation/navigation_$(arg planner).launch" >
+	    		<arg name="mode_selector" value="$(arg mode_selector)" />
+	    </include>
+		<node pkg="tf" type="static_transform_publisher" name="tf_map_to_wheelchair" args="0 0 0 0 0 0 /map /robot_0/map 100" />
+        <node pkg="tf" type="static_transform_publisher" name="tf_stage_laser_to_real_laser" args="0 0 0 0 0 0 base_laser_link base_laser 100" />
+	</group>
+
+	### Start the face pose recognizer ###
+	<!-- Calls the kinect face tracker, use this file to quickly access this
+	in simulation /or demos while debugging -->
+	<group if="$(arg sim)">#We are not setting the "ns" because if we do it, the tracker does not work
+		<param name="/use_sim_time" value="true" />
+    	<include file="$(find wheelchairconf)/launch/wheelchairint/kinect_face_pose_estimator.launch">
+    	    <arg name="tf_prefix" value="robot_0"/>
+    	</include>
+    </group>
+
+	### Start the recognizer ###
+   	<!-- if we want to use google recognizer -->
+    <group if="$(arg sim)" ns="robot_0">
+        <node name="google_recognizer" pkg="wheelchairint" type="wheelchair_recognizer.py" output="screen" respawn="True">
+       	</node>
+   	</group>
+
+   	### Start voice and head command ###
+   	<group if="$(arg sim)" ns="robot_0">
+        <node pkg="wheelchairint" type="voice_and_head.py" name="voice_and_head" respawn="true" output="screen">
+	        <remap from="voice_and_head_vel" to="cmd_vel"/><!-- input for the wheelchair -->
+        </node>
+	</group>
+
+
+</launch>

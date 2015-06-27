@@ -1,0 +1,39 @@
+<!-- Loads the user intentions node in sim or demo mode,
+		useful to quicly access  while debugging 
+		To start the user_intentions module with the desired interface
+		set the proper value of <arg name="control" default="key" /> -->
+<!-- author: Arturo -->
+<!-- PREREQUISITES: Launch sim_nav.launch or demo_nav.launch -->
+<!-- USE: roslaunch wheelchairconf start_user_intentions.launch sim:=1 --> 
+<launch>
+	#Params for this launch file
+	<arg name="sim" default="1" />
+	<arg name="scenario" default="hall_inria"/>
+	<arg name="riskrrt" default="1"/>
+	<arg name="mode" default="manual"/>#Set to "autonomous" 
+	<arg name="starting_location" default="0"/>
+	#For a simulation
+	<group if="$(arg sim)" ns="robot_0">
+		<param name="tf_prefix" value="robot_0" />
+		<node pkg="sound_play" type="soundplay_node.py" name="wheelchair_play_voice"/>
+    	<node pkg="user_intentions" type="airport_interface.py" name="airport_interface" respawn="true" output="screen" >    
+			<param name="mode" value="$(arg mode)"/> #Set to "autonomous" to be active
+			<param name="BN_goals_file" value="$(find wheelchairconf)/world/$(arg scenario)_goals.yaml"/>
+			<param name="riskrrt" value="$(arg riskrrt)"/>
+			<param name="starting_location" value="$(arg starting_location)"/>
+	        <remap from="cmd_dir" to="user_dir" /> 
+    	</node>
+    </group>
+    #For a demo
+	<group unless="$(arg sim)" ns="wheelchair">
+		<param name="tf_prefix" value="wheelchair" />
+		<node pkg="sound_play" type="soundplay_node.py" name="wheelchair_play_voice"/>
+    	<node pkg="user_intentions" type="airport_interface.py" name="airport_interface" respawn="true" output="screen" >    
+			<param name="mode" value="$(arg mode)"/> #Set to "autonomous" to be active
+			<param name="BN_goals_file" value="$(find wheelchairconf)/world/$(arg scenario)_goals.yaml"/>
+			<param name="riskrrt" value="$(arg riskrrt)"/>
+			<param name="starting_location" value="$(arg starting_location)"/>
+	        <remap from="cmd_dir" to="user_dir" /> 
+    	</node>
+    </group>
+</launch>

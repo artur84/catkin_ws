@@ -1,0 +1,47 @@
+<!-- detect markers at inria hall using prosilica camera -->
+<!-- also detects social interactions and publish markers of it -->
+<!-- author: Procopio -->
+<!-- flag usage: silent:=1 turns off rviz -->
+
+<launch>
+
+  <arg name="silent" default="0" />
+
+  <!-- Publish our map --> 
+  <node pkg="map_server" type="map_server" name="map_server" output="screen" args="$(find wheelchair)/world/hall_inria.yaml" />
+
+  <node pkg="tf" type="static_transform_publisher" name="map_to_cam" args="8.50 7.0 4.5 0 1 0 0 map prosilica_optical_frame 1" /> 
+ 
+  ### activate rviz
+  <group if="$(arg silent)">
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find wheelchair)/conf/ar_test.vcg"/>
+  </group>
+
+  <!-- The camera node -->
+  <node name="prosilica_driver" pkg="prosilica_camera" type="prosilica_node" output="screen">
+    <remap from="camera" to="prosilica" />
+    <param name="ip_address" type="str" value="169.254.1.1" />
+    <param name="trigger_mode" value="streaming" />
+    <param name="frame_id" value="/prosilica_optical_frame" />
+  </node>
+
+  <!-- image proc of downsampled images -->
+  <node ns="prosilica" pkg="image_proc" type="image_proc" respawn="false" name="prosilica_image_proc" />  
+
+
+  <node name="ar_pose" pkg="ar_pose" type="ar_multi" respawn="false" output="screen">
+    <remap from="/usb_cam/image_raw" to="/prosilica/image_mono" /> 
+    <remap from="/usb_cam/camera_info" to="/prosilica/camera_info" />
+    <param name="marker_pattern_list" type="string" value="$(find wheelchair)/data/chapeaux"/>
+    <param name="threshold" type="int" value="140"/>
+    <param name="use_history" type="bool" value="true"/>
+  </node>
+   
+
+  <node pkg="social_filter" type="ar_human_proc" name="ar_human_proc" output="screen"/>
+  
+  <node pkg="social_filter" type="fform_detect" name="fform_detect" output="screen"/>
+
+  <node pkg="social_filter" type="human_markers" name="human_markers" output="screen"/>
+
+</launch>

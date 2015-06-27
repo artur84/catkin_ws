@@ -1,0 +1,23 @@
+<!-- It creates a map of the environment using lagadic's wheelchair -->
+<!-- Make sure the wheelchair is running -->
+<!-- Make sure to be well connected to the network -->
+<!-- Make sure to run the ros multimaster node -->
+<launch>
+  
+  <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" output="screen"> 
+	<remap from="scan" to="base_scan"/> 
+	<param name="delta" value="0.025"/>  
+	<param name="xmin" value="-25"/> 
+	<param name="ymin" value="-25"/>
+	<param name="xmax" value="25"/> 
+	<param name="ymax" value="25"/>
+  </node> 
+
+  <node pkg="map_server" type="map_saver" name="map_saver" args="-f $(find wheelchair)/world/map_test" >
+  </node>
+	
+  <node pkg="rviz" type="rviz" name="rviz" args="-d $(find wheelchair)/conf/configrviz_navigation.vcg" >
+  </node> 
+
+</launch>
+ 

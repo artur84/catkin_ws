@@ -1,0 +1,95 @@
+<!-- launch wheelchair and related sensors  -->
+<!-- author: Procopio -->
+
+<launch>
+
+  ### start wheelchair and base laser and amcl
+<!--   <include file="$(find wheelchair)/launch/bb_manual.launch"/> -->
+  <include file="$(find wheelchair)/launch/bb_auto.launch"/>
+  <include file="$(find wheelchair)/launch/amcl.launch"/>
+  
+  #### start kinect ####
+  <include file="$(find openni_launch)/launch/openni.launch"/>
+  
+  <node pkg="tf" 
+        type="static_transform_publisher" 
+        name="base_to_camera"
+        args="0.7 0 0.6 0 0 0 /base_link /camera_link 20" />
+         
+<!--   <node pkg="openni_tracker" type="openni_tracker" name="openni_tracker" output="screen" respawn="true"/> -->
+
+
+  ### launch laser ###
+  <node pkg="lms1xx" 
+    type="LMS1xx_node" 
+    name="lms_laser" 
+    output="screen" 
+    args="_host:=194.199.21.200"
+    respawn="true"/>
+    
+  <node pkg="tf" 
+        type="static_transform_publisher" 
+        name="base_to_laser"
+        args="0.65 0 0.5 0 0 0 /base_link /laser 20" />
+    
+<!--  ## leader selection and following
+  <node pkg="human_leader" 
+        type="leader_follower_class" 
+        name="follower" 
+        output="screen"/>  -->    
+        
+  #### start cmd_vel multiplexer ####
+  <include file="$(find wheelchair)/launch/cmd_vel_mux.launch"/>
+        
+  ### publish our map 
+  <node pkg="map_server" type="map_server" name="map_server" output="screen" args="$(find wheelchair)/world/pal_demo/map.yaml" respawn="false" >
+    <param name="frame_id" value="/map" />
+<!--     <remap from="/cmd_vel" to="/cmd_vel_mux/input/riskrrt_cmd_vel" /> -->
+  </node>  
+       
+  ### start social filter
+<!--  <node pkg="social_filter"
+        type="kinect_human_proc" 
+        name="kinect_human_proc" 
+        args="10" 
+        output="screen" 
+        respawn="true"/>
+
+  <node pkg="social_filter"
+        type="fform_detect" 
+        name="fform_detect" 
+        output="screen" 
+        respawn="true"/>
+  
+  <node pkg="social_filter" 
+        type="human_markers" 
+        name="human_markers" 
+        args="11100" 
+        output="screen" 
+        respawn="true" /> -->
+        
+  ### RiskRRT  
+    <node pkg="RiskRRT" 
+          type="rosplanner_static" 
+          name="rosplanner_static" 
+          output="screen" >
+      <rosparam file="$(find RiskRRT)/planning.yaml" command="load" />
+    </node>
+
+    <node pkg="RiskRRT" 
+          type="rosexecWheelchair" 
+          name="rosexecWheelchair" 
+          output="screen" >
+      <rosparam file="$(find RiskRRT)/planning.yaml" command="load" />
+      <remap from="/cmd_vel" to="/cmd_vel_mux/input/riskrrt_cmd_vel" />
+    </node>
+
+  ## launch rviz
+  <node pkg="rviz" 
+        type="rviz" 
+        name="rviz" 
+        args="-d $(find wheelchair)/conf/pal_leader.rviz" />
+        
+<!--   <node pkg="rviz" type="rviz" name="rviz" args="-d $(find wheelchair)/conf/iser_2014_base.rviz" /> -->
+  
+</launch>

@@ -1,0 +1,54 @@
+<!-- 	Used to test run all the necessary nodes to perform our study of "user as sensor"						
+ 		This demo consisted in using the face tracker to read the position and orientation of user's face			
+	 	while he is driving the wheelchair with the joystick. the idea is to understand how related is the real control 
+		the user gives to the wheelchair with the orientation of the face.  	-->
+
+<!-- author: Arturo Escobedo-->
+
+<!-- PREREQUISITES: 
+		The computer where this script will run should be connected to the wheelchair.
+		The kinect should be connected to this computer. -->
+
+
+<launch>
+	<param name="/use_sim_time" value="true" />
+	
+	<arg name="scenario" default="hall_inria" />
+	
+	<!-- Start stage -->
+	<node pkg="stage" type="stageros" name="stageros" args="$(find wheelchairconf)/world/$(arg scenario)/scenario.world" respawn="false" output="screen">
+		<param name="base_watchdog_timeout" value="0.2"/>
+	</node>
+	
+	<!-- start localization (amcl) -->
+  	<include file="$(find wheelchairconf)/launch/amcl.launch">
+		<arg name="sim" value="1"/>
+  	</include>
+	
+	<!-- Publish our map -->
+	<node pkg="map_server" type="map_server" name="map_server" output="screen" args="$(find wheelchairconf)/world/$(arg scenario)/map.yaml" respawn="true" >
+		<param name="frame_id" value="/map" />
+	</node>
+	
+
+	<!-- Launch head controller -->
+	<include file="$(find openni_launch)/launch/openni.launch"/>
+	#Cut the image of the kinect to reduce errors
+	<include file="$(find wheelchairconf)/launch/wheelchairint/cut_kinect_image.launch"/>
+	<include file="$(find wheelchairconf)/launch/stacks/estimator.launch"/>
+	<node pkg="tf" type="static_transform_publisher" name="base_to_kinect"  args="0 0 0 0 0 3.1416 0 /camera_depth_frame /new_ref 100" />
+    <node pkg="tf" type="static_transform_publisher" name="base_to_kinect_rgb" args="0.8 0 0.5 0 0 3.1416 0 /robot_0/base_link /camera_link 100" />
+	
+	<!-- Launch teleoperation node (to simulate a joystick with the keyboard) -->
+	<node pkg="turtlebot_teleop" type="turtlebot_teleop_key" name="turtlebot_teleop_keyboard"  output="screen">
+    	<param name="scale_linear" value="0.5" type="double"/>
+    	<param name="scale_angular" value="1.5" type="double"/>
+    	<remap from="cmd_vel" to="/robot_0/cmd_vel" />
+  	</node>
+  	
+	<node pkg="user_intentions" type="plot_line_in_grid.py" name="plot_head_pose"  output="screen"/>
+  	
+	<!-- visualizer --> 
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find wheelchairconf)/config/rviz/sim_face_control_analysis.vcg" />
+
+</launch>

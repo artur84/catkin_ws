@@ -1,0 +1,17 @@
+<!-- Use it to record some particular interesting topics when running a demo using the kinect on the wheelchair  -->
+<!-- author: Arturo -->
+<!-- PREREQUISITES: The topics should be published before running this  -->
+<launch>
+	<arg name="sim" default="1" />
+
+	<group if="$(arg sim)">
+		<node pkg="rosbag" type="record" name="record_bagfile" output="screen" args=" /robot_0/move_base_vel /robot_0/recognizer/output /robot_0/amcl_pose /map /robot_0/odom /robot_0/base_scan /tf /robot_0/cmd_vel /camera/rgb/image_rect_color /robot_0/user_vel /robot_0/user_dir  -o $(env HOME)/bagfiles/iros_2013/voice_and_head_ui_sim"/>
+	</group>
+
+	<group unless="$(arg sim)">
+		<node pkg="rosbag" type="record" name="record_bagfile" output="screen" args="/wheelchair/recognizer/output /wheelchair/amcl_pose /map /wheelchair/odom /wheelchair/base_scan /tf /wheelchair/cmd_vel /camera/rgb/image_rect_color /wheelchair/user_vel /wheelchair/user_dir  -o $(env HOME)/bagfiles/iros_2013/voice_and_head_ui_real"/>
+	</group>
+
+
+	<!--node pkg="rosbag" type="record" name="record_bagfile" output="screen" args=" /wheelchair/move_base_vel /wheelchair/recognizer/output /wheelchair/amcl_pose /map /wheelchair/odom /wheelchair/base_scan /tf /wheelchair/cmd_vel /camera/rgb/image_rect_color /wheelchair/user_vel /head_pose_filtered /head_pose -o $(env HOME)/bagfiles/face_sensor/data"/-->
+</launch>

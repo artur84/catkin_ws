@@ -1,0 +1,61 @@
+<!-- FIRST PART Used to run a simultaion of user intentions module and my ui_local_planner using the KEYBOARD as input, 	-->
+<!-- USAGE:
+    (1) roslaunch wheelchairconf sim_ui_local_planner_destination_1.launch
+    Then in other terminal
+    (2) roslaunch wheelchairconf sim_ui_local_planner_destination_2.launch
+
+-->
+<launch>
+
+
+	<arg name="scenario" default="hall_inria" />
+    <arg name="mode" default="autonomous"/><!-- it can be manual or autonomous -->
+
+
+
+
+
+    #### START SIMULATED WORLD ####
+	<!-- Start stage -->
+	<param name="/use_sim_time" value="true" />
+    <node pkg="stage" type="stageros" name="stageros" args="$(find wheelchairconf)/world/$(arg scenario).world" respawn="false" output="screen">
+	    <param name="base_watchdog_timeout" value="0.2"/>
+    </node>
+
+    <include file="$(find wheelchairconf)/world/$(arg scenario).launch"/>
+
+
+	### START KINECT ###
+	<include file="$(find openni_launch)/launch/openni.launch">
+		<!-- "camera" should uniquely identify the device. All topics are pushed down
+	    into the "camera" namespace, and it is prepended to tf frame ids. -->
+		<!--arg name="camera" value="camera"/-->
+
+		<!-- device_id can have the following formats:
+	    	"B00367707227042B": Use device with given serial number
+	        "#1"              : Use first device found
+	        "2@3"             : Use device on USB bus 2, address 3
+		 	"2@0"             : Use first device found on USB bus 2
+	    -->
+	  	<!--arg name="device_id" default="#1" /-->
+	</include>
+
+	##### START MODE_SELECTOR ####
+	<group  ns="robot_0">
+		<param name="/use_sim_time" value="true" />
+		<param name="tf_prefix" value="robot_0" />
+		<node pkg="user_intentions" type="mode_selector.py" name="mode_selector" respawn="true" >
+			<param name="mode" value="$(arg mode)"/> #Set to "autonomous" to be active
+			<remap from="user_dir" to="face_dir"/>
+			<remap from="user_vel" to="user_vel"/>
+			<remap from="move_base_vel" to="ui_local_planner_vel"/>
+    	</node>
+    </group>
+
+
+
+
+
+
+
+</launch>

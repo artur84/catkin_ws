@@ -1,0 +1,8 @@
+<launch>
+
+  <node pkg="rosbag" type="record" name="record_rgb" output="screen"
+    args=" /camera/rgb/image_color /camera/driver/parameter_descriptions /camera/driver/parameter_updates /camera/rgb/camera_info -o $(find wheelchair_kinect)/bags/kinect_rgb"/>
+  <node pkg="rosbag" type="record" name="record_depth" output="screen"
+    args="/camera/depth_registered/camera_info /camera/depth_registered/image_raw /camera/driver/parameter_descriptions /camera/driver/parameter_updates -o $(find wheelchair_kinect)/bags/kinect_depth"/>
+
+</launch>

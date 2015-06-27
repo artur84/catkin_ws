@@ -1,0 +1,43 @@
+<!-- Use this to start the navigation module for the wheelchair
+	It starts amcl, and move_base for simulations or demos with or without mode_selector module
+-->
+<launch>
+	<arg name="sim" default="1"/>
+	<arg name="scenario" default="hall_inria"/>
+    ####### Publish the map: It should be global so no namespace is defined #####
+    <!-- In simulation -->
+    <group if="$(arg sim)">
+		<param name="/use_sim_time" value="true" />
+		<node pkg="map_server" type="map_server" name="map_server" output="log" args="$(find wheelchairconf)/world/$(arg scenario).yaml" respawn="true" >
+			<param name="frame_id" value="/map" />
+		</node>
+	</group>
+	<!-- In Real Demos -->
+	<group unless="$(arg sim)">
+		<node pkg="map_server" type="map_server" name="map_server" output="log" args="$(find wheelchairconf)/world/$(arg scenario).yaml" respawn="true" >
+			<param name="frame_id" value="/map" />
+		</node>
+	</group>
+	##### Start navigation #######
+	<!-- In simulation -->
+	<group if="$(arg sim)" ns="robot_0">
+		<param name="/use_sim_time" value="true" />
+		<param name="tf_prefix" value="robot_0" />
+		<param name="move_base/RiskRRTPlanner/plan_topic" value="/robot_0/plan"/>  <!--Just needed for the riskrrt-->
+	    <include file="$(find wheelchairconf)/launch/navigation/navigation_ui_planner.launch" >
+	    		<arg name="mode_selector" value="0" />
+	    </include>
+		<node pkg="tf" type="static_transform_publisher" name="tf_map_to_wheelchair" args="0 0 0 0 0 0 /map /robot_0/map 100" />
+        <node pkg="tf" type="static_transform_publisher" name="tf_stage_laser_to_real_laser" args="0 0 0 0 0 0 base_laser_link base_laser 100" />
+	</group>
+
+    <!-- In Real Demos -->
+	<group unless="$(arg sim)" ns="wheelchair">
+		<param name="tf_prefix" value="wheelchair" />
+		<param name="move_base/RiskRRTPlanner/plan_topic" value="/wheelchair/plan"/>
+	    <include file="$(find wheelchairconf)/launch/navigation/navigation_ui_planner.launch" >
+	    		<arg name="mode_selector" value="0" />
+	    </include>
+		<node pkg="tf" type="static_transform_publisher" name="tf_map_to_wheelchair" args="0 0 0 0 0 0 /map /wheelchair/map 100" />
+	</group>
+</launch>

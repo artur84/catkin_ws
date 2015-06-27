@@ -1,0 +1,7 @@
+#Independent settings for the planner's costmap
+global_costmap:
+    publish_voxel_map: true
+    update_frequency: 0.3
+    publish_frequency: 0.3
+    static_map: true
+    #rolling_window: true

@@ -1,0 +1,26 @@
+<!-- Calls the kinect face tracker, use this file to quickly access this in simulation /or demos while debugging
+ 	author: Arturo
+
+	WARNING: Don't use "name spaces (ns)"
+	Some nodes don't respect ROS name conventions so you have to be very carefull when including
+	in groups with predefined name spaces, in many cases it will not work -->
+	<!-- prerequisites: I got many troubles when trying to launch openni.launch and this  file together
+so normally you should first start openni.launch and then use this file -->
+
+<launch>
+	<arg name="sim" default="1" />
+
+	<group if="$(arg sim)">#We are not setting the "ns" because if we do it, the tracker does not work
+		<param name="/use_sim_time" value="true" />
+    	<include file="$(find wheelchairconf)/launch/wheelchairint/kinect_face_pose_estimator.launch">
+    	    <arg name="tf_prefix" value="robot_0"/>
+    	</include>
+    </group>
+
+	<group unless="$(arg sim)">#We are not setting the "ns" because if we do it, the tracker does not work
+    	<include file="$(find wheelchairconf)/launch/wheelchairint/kinect_face_pose_estimator.launch">
+    	    <arg name="tf_prefix" value="wheelchair"/>
+    	</include>
+    </group>
+
+</launch>

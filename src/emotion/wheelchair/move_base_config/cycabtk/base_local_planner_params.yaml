@@ -1,0 +1,44 @@
+TrajectoryPlannerROS:
+  acc_lim_x: 1.0 #2.5
+  acc_lim_y: 0.0 #2.5
+  acc_lim_theta: 0.5 #1
+ 
+  max_vel_x: 1.0 #1.0
+  min_vel_x: 0.2  #0.2
+  
+  max_vel_theta: 2 #1
+  min_vel_theta: -2
+  min_in_place_vel_theta: 2
+  #min_in_place_rotational_vel: 0.1
+  
+  sim_time: 1.7
+  sim_granularity: 0.5#0.025
+  path_distance_bias: 0.8
+  goal_distance_bias: 0.2
+  
+  occdist_scale: 0.01
+  oscillation_reset_dist: 0.05
+  escape_reset_dist: 0.1
+  recovery_behavior_enabled: false
+
+  escape_reset_theta: 1.5708
+  vx_samples: 30 #30
+  vtheta_samples: 30 #30
+  
+  heading_lookahead: 0.325
+  holonomic_robot: false
+  
+  escape_vel: -0.1
+  dwa: false
+  heading_scoring: false
+  
+  heading_scoring_timestep: 0.1
+  simple_attractor: true
+  
+  angular_sim_granularity: 0.025
+  
+  # Goal Tolerance Parameters
+  xy_goal_tolerance: 1 #have to equal or less threshold in our program
+  yaw_goal_tolerance: 0.5 # to avoid spinning
+  latch_xy_goal_tolerance: false
+

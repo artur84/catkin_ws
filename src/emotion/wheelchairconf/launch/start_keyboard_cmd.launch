@@ -1,0 +1,25 @@
+<!-- Just calls keyboard commander in sim or demo mode, useful to quicly access this while debugging -->
+<!-- author: Arturo -->
+<!-- PREREQUISITES: Launch sim_nav.launch or demo_nav.launch -->
+<!-- USE: roslaunch wheelchairconf start_keyboard.launch sim:=1 --> <!--when working in simulation sim:=0 for wheelchair use -->
+<launch>
+	<arg name="sim" default="1" />
+	<arg name="mode_selector" default="0"/>
+
+
+	<group if="$(arg sim)" ns="robot_0">
+		<param name="/use_sim_time" value="true" />
+    	<include file="$(find wheelchairconf)/launch/wheelchairint/keyboard_cmd.launch">
+    	    <arg name="tf_prefix" value="robot_0"/> #This is necessary to print the markers
+    		<arg name="mode_selector" value="$(arg mode_selector)"/>
+    	</include>
+	</group>
+
+	<group unless="$(arg sim)" ns="wheelchair">
+    	<include file="$(find wheelchairconf)/launch/wheelchairint/keyboard_cmd.launch">
+    	    <arg name="tf_prefix" value="wheelchair"/> #This is necessary to print the markers
+    		<arg name="mode_selector" value="$(arg mode_selector)"/>
+    	</include>
+    </group>
+
+</launch>

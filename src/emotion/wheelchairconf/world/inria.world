@@ -1,0 +1,34 @@
+include "common/map.inc"
+include "common/wheelchair.inc"
+include "common/person.inc"
+include "common/table.inc"
+
+window
+( 
+  size [ 1000.000 700.000 ] 
+  center [-8.0 34.0]
+  rotate [ 0.000 0 ]
+  scale 12.0 
+  show_data 1
+)
+
+
+# load an environment bitmap
+floorplan
+( 
+  name "inria"
+  bitmap "inria.pgm"  
+  size [111.4 64.5  2]   #Almost the dimensions of the map [y x z]
+  pose [55.7 32.25  0 0 ] #The cero of the map in stage is taken as the middle of the image.
+  							   #[x y z position]
+  
+  
+)
+
+# throw in a robot
+wheelchair( pose [ 25.05 55 0 180.000 ] name "wheelchair" color "black")
+table( pose [ 23.7 55.45 0 180.000 ] name "obstacle1" color "red") 
+person( pose [ -2.0 52.0 0 180.000 ] name "obstacle1" color "green") 
+#-2.77 and 6.02 almost the 0 position of the original map
+
+

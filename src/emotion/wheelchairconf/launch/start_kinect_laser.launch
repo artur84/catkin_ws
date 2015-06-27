@@ -1,0 +1,20 @@
+<!-- Launches the kinect and starts the node to conver a depth image into a laser scan
+-->
+<launch>
+	<arg name="sim" default="1" />
+	
+	
+	<group if="$(arg sim)">#We are not setting the "ns" because if we do it, the tracker does not work
+		<param name="/use_sim_time" value="true" />
+    	<include file="$(find wheelchairconf)/config/navigation/kinect_laser/kinect_laser.launch">
+    	    <arg name="tf_prefix" value="robot_0"/>
+    	</include>
+    </group>
+
+	<group unless="$(arg sim)">#We are not setting the "ns" because if we do it, the tracker does not work
+    	<include file="$(find wheelchairconf)/config/navigation/kinect_laser/kinect_laser.launch">
+    	    <arg name="tf_prefix" value="wheelchair"/>
+    	</include>
+    </group>
+	
+</launch>    		 

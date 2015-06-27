@@ -1,0 +1,67 @@
+<launch>
+  <!-- Machine declaration -->
+  <machine name="PC" address="bleu" env-loader="/opt/ros/groovy/setup.bash" user="arturo" default="true"/>
+  <machine name="wheelchair" address="wheelchair" env-loader="/home/pi/catkin_ws/devel/env.sh" user="pi" default="false"/>
+  <!--machine name="leftcampi" address="leftcampi" env-loader="/home/pi/sandbox/devel/env.sh" user="pi" default="false"-->
+
+  <!-- wheelchair -->
+  <node machine="wheelchair" name="control_node" pkg="wheelchair" type="control_node" />
+  <node machine="wheelchair" pkg="hokuyo_node" type="hokuyo_node" name="hokuyo_node">
+    <param name="frame_id" value="palgate/lagadic/wheelchair/base_laser_link" />
+  </node>
+  <node machine="wheelchair" pkg="wheelchair" type="twist_conversion.py" name="twist_conversion" />
+
+  <!-- leftcampi -->
+  <!--node machine="leftcampi" name="raspicam_node" pkg="raspicam" type="raspicam_node" ns="leftcam">
+    <param name="width" value="800"/>
+    <param name="tf_prefix" value="/palgate/lagadic/wheelchair/leftcam"/>
+  </node-->
+
+  <!-- PC -->
+  <!--node machine="PC" name="republish" pkg="image_transport" type="republish" args="compressed in:=/leftcam/camera/image raw out:=/leftcam/camera/image" ns="leftcam"/>
+  <node machine="PC" name="image_proc" pkg="image_proc" type="image_proc" ns="leftcam/camera">
+    <remap from="/leftcam/camera/image_raw" to="/leftcam/camera/image"/>
+  </node>
+  <node machine="PC" name="mono_odometer" pkg="viso2_ros" type="mono_odometer">
+	<remap from="image" to="leftcam/camera/image_rect"/>
+ 	<param name="camera_height" value="0.54" />
+ 	<param name="camera_pitch" value="-0.35" />
+	<param name="publish_tf" value="true" />
+	<param name="odom_frame_id" value="/palgate/lagadic/wheelchair/odom"/>
+	<param name="base_link_frame_id" value="/palgate/lagadic/wheelchair/base_link"/>
+
+  </node>
+  <node machine="PC" name="leftcam_tf" pkg="tf" type="static_transform_publisher" args="0.3 0.3 0.54 -1.57 -1.57 0 /palgate/lagadic/wheelchair/base_link /palgate/lagadic/wheelchair/leftcam/camera 100"-->
+  <node machine="PC" name="laser_tf" pkg="tf" type="static_transform_publisher" args="0.3 0.3 0.54 0 0 0 /palgate/lagadic/wheelchair/base_link /palgate/lagadic/wheelchair/base_laser_link 100"/>
+
+  <!--arg name="master" /-->
+  <!--<remap from="/scan" to="/palgate/lagadic/wheelchair/base_scan"/>-->
+  <!--<node pkg="palgate_multimaster" type="topic_repub.py" name="repub_scan" output="screen">
+	<remap from="input" to="scan"/>
+	<remap from="output" to="palgate/lagadic/wheelchair/base_scan"/>
+	<param name="output_type" value="sensor_msgs/LaserScan" />
+  </node>-->
+
+  <!--<remap from="/mono_odometer/odometry" to="/palgate/lagadic/wheelchair/odom"/>-->
+  <!--<node pkg="palgate_multimaster" type="topic_repub.py" name="repub_odom" output="screen">
+	<remap from="input" to="mono_odometer/odometry"/>
+	<remap from="output" to="palgate/lagadic/wheelchair/odom"/>
+	<param name="output_type" value="nav_msgs/Odometry" />
+  </node>-->
+
+  <!--<remap from="/palgate/lagadic/wheelchair/cmd_vel" to="/palgate/lagadic/wheelchair/velocity_cmd"/>-->
+  <!--<node pkg="palgate_multimaster" type="topic_repub.py" name="repub_vel_cmd" output="screen">
+	<remap from="input" to="palgate/lagadic/wheelchair/cmd_vel"/>
+	<remap from="output" to="palgate/lagadic/wheelchair/velocity_cmd"/>
+	<param name="output_type" value="geometry_msgs/Twist" />
+  </node>-->
+
+  <!--<node pkg="palgate_multimaster" type="master_sync.py" name="master_sync" output="screen"> 
+    <param name="foreign_master" value="http://$(arg master):11311" />      
+    <rosparam command="load" file="$(find palgate_multimaster)/config.yaml" />
+  </node>-->
+
+
+
+
+</launch>

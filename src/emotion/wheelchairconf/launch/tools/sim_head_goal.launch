@@ -1,0 +1,33 @@
+<!-- Send a goal in the direction of the face as far as possible
+
+	MATERIAL: plug in the kinect and the wheelchair to the computer.
+-->
+
+
+<launch>
+	<arg name="sim" default="1" />
+  	<arg name="prefix" default="wheelchair" /><!--change this to "wheelchair" to use the real wheelchair-->
+  	<arg name="cut_image" default="0"/>
+  	<arg name="scenario" default="lab"/>
+  	
+	<!-- Launch head controller -->
+    <!-- NOTE: for some reason it  doesn't work if we start first the voice recognizer and then the head controller
+        So this order should be always respected
+    -->
+    <include file="$(find wheelchairconf)/launch/wheelchairint/start_face_pose_estimator.launch">
+    	<arg name="prefix" value="$(arg prefix)" /><!--change this to "wheelchair" to use the real wheelchair-->
+    	<arg name="cut_image" value="$(arg cut_image)" />
+    	
+	</include>
+
+
+    <include file="$(find wheelchairconf)/launch/sim/sim_nav.launch">
+    	<arg name="riskrrt" value="$(arg riskrrt)" /><!--change this to "wheelchair" to use the real wheelchair-->
+    	<arg name="scenario" default="$(arg scenario)"/>
+	</include>
+
+    <node pkg="user_intentions" type="face_control.py" name="face_control" output="screen" respawn="true">
+	</node>
+    <!--node pkg="rviz" type="rviz" name="rviz_sim_head_voice" args="-d $(find wheelchairconf)/conf/sim_head_voice_mixed_control.vcg" /-->
+	<!--node pkg="rviz" type="rviz" name="rviz" args="-d $(find wheelchairconf)/conf/sim_riskrrt.vcg" /-->
+</launch>

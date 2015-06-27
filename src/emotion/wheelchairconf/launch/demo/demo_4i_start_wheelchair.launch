@@ -1,0 +1,17 @@
+<!-- This launches the wheelchair driver, navigation, and vel selector node -->
+<!-- author: Arturo Escobedo -->
+<launch>
+	<include file="$(find wheelchairconf)/launch/start_wheelchair_auto.launch"/>
+	<include file="$(find wheelchairconf)/launch/start_navigation.launch">
+    	    <arg name="sim" value="0"/>
+    	    <arg name="mode_selector" value="1"/>
+    	    <arg name="scenario" value="hall_inria"/>
+    </include>
+    <include file="$(find wheelchairconf)/launch/start_vel_selector.launch">
+    	    <arg name="sim" value="0"/>
+    </include>
+    <include file="$(find wheelchairconf)/launch/start_wheelchair_talk.launch">
+    	    <arg name="sim" value="0"/>
+    </include> 
+	
+</launch>

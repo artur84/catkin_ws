@@ -1,0 +1,33 @@
+<!-- run navigation demo with the wheelchair  -->
+<!-- author: Procopio -->
+
+<!-- usage: to use RiskRRT, the argument riskrrt must be set to 1 (riskrrt:=1) -->
+<!--        to change the default map (inria hall) the argument map:=xxx.yaml should be used -->
+<!--        to use social filters, the argument social must be set to 1 (social:=1) -->
+
+<!-- examples: roslaunch wheelchair demo_nav.launch riskrrt:=1 (default map, riskrrt planner, no social filter) -->
+<!--           roslaunch wheelchair demo_nav.launch map:=labo.yaml (labo map, ros planner, no social filter) -->
+<!--           roslaunch wheelchair demo_nav.launch riskrrt:=1 social:=1 (default map, riskrrt planner with social filter) -->
+
+<launch>
+
+  <arg name="map" default="small_corridor.yaml" />
+
+  <!-- start wheelchair base and localization (amcl) -->
+  <include file="$(find wheelchair)/launch/start_wheelchair.launch"/>
+
+  <!-- Publish our map --> 
+  <node pkg="map_server" type="map_server" name="map_server" output="screen" args="$(find wheelchair)/world/$(arg map)" />
+        
+  <node pkg="rviz" type="rviz" name="rviz" args="-d $(find wheelchair)/conf/wheelchair_test.rviz" />
+  
+   <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+<!--     <param name="base_local_planner" value="dwa_local_planner/DWAPlannerROS"/> -->
+    <rosparam file="$(find wheelchair)/move_base_config/real_costmap_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find wheelchair)/move_base_config/real_costmap_common_params.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find wheelchair)/move_base_config/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find wheelchair)/move_base_config/global_costmap_params.yaml" command="load" />
+<!--     <rosparam file="$(find wheelchair)/move_base_config/dwa_local_planner_params.yaml" command="load" />  -->
+  </node>
+  
+</launch>

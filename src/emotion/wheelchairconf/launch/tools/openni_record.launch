@@ -1,0 +1,22 @@
+<launch>
+
+  <include file="$(find wheelchair_kinect)/launch/include/openni_manager.launch"/>
+
+  <include file="$(find wheelchair_kinect)/launch/include/openni_driver.launch"/>
+
+  <arg name="camera" default="camera" />
+  <arg name="rgb"              default="rgb" />
+  <group ns="$(arg camera)">
+
+    #### RGB #################################################################
+    <include file="$(find openni_launch)/launch/includes/rgb.launch"
+	     ns="$(arg rgb)">
+      <arg name="manager" value="/camera_nodelet_manager" />
+    </include>
+	</group>
+
+	<include file="$(find wheelchair_kinect)/launch/include/openni_record_bag.launch"/>
+	
+	<node pkg="image_view" type="image_view" name="viewer" args="image:=/camera/rgb/image_color" />
+
+</launch>

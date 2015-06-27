@@ -1,0 +1,21 @@
+<!-- This launches the head and voice controllers to drive the wheelchair -->
+<!-- author: Arturo -->
+
+<launch>
+	#arg mode_selector can be either 0 or 1
+	<arg name="mode_selector" default="0" />
+	
+	#If mode_selector == 1
+	<group if="$(arg mode_selector)">
+		<node pkg="wheelchairint" type="voice_and_head.py" name="voice_and_head" respawn="true" output="screen">
+			<remap from="voice_and_head_vel" to="user_vel"/> <!-- /input_vel topic of ui_planner -->
+			<remap from="voice_and_head_dir" to="user_dir"/> <!-- input for destination_inference.py -->
+		</node>
+	</group>
+	#if mode_selector == 0
+	<group unless="$(arg mode_selector)">
+		<node pkg="wheelchairint" type="voice_and_head.py" name="voice_and_head" respawn="true" output="screen">
+			<remap from="voice_and_head_vel" to="cmd_vel"/><!-- input for the wheelchair -->
+		</node>
+	</group>
+</launch>

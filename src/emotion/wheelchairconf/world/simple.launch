@@ -1,0 +1,15 @@
+<!--Static transformations for pedestrians to /map in the scenario -->
+<!-- author: Arturo -->
+<launch>
+<!-- person 1 -->
+<node pkg="tf" type="static_transform_publisher" name="robot1_broadcast" args="8.0 14.0 0 -1.57 0 0 /map  /robot_1/odom  10" />
+<node pkg="tf" type="static_transform_publisher" name="robot2_broadcast" args="8.0 10.0 0 -1.57 0 0 /map  /robot_2/odom  10" />
+<node pkg="tf" type="static_transform_publisher" name="robot3_broadcast" args="2.6 13.6 0 -1.57 0 0 /map  /robot_3/odom  10" />
+<!--Initial pose for the wheelchair -22.5 49.5 0-->
+<group ns="robot_0">
+		<param name="amcl/initial_pose_x" value="0." />
+		<param name="amcl/initial_pose_y" value="0." />
+		<param name="amcl/initial_pose_a" value="0." />
+</group>
+</launch>
+

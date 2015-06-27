@@ -1,0 +1,20 @@
+<launch>
+
+    <!--include file="$(find openni_launch)/launch/includes/openni.launch"/-->
+	    
+     
+    
+  <node name="extract" pkg="image_view" type="extract_images" respawn="false" output="screen" cwd="node">
+
+    <remap from="image" to="/camera/rgb/image_color"/>
+    <param name="filename_format" value="/home/arturo/rosbag_files/kinect/frame%06i.png"/>
+  </node>
+  
+    <node name="extract2" pkg="image_view" type="extract_images" respawn="false" output="screen" cwd="node">
+
+    <remap from="image" to="/camera/depth/image"/>
+    <param name="filename_format" value="/home/arturo/rosbag_files/kinect/disparity%06i.ppm"/>
+  </node>
+  
+
+</launch>

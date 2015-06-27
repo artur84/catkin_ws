@@ -1,0 +1,28 @@
+include "common/map.inc"
+include "common/wheelchair.inc"
+include "common/person.inc"
+
+window
+( 
+  size [ 650.000 700.000 ] 
+  center [8.0 8.0]
+  rotate [ 0.000 0 ]
+  scale 30.0 
+  show_data 1
+)
+
+# load an environment bitmap
+floorplan
+( 
+  name "emotion_corridor"
+  bitmap "emotion_corridor.pgm"
+  #size of image times 30/550 got from real size and image comparison
+  #Stage adjust the map, then is convenient to have a frame for the image
+  size [60.4 14.525 2.5]
+  pose [30.2 7.2625 0 0 ]
+)
+
+# throw in a robot
+wheelchair( pose [ 4.5 7.8 0 0 ] name "bibabot" color "blue")
+person (  pose [0 0.0 0.000 0] name "robot_1")
+#If you add a person don't forget to edit the NAME_OF_WORLD.launch (lab.launch, inria.launch...) file to set the necessary tf's

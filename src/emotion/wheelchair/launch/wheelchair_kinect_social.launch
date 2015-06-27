@@ -1,0 +1,41 @@
+<!-- To show the social filter markers for human detected from kinect -->
+<!-- Author: Arturo Escobedo, Jorge Rios  -->
+<launch>
+
+<arg name="scenario" default="inria_hall" />
+<arg name="humans" default="3" />
+
+###### Publish the MAP #############
+<!--
+<node pkg="map_server" type="map_server" name="map_server" output="screen" args="$(find wheelchair)/world/$(arg scenario)/map.yaml" >
+</node> 
+-->
+
+#### Launch Kinect Stuff ####
+<node pkg="openni_tracker" type="openni_tracker" name="openni_tracker" output="screen" />
+
+<node pkg="openni_camera" type="openni_node" name="openni_node_jore" output="screen" />
+
+######## Publish an static Transformation to relate the robot and the kinect ######
+  <node pkg="tf" type="static_transform_publisher" name="kinect_to_wheelchair" args="-0.5 0 1.4 0 0 0 1 /base_link /openni_depth_frame 100" />
+######## Publish an static Transformation to relate robot and map, fixed ######
+<!--node pkg="tf" type="static_transform_publisher" name="link2_broadcaster" args="8.0 3.5 1.2 1.57 0 0 /map /openni_depth_frame  100" /-->
+
+
+
+<node pkg="social_filter"  type="kinect_human_proc" name="kinect_human_proc" args="$(arg humans)" output="screen" respawn="true"/>
+
+<node pkg="social_filter" type="fform_detect" name="fform_detect" output="screen" respawn="true"/>
+##### args is to select what kind of markers we will create ######
+##### 0000 means nothing, it is the default #######
+##### [3dModel,PS,OS,IPS,screen], 1001 means 3dModel and IPS #####
+
+<node pkg="social_filter" type="human_markers" name="human_markers" args="11100" output="screen" respawn="true" /> 
+
+
+<node pkg="rviz" type="rviz" name="rviz_ocre" args="-d $(find wheelchair)/conf/demo_nav.launch.vcg" >
+</node>  	
+
+
+</launch>
+

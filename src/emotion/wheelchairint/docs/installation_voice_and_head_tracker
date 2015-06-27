@@ -1,0 +1,63 @@
+installation du controle grace au visage :
+
+PREREQUISITES:
+-Install python-virtualenv, python-pip (to have the easy_install utility).
+- Install rosinstall:
+	sudo easy_install -U rosinstall vcstools rosdep
+
+
+packages Ros à installer :
+	-package head_pose_estimation (stack head_tracking)
+		cd ~/ros_works/stacks
+		roslocate info head_tracking > doc.rosinstall
+		rosinstall . doc.rosinstall
+	-package mjpeg_server
+		roslocate info mjpeg_server > doc.rosinstall && rosinstall . doc.rosinstall
+	-stack pi_vision
+		roslocate info pi_vision > doc.rosinstall && rosinstall . doc.rosinstall
+	-package rosbridge
+		roslocate info rosbridge > doc.rosinstall && rosinstall . doc.rosinstall
+	-package uvc_cam2 à renommer en uvc_cam
+		roslocate info uvc_cam2 > doc.rosinstall && rosinstall . doc.rosinstall
+		cp -rf  uvc_cam2 uvc_cam
+/!\ si python 2.6 : dans head_pose_estimation editer head_pose_filter.py et ajouter :
+class deque(collections.deque):
+    def __init__(self, iterable=(), maxlen=None):
+        super(deque, self).__init__(iterable, maxlen)
+        self._maxlen = maxlen
+    @property
+    def maxlen(self):
+        return self._maxlen
+
+fichiers à executer :
+	tete : 
+	-head_broadcaster.cpp \\TODO:Change the names
+	-test_head_chair.cpp
+	mains : 
+	-frame_torso_broadcaster.cpp
+	-test_kinect2.cpp
+
+---------------------------------------------------------------------------------------
+
+
+installation du controle vocal :
+
+- Install Ros package pocketsphinx:
+	roslocate info pocketsphinx > doc.rosinstall && rosinstall . doc.rosinstall
+
+- Install Ubuntu package gstreamer0.10-pocketsphinx:
+	sudo apt-get install gstreamer0.10-pocketsphinx
+
+fichiers : voice_cmd_vel_3.py à placer dans pocketsphinx/nodes, penser à rendre executable, modifier voice_cmd.launch dans pocketsphinx/demo
+
+creation du dictionnaire :
+	-un mot ou phrase par ligne, extension en .corpus
+	sur http://www.speech.cs.cmu.edu/tools/lmtool-new.html
+	ouvrir le fichier .corpus
+	recuperer les fichiers dans l'archive autogénérée
+	modifier le fichier voice_cmd.launch
+
+fichiers à executer pour voix+tete :
+	-head_broadcaster.cpp
+	-chair_head_ctrl.cpp
+	-final_vel_publisher.cpp

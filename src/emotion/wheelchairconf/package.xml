@@ -1,0 +1,27 @@
+<package>
+  <name>wheelchairconf</name>
+  <version>0.0.0</version>
+  <description>
+     wheelchairconf has mainly launch files, rviz conf files and move_base configuration files used with the EMOTION Team
+     at INRIA Rhone-Alpes. 
+  </description>
+  <maintainer email="arturo@todo.todo">arturo</maintainer>
+
+  
+  <license>BSD</license>
+  <url>http://ros.org/wiki/wheelchairconf</url>
+  <buildtool_depend>catkin</buildtool_depend>
+
+  
+  <build_depend>roslib</build_depend>
+  <build_depend>roscpp</build_depend>
+  <build_depend>rospy</build_depend>
+  <build_depend>std_msgs</build_depend> 
+ 
+  <run_depend>roslib</run_depend>
+  <run_depend>roscpp</run_depend>
+  <run_depend>rospy</run_depend>
+  <run_depend>std_msgs</run_depend>
+</package>
+
+

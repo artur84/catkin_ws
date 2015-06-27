@@ -1,0 +1,17 @@
+<!-- Play a rosbag but rename all topics from /wheelchair/ to /robot_0/ -->
+<launch>
+
+
+
+		<node pkg="rosbag" type="play" name="play_bagfile" output="screen" args="$(env HOME)/bagfiles/iros_2013//home/arturo/bagfiles/iros_2013/voice_and_head_ui_real_2013-10-21-19-15-19.bag">
+		<remap from="/wheelchair/recognizer/output" to="/robot_0/recognizer/output"/>
+		  <remap from="/wheelchair/user_vel" to="/robot_0/user_vel"/>
+		  <remap from="/wheelchair/user_dir" to="/robot_0/user_dir"/>
+		  </node>
+
+
+
+
+
+	<!--node pkg="rosbag" type="record" name="record_bagfile" output="screen" args=" /wheelchair/move_base_vel /wheelchair/recognizer/output /wheelchair/amcl_pose /map /wheelchair/odom /wheelchair/base_scan /tf /wheelchair/cmd_vel /camera/rgb/image_rect_color /wheelchair/user_vel /head_pose_filtered /head_pose -o $(env HOME)/bagfiles/face_sensor/data"/-->
+</launch>

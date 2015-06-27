@@ -1,0 +1,8 @@
+<!-- Use it to record some particular interesting topics when running a demo using the kinect on the wheelchair  -->
+<!-- author: Arturo -->
+<!-- PREREQUISITES: The topics should be published before running this  -->
+<launch>
+   	<param name="/use_sim_time" value="false" />
+   	<node  pkg="user_intentions" type="interest_grid_ros_handler.py" name="interest_grid" output="screen"/> 
+	<node pkg="ghmm" type="ghmm" name="ghmm" />
+</launch>

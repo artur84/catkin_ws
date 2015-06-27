@@ -1,0 +1,20 @@
+<!-- Simulation of the hall environment with people tracking and social filter using kinect  -->
+<!-- author: Jorge -->
+
+<launch>
+
+  <!-- Publish our map --> 
+     <node pkg="map_server" type="map_server" name="map_server" output="screen" args="$(find wheelchair)/world/hall.yaml" />
+
+      <node pkg="tf" type="static_transform_publisher" name="kinect_to_map" args="0.0 0.0 0.70 0.0 0.0 0.0 /map /openni_depth_frame  40" /> 
+
+      <node name="openni_tracker" pkg="openni_tracker" type="openni_tracker" output="screen" />
+
+      <node pkg="rviz" type="rviz" name="rviz" args="-d $(find wheelchair)/conf/ar_test.vcg"/>  
+
+      <arg name="number_humans" value="1"/>
+      <node pkg="social_filter"  type="kinect_human_proc" name="human_proc" args="$(arg number_humans)" output="screen"/>
+      <node pkg="social_filter" type="fform_detect" name="fform_detect" output="screen"/>
+      <node pkg="social_filter" type="human_markers" name="human_markers" output="screen"/>
+
+</launch>

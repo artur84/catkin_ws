@@ -1,0 +1,25 @@
+<!-- Just calls keyboard commander in sim or demo mode, useful to quicly access this while debugging -->
+<!-- author: Arturo -->
+<!-- PREREQUISITES: Launch sim_nav.launch or demo_nav.launch -->
+<!-- USE: roslaunch wheelchairconf start_keyboard.launch sim:=1 --> <!--when working in simulation sim:=0 for wheelchair use -->
+<launch>
+	<arg name="sim" default="1" />
+
+	<group if="$(arg sim)" ns="robot_0">
+		<param name="/use_sim_time" value="true" />
+    	<node pkg="wheelchairint" type="keyboard.py" name="keyboard"  output="screen">
+			<param name="tf_prefix" value="robot_0"/>
+			<remap from="key_vel" to="input_vel"/>
+			<remap from="key_dir" to="user_dir"/>
+		</node>
+	</group>
+
+	<group unless="$(arg sim)" ns="wheelchair">
+    	<node pkg="wheelchairint" type="keyboard.py" name="keyboard"  output="screen">
+			<param name="tf_prefix" value="wheelchair"/>
+			<remap from="key_vel" to="input_vel"/>
+			<remap from="key_dir" to="user_dir"/>
+		</node>
+    </group>
+
+</launch>

@@ -1,0 +1,28 @@
+Conventions
+SIMULATIONS:
+
+1) Launch files that run complete simulations ar located in the folder ./sim  and all of them start with the subfix sim_........
+ ex. sim_user_intentions.launch
+ 
+2) When a simulation/demo needs more than one launch file they should be numbered accordingly to the order they have to be launched in.
+    sim_voice_and_head_cmd_1.launch First  #launch this first
+    sim_voice_and_head_cmd_2.launch  #then launch this one
+    
+STARTERS:
+1) As there are many things that have to be changed to use a launch file prepare to work in simulation, before using it for a real demo. 
+All those necessary changes should be contained in files that I call starters. Starter files have the prefix start_......
+    ex. start_wheelchair_auto.launch 
+    
+2)Starters should use the arg=sim to say if they will be used in a simulation or a demo. 
+By default sim=1 which means that if you dont specify the value it will suppose you will run it in a simulation. 
+
+FOLDERS
+1) Files are organized in folders according to the package they reffer to. 
+    wheelchairint
+    user_intentions
+    etc...
+DEMOS
+1) the same as for simulation but they use the prefix demo_....
+
+
+    

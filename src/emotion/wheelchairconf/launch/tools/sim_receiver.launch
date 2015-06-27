@@ -1,0 +1,11 @@
+<!-- This file should be launched in the local machine (the one that runs move base), -->
+<!-- this will receive a goal or cmd_vel message  from a remote computer running the "simulation_remote_goal_sender.launch", "simulation_remote_keyboard_sender.launch" or "simulation_remote_kinect_sender.launch"-->
+<!-- Author: Arturo Escobedo  -->
+
+<launch>  
+    
+    <include file="$(find wheelchairconf)/launch/sim_nav.launch"/>
+	<node pkg="rviz" type="rviz" name="rviz_simulation_receiver" args="-d $(find wheelchairconf)/conf/simulation_receiver.vcg" />
+	
+</launch>
+ 

@@ -1,0 +1,46 @@
+<!--Static transformations for pedestrian to /map scenario -->
+<!-- author: Jorge -->
+<launch>
+  
+<!--//////////////////// new tests ////////////////////-->
+<node pkg="tf" type="static_transform_publisher" name="robot1_tf" args="12.0 0.0 0 1.57 0 0 /map  /robot_1/odom  10" />
+<node pkg="tf" type="static_transform_publisher" name="robot2_tf" args="12.0 1.0 0 1.57 0 0 /map  /robot_2/odom  10" />
+<node pkg="tf" type="static_transform_publisher" name="robot3_tf" args="12.0 2.0 0 1.57 0 0 /map  /robot_3/odom  10" />
+
+<node pkg="tf" type="static_transform_publisher" name="robot4_tf" args="11.0 0.0 0 1.57 0 0 /map  /robot_4/odom  10" />
+<node pkg="tf" type="static_transform_publisher" name="robot5_tf" args="11.0 1.0 0 1.57 0 0 /map  /robot_5/odom  10" />
+<node pkg="tf" type="static_transform_publisher" name="robot6_tf" args="11.0 2.0 0 1.57 0 0 /map  /robot_6/odom  10" />
+
+<node pkg="tf" type="static_transform_publisher" name="robot7_tf" args="10.0 0.0 0 1.57 0 0 /map  /robot_7/odom  10" />
+<node pkg="tf" type="static_transform_publisher" name="robot8_tf" args="10.0 1.0 0 1.57 0 0 /map  /robot_8/odom  10" />
+<node pkg="tf" type="static_transform_publisher" name="robot9_tf" args="10.0 2.0 0 1.57 0 0 /map  /robot_9/odom  10" />
+
+<node pkg="tf" type="static_transform_publisher" name="robot10_tf" args="-12.0 0.0 0 1.57 0 0 /map  /robot_10/odom  10" />
+<node pkg="tf" type="static_transform_publisher" name="robot11_tf" args="-12.0 1.0 0 1.57 0 0 /map  /robot_11/odom  10" />
+<node pkg="tf" type="static_transform_publisher" name="robot12_tf" args="-12.0 2.0 0 1.57 0 0 /map  /robot_12/odom  10" />
+
+<node pkg="tf" type="static_transform_publisher" name="robot13_tf" args="-11.0 0.0 0 1.57 0 0 /map  /robot_13/odom  10" />
+<node pkg="tf" type="static_transform_publisher" name="robot14_tf" args="-11.0 1.0 0 1.57 0 0 /map  /robot_14/odom  10" />
+<node pkg="tf" type="static_transform_publisher" name="robot15_tf" args="-11.0 2.0 0 1.57 0 0 /map  /robot_15/odom  10" />
+
+<node pkg="tf" type="static_transform_publisher" name="robot16_tf" args="-10.0 0.0 0 1.57 0 0 /map  /robot_16/odom  10" />
+<node pkg="tf" type="static_transform_publisher" name="robot17_tf" args="-10.0 1.0 0 1.57 0 0 /map  /robot_17/odom  10" />
+<node pkg="tf" type="static_transform_publisher" name="robot18_tf" args="-10.0 2.0 0 1.57 0 0 /map  /robot_18/odom  10" />
+
+<node pkg="tf" type="static_transform_publisher" name="map2odom" args="16.0 1.0 0 3.14 0 0 /map /robot_0/odom  10" />
+<node pkg="nav_tools" type="send_initialpose" name="send_initialpose" args="16.0 1.0 180" /> 
+<!-- /////////////////////////////////////////////// -->
+
+<!-- <arg name="persons" value="13" />  -->
+<arg name="persons" value="19" /> 
+
+<remap from="/robot_0/dynamic_objects" to="/dynamic_objects" />
+<!--removed to avoid social filter-->
+<!-- <node pkg="social_filter" type="fform_detect" name="fform_detect" output="screen"/>   -->
+<node pkg="social_filter"  type="human_proc" name="human_proc" args="$(arg persons)" output="screen"/>  
+<node pkg="social_filter" type="human_markers" name="human_markers" output="screen"/>
+
+<remap from="/robot_0/map" to="/map" />  
+<node pkg="crowd_simulator" type="crowd_behavior" name="behavior" args="$(arg persons)" output="screen"/>
+
+</launch>

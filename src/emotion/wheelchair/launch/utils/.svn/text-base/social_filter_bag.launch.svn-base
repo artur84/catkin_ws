@@ -1,0 +1,38 @@
+<!-- Plays a bag file with marker image that are detected and shown with social interactions -->
+<!-- author: Procopio -->
+<!-- usage: must specify full path and the bag name -->
+<!-- roslaunch wheelchair social_filter_bag.launch file:=/home/prometeu/ros/bags/social_filters_duo_2_images.bag -->
+
+<launch>
+  
+  <arg name="file" />
+
+  <param name="use_sim_time" type="bool" value="true" />
+
+  <!-- Publish our map --> 
+  <node pkg="map_server" type="map_server" name="map_server" output="screen" args="$(find wheelchair)/world/hall.yaml" />
+
+  <node pkg="tf" type="static_transform_publisher" name="map_to_cam" 
+    args="5.2 4.5 4.2 -1.57 0 -3.14 map prosilica_optical_frame 1" /> 
+
+  <node pkg="rviz" type="rviz" name="rviz" args="-d $(find wheelchair)/conf/ar_test.vcg"/>
+
+  <node name="ar_pose" pkg="ar_pose" type="ar_multi" respawn="false" output="screen">
+    <remap from="/usb_cam/image_raw" to="/prosilica/image_mono" /> 
+    <remap from="/usb_cam/camera_info" to="/prosilica/camera_info" />
+    <param name="marker_pattern_list" type="string" value="$(find wheelchair)/data/chapeaux"/>
+    <param name="threshold" type="int" value="150"/>
+    <param name="use_history" type="bool" value="true"/>
+  </node>
+   
+
+  <node pkg="social_filter" type="ar_human_proc" name="ar_human_proc" output="screen"/>
+  
+  <node pkg="social_filter" type="fform_detect" name="fform_detect" output="screen" />
+
+  <node pkg="social_filter" type="human_markers" name="human_markers" args="11100" output="screen"/>
+
+  <node pkg="rosbag" type="rosbag" name="rosbag_image" 
+    args="play $(arg file) --clock -d 3"/>
+
+</launch>

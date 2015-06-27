@@ -1,0 +1,5 @@
+<launch>
+  <arg name="scenario" default="ua15" />
+  <include file="$(find wheelchair)/world/$(arg scenario)/experiment.launch"/>
+
+</launch>

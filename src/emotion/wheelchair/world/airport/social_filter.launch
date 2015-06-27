@@ -1,0 +1,26 @@
+<!--Static transformations for pedestrians to /map in airport scenario -->
+<!-- author: Jorge -->
+<launch>
+  <!--Verify the correct assign of names with airport.world-->
+ 
+
+<!-- Fila 1 -->
+<node pkg="tf" type="static_transform_publisher" name="robot1_broadcast" args="-3.5 7.5 0 3.14 0 0 /map  /robot_1/odom  10" />
+<!-- Fila 2 -->
+<node pkg="tf" type="static_transform_publisher" name="robot2_broadcast" args="-2.0 7.5 0 3.14 0 0 /map  /robot_2/odom  10" />
+<!-- Fila 3 -->
+<node pkg="tf" type="static_transform_publisher" name="robot3_broadcast" args="-0.5 7.5 0 3.14 0 0 /map  /robot_3/odom  10" />
+
+<arg name="persons" value="3" /> 
+
+<node pkg="social_filter" type="fform_detect" name="fform_detect" output="screen" respawn="true" />
+  
+<node pkg="social_filter"  type="human_proc" name="human_proc" args="$(arg persons)" output="screen"/>	
+<!-- human markers "args"
+1->human, 2->draw personal space, 3-> draw o-space, 4-> draw ips, 5 -> draw interesting objects
+-->
+<node pkg="social_filter" type="human_markers" name="human_markers" args="11101" output="screen"/>
+
+<node pkg="nav_tools" type="send_initialpose" name="send_initialpose" args="6.0 -10.0 2.3562 " />
+</launch>
+

@@ -1,0 +1,7 @@
+<!-- Run in local machine to receive a cmd_vel or goal from a remote computer -->
+<!-- author: Arturo Escobedo -->
+<launch>
+    <include file="$(find wheelchairconf)/launch/wheelchair_move_base.launch"/>
+    <node pkg="rviz" type="rviz" name="rviz_wheelchair_receiver" args="-d $(find wheelchairconf)/conf/wheelchair_receiver.vcg" />
+</launch>
+ 

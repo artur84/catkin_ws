@@ -1,0 +1,66 @@
+<!-- run navigation demo with the wheelchair  -->
+<!-- author: Procopio, Jorge, Arturo -->
+
+<!-- usage: to use RiskRRT, the argument riskrrt must be set to 1 (riskrrt:=1) -->
+<!--        to change the default map (inria hall) the argument map:=xxx.yaml should be used -->
+<!--        to use social filters, the argument social must be set to 1 (social:=1) -->
+
+<!-- examples: roslaunch wheelchair demo_nav.launch riskrrt:=1 (default map, riskrrt planner, no social filter) -->
+<!--           roslaunch wheelchair demo_nav.launch map:=labo.yaml (labo map, ros planner, no social filter) -->
+<!--           roslaunch wheelchair demo_nav.launch riskrrt:=1 social:=1 (default map, riskrrt planner with social filter) -->
+
+<launch>
+
+  <arg name="map" default="labo.yaml" />
+
+
+  <!-- start wheelchair base and localization (amcl) -->
+  <include file="$(find wheelchair)/launch/start_wheelchair.launch"/>
+
+  <!-- Publish our map --> 
+  <node pkg="map_server" type="map_server" name="map_server" output="screen" args="$(find wheelchair)/world/$(arg map)" />
+  
+  ### Social Filters
+  #### Launch Kinect Stuff ####
+  <include file="$(find openni_launch)/launch/openni.launch"/>
+  <node pkg="openni_tracker" type="openni_tracker" name="openni_tracker" output="screen" respawn="true"/>
+
+  ######## Publish an static Transformation to relate the robot and the kinect ######
+  <node pkg="tf" type="static_transform_publisher" name="kinect_to_wheelchair" args="-0.5 0 1.4 0 0 0 1 /base_link /openni_depth_frame 100" />
+
+  <node pkg="social_filter"  type="kinect_human_proc" name="kinect_human_proc" args="3" output="screen" respawn="true"/>
+
+  <node pkg="social_filter" type="fform_detect" name="fform_detect" output="screen" respawn="true"/>
+  ##### args is to select what kind of markers we will create ######
+  ##### 0000 means nothing, it is the default #######
+  ##### [3dModel,PS,OS,IPS,screen], 1001 means 3dModel and IPS #####
+
+  <node pkg="social_filter" type="human_markers" name="human_markers" args="11100" output="screen" respawn="true" /> 
+
+
+  
+  ### RiskRRT  
+	<node pkg="RiskRRT" type="rosplanner_static" name="rosplanner_static" args="$(find RiskRRT)/wheelchair.config " output="screen" >
+    <rosparam file="$(find RiskRRT)/planning.yaml" command="load" />
+    </node>
+        
+    ### ROS move_base  
+    <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+     <remap from="/move_base_simple/goal" to="/move_base_simple/next_pose"/>
+      <param name="base_global_planner" value="RiskRRT_planner/RiskRRTPlanner"/>
+      
+      <!--<remap from="/robot_0/move_base_simple/goal" to="/robot_0/move_base_simple/next_pose"/>-->
+      <!--<param name="base_global_planner" value="RiskRRT_planner/RiskRRTPlanner"/>-->
+      <param name="RiskRRTPlanner/plan_topic" value="/plan"/>
+      
+      <param name="controller_frequency" value="10.0" />
+      <rosparam file="$(find wheelchair)/move_base_config/real_costmap_common_params.yaml" command="load" ns="global_costmap" />
+      <rosparam file="$(find wheelchair)/move_base_config/real_costmap_common_params.yaml" command="load" ns="local_costmap" />
+      <rosparam file="$(find wheelchair)/move_base_config/local_costmap_params.yaml" command="load" />
+      <rosparam file="$(find wheelchair)/move_base_config/global_costmap_params.yaml" command="load" />
+      <rosparam file="$(find wheelchair)/move_base_config/base_local_planner_params.yaml" command="load" /> 
+    </node>
+      
+  <node pkg="rviz" type="rviz" name="rviz" args="-d /home/greg/.rviz/riskrrt_wheelchair.rviz" />
+  
+</launch>

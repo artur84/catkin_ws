@@ -1,0 +1,33 @@
+include "common/map.inc"
+include "common/wheelchair.inc"
+include "common/person.inc"
+
+window
+( 
+  size [ 650.000 700.000 ] 
+  center [8.0 8.0]
+  rotate [ 0.000 0 ]
+  scale 30.0 
+  show_data 1
+)
+
+# load an environment bitmap
+floorplan
+( 
+  name "lab"
+  bitmap "lab.pgm"
+  #size of image times 30/550 got from real size and image comparison
+  #Stage adjust the map, then is convenient to have a frame for the image
+  size [16.15 16.2 2.5]
+  pose [8.074 8.1 0 0.0 ]
+)
+
+# throw in a robot
+wheelchair( pose [ 3.225 13.8 0 0 ] name "wheelchair" color "black")
+person (  pose [8 14 0.000 -90] name "robot_1")
+#additional people
+#person ( name "robot_1" pose [-20 -20 0.000 69.791])
+#person ( name "robot_2" pose [11.122 5.222 0.000 69.791])
+#person ( name "robot_3" pose [13.447 5.216 0.000 23.955])
+#person ( name "robot_4" pose [12.425 6.560 0.000 144.276])
+#person ( name "robot_5" pose [14.757 5.765 0.000 38.279])

@@ -1,0 +1,38 @@
+<!-- This launches the pocketsphinx voice recognizer for simulations or our wheelchair-->
+<!-- author: Arturo Escobedo -->
+
+<launch>
+	<arg name="sim" default="1"/>
+	<arg name="corpus" default="general" />
+	<arg name="google" default= "1"/> <!-- set if using the google_recognizer.py node -->
+	<!-- if we want to use pocketsphinx recognizer -->
+	<group unless="$(arg google)">
+
+	<group if="$(arg sim)" ns="robot_0">
+	    <node name="recognizer" pkg="pocketsphinx" type="recognizer.py" output="screen">
+	    	<param name="lm" value="$(find wheelchairint)/voice_rcgn_files/$(arg corpus).lm"/>
+	        <param name="dict" value="$(find wheelchairint)/voice_rcgn_files/$(arg corpus).dic"/>
+	   	</node>
+   	</group>
+
+	<group unless="$(arg sim)" ns="wheelchair">
+	    <node name="recognizer" pkg="pocketsphinx" type="recognizer.py" output="screen">
+	    	<param name="lm" value="$(find wheelchairint)/voice_rcgn_files/$(arg corpus).lm"/>
+	        <param name="dict" value="$(find wheelchairint)/voice_rcgn_files/$(arg corpus).dic"/>
+	   	</node>
+   	</group>
+   	</group>
+   	<!-- if we want to use google recognizer -->
+	<group if="$(arg google)">
+
+	<group if="$(arg sim)" ns="robot_0">
+	    <node name="google_recognizer" pkg="wheelchairint" type="wheelchair_recognizer.py" output="screen" respawn="True">
+	   	</node>
+   	</group>
+
+	<group unless="$(arg sim)" ns="wheelchair">
+	    <node name="google_recognizer" pkg="wheelchairint" type="wheelchair_recognizer.py" output="screen" respawn="True">
+	   	</node>
+   	</group>
+   	</group>
+</launch>

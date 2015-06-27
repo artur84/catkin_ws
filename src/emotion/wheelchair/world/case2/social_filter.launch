@@ -1,0 +1,39 @@
+<!--Static transformations for pedestrians to /map in airport scenario -->
+<!-- author: Jorge -->
+<launch>
+  <!--Verify the correct assign of names with airport.world-->
+
+<!-- Not interacting--> 
+
+ <!-- VisVis 1 -->
+<!--
+<node pkg="tf" type="static_transform_publisher" name="robot1_broadcast" args="2.0 6.0 0 3.14 0 0 /map  /robot_1/odom  10" />
+-->
+<!-- VisVis 2 -->
+<!--
+<node pkg="tf" type="static_transform_publisher" name="robot2_broadcast" args="4.0 6.0 0 0.0 0 0 /map  /robot_2/odom  10" />
+-->
+
+<!--interacting -->
+
+ <!-- VisVis 1 -->
+ 
+<node pkg="tf" type="static_transform_publisher" name="robot1_broadcast" args="2.5 6.0 0 0.0 0 0 /map  /robot_1/odom  10" />
+
+<!-- VisVis 2 -->
+ 
+<node pkg="tf" type="static_transform_publisher" name="robot2_broadcast" args="3.5 6.0 0 3.14 0 0 /map  /robot_2/odom  10" />
+
+
+<arg name="persons" value="2" /> 
+
+<node pkg="social_filter" type="fform_detect" name="fform_detect" output="screen" respawn="true"/>
+  
+<node pkg="social_filter"  type="human_proc" name="human_proc" args="$(arg persons)" output="screen"/>	
+
+<node pkg="social_filter" type="human_markers" name="human_markers" args="11100"  output="screen"/>
+
+ <node pkg="nav_tools" type="send_initialpose" name="send_initialpose" args="3.0 1.0 1.57 " />
+
+</launch>
+

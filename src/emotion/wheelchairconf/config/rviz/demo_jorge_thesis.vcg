@@ -1,0 +1,173 @@
+Background\ ColorB=0
+Background\ ColorG=0
+Background\ ColorR=0
+Camera\ Config=1.1554 3.19857 14.6546 14.3207 2.1069 -8.52873
+Camera\ Type=rviz::OrbitViewController
+Debug\ (ctrl_node).Enabled=1
+Debug\ (ctrl_node).Marker\ Array\ Topic=/ppl_detector/visual_debug
+Debug\ (ctrl_node).Queue\ Size=100
+Fixed\ Frame=/wheelchair/map
+Grid.Alpha=0.5
+Grid.Cell\ Size=1
+Grid.ColorB=0.5
+Grid.ColorG=0.5
+Grid.ColorR=0.5
+Grid.Enabled=1
+Grid.Line\ Style=0
+Grid.Line\ Width=0.03
+Grid.Normal\ Cell\ Count=0
+Grid.OffsetX=0
+Grid.OffsetY=0
+Grid.OffsetZ=0
+Grid.Plane=0
+Grid.Plane\ Cell\ Count=10
+Grid.Reference\ Frame=<Fixed Frame>
+Map.Alpha=0.7
+Map.Draw\ Behind=0
+Map.Enabled=1
+Map.Topic=/map
+MarkerArray.Enabled=0
+MarkerArray.Marker\ Array\ Topic=/wheelchair/marker_robot
+MarkerArray.Queue\ Size=100
+MarkerArray2.Enabled=0
+MarkerArray2.Marker\ Array\ Topic=/wheelchair/nodePath
+MarkerArray2.Queue\ Size=100
+MarkerArray3.Enabled=1
+MarkerArray3.Marker\ Array\ Topic=visualization_marker_array
+MarkerArray3.Queue\ Size=100
+MarkerArray4.Enabled=1
+MarkerArray4.Marker\ Array\ Topic=/wheelchair/human_markers
+MarkerArray4.Queue\ Size=100
+MarkerArray4.human_shapes=1
+MarkerArray4.obj_shapes=1
+MarkerArray4.pSpace=1
+Path.Alpha=1
+Path.ColorB=0
+Path.ColorG=1
+Path.ColorR=0.1
+Path.Enabled=1
+Path.Topic=/wheelchair/move_base/TrajectoryPlannerROS/global_plan
+Path2.Alpha=1
+Path2.ColorB=0
+Path2.ColorG=0
+Path2.ColorR=1
+Path2.Enabled=1
+Path2.Topic=/wheelchair/move_base/TrajectoryPlannerROS/local_plan
+Property\ Grid\ Splitter=559,78
+Property\ Grid\ State=expanded=.Global Options,TF.Enabled,TF.Frames,TF.Frames./camera_depth_frame,TF.Frames./camera_depth_optical_frame,TF.Frames./camera_link,TF.Frames./camera_rgb_frame,TF.Frames./camera_rgb_optical_frame,TF.Frames./map,TF.Frames./openni_depth_frame,TF.Frames./wheelchair/base_laser,TF.Frames./wheelchair/base_link,TF.Frames./wheelchair/map,TF.Frames./wheelchair/odom,TF.Frames./head_1,TF.Frames./left_elbow_1,TF.Frames./left_foot_1,TF.Frames./left_hand_1,TF.Frames./left_hip_1,TF.Frames./left_knee_1,TF.Frames./left_shoulder_1,TF.Frames./neck_1,TF.Frames./right_elbow_1,TF.Frames./right_foot_1,TF.Frames./right_hand_1,TF.Frames./right_hip_1,TF.Frames./right_knee_1,TF.Frames./right_shoulder_1,TF.Frames./torso_1,Path.Enabled,MarkerArray2.Enabled,Path2.Enabled;splitterratio=0.443548
+QMainWindow=000000ff00000000fd000000030000000000000202000002cffc0200000001fb000000100044006900730070006c0061007900730100000034000002cf000000e800ffffff0000000100000131000002cffc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000034000002cf0000006400fffffffb0000000a00560069006500770073000000001d00000132000000b800fffffffb0000001200530065006c0065006300740069006f006e000000001d0000026a0000006400ffffff000000030000064000000040fc0100000001fb0000000800540069006d0065010000000000000640000002bf00ffffff00000301000002cf00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+TF.All\ Enabled=0
+TF.Enabled=1
+TF.Frame\ Timeout=15
+TF.Marker\ Scale=1
+TF.Show\ Arrows=1
+TF.Show\ Axes=1
+TF.Show\ Names=1
+TF.Update\ Interval=0
+Target\ Frame=<Fixed Frame>
+Tool\ 2D\ Nav\ GoalTopic=wheelchair/goal
+Tool\ 2D\ Pose\ EstimateTopic=wheelchair/initialpose
+Wheelchair\:\ Laser\ Scan..AxisColorAutocompute\ Value\ Bounds=1
+Wheelchair\:\ Laser\ Scan..AxisColorAxis=2
+Wheelchair\:\ Laser\ Scan..AxisColorMax\ Value=10
+Wheelchair\:\ Laser\ Scan..AxisColorMin\ Value=-10
+Wheelchair\:\ Laser\ Scan..AxisColorUse\ Fixed\ Frame=1
+Wheelchair\:\ Laser\ Scan..FlatColorColorB=1
+Wheelchair\:\ Laser\ Scan..FlatColorColorG=0
+Wheelchair\:\ Laser\ Scan..FlatColorColorR=0
+Wheelchair\:\ Laser\ Scan..IntensityAutocompute\ Intensity\ Bounds=1
+Wheelchair\:\ Laser\ Scan..IntensityChannel\ Name=intensity
+Wheelchair\:\ Laser\ Scan..IntensityMax\ ColorB=1
+Wheelchair\:\ Laser\ Scan..IntensityMax\ ColorG=1
+Wheelchair\:\ Laser\ Scan..IntensityMax\ ColorR=1
+Wheelchair\:\ Laser\ Scan..IntensityMax\ Intensity=1
+Wheelchair\:\ Laser\ Scan..IntensityMin\ ColorB=0
+Wheelchair\:\ Laser\ Scan..IntensityMin\ ColorG=0
+Wheelchair\:\ Laser\ Scan..IntensityMin\ ColorR=0
+Wheelchair\:\ Laser\ Scan..IntensityMin\ Intensity=1
+Wheelchair\:\ Laser\ Scan..IntensityUse\ full\ RGB\ spectrum=0
+Wheelchair\:\ Laser\ Scan.Alpha=1
+Wheelchair\:\ Laser\ Scan.Billboard\ Size=0.01
+Wheelchair\:\ Laser\ Scan.Color\ Transformer=FlatColor
+Wheelchair\:\ Laser\ Scan.Decay\ Time=0
+Wheelchair\:\ Laser\ Scan.Enabled=1
+Wheelchair\:\ Laser\ Scan.Position\ Transformer=XYZ
+Wheelchair\:\ Laser\ Scan.Queue\ Size=1
+Wheelchair\:\ Laser\ Scan.Selectable=1
+Wheelchair\:\ Laser\ Scan.Style=0
+Wheelchair\:\ Laser\ Scan.Topic=/wheelchair/base_scan
+Wheelchair\:\ Obstacles.Alpha=0.1
+Wheelchair\:\ Obstacles.ColorB=1
+Wheelchair\:\ Obstacles.ColorG=0.0901961
+Wheelchair\:\ Obstacles.ColorR=0
+Wheelchair\:\ Obstacles.Enabled=1
+Wheelchair\:\ Obstacles.Topic=/wheelchair/move_base/local_costmap/inflated_obstacles
+[Display0]
+ClassName=rviz::MapDisplay
+Name=Map
+[Display1]
+ClassName=rviz::GridDisplay
+Name=Grid
+[Display10]
+ClassName=rviz::PathDisplay
+Name=Path2
+[Display11]
+ClassName=rviz::MarkerArrayDisplay
+Name=MarkerArray4
+[Display2]
+ClassName=rviz::LaserScanDisplay
+Name=Wheelchair: Laser Scan
+[Display3]
+ClassName=rviz::GridCellsDisplay
+Name=Wheelchair: Obstacles
+[Display4]
+ClassName=rviz::MarkerArrayDisplay
+Name=Debug (ctrl_node)
+[Display5]
+ClassName=rviz::TFDisplay
+Name=TF
+[Display6]
+ClassName=rviz::MarkerArrayDisplay
+Name=MarkerArray
+[Display7]
+ClassName=rviz::PathDisplay
+Name=Path
+[Display8]
+ClassName=rviz::MarkerArrayDisplay
+Name=MarkerArray2
+[Display9]
+ClassName=rviz::MarkerArrayDisplay
+Name=MarkerArray3
+[TF.Frames.]
+camera_depth_frame.Enabled=0
+camera_depth_optical_frame.Enabled=0
+camera_link.Enabled=1
+camera_rgb_frame.Enabled=0
+camera_rgb_optical_frame.Enabled=0
+head_1.Enabled=1
+left_elbow_1.Enabled=1
+left_foot_1.Enabled=1
+left_hand_1.Enabled=1
+left_hip_1.Enabled=1
+left_knee_1.Enabled=1
+left_shoulder_1.Enabled=1
+map.Enabled=1
+neck_1.Enabled=1
+openni_depth_frame.Enabled=0
+right_elbow_1.Enabled=1
+right_foot_1.Enabled=1
+right_hand_1.Enabled=1
+right_hip_1.Enabled=1
+right_knee_1.Enabled=1
+right_shoulder_1.Enabled=1
+torso_1.Enabled=1
+[TF.Frames./wheelchair]
+base_laser.Enabled=1
+base_link.Enabled=1
+map.Enabled=1
+odom.Enabled=1
+[Window]
+Height=873
+Width=1600
+X=7
+Y=-869

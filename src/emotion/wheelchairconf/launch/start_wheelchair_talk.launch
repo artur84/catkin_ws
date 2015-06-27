@@ -1,0 +1,24 @@
+<!-- This launches the wheelchair_talk.py node to talk back what the
+recognizer understands for feedback purposes-->
+<!-- author: Arturo Escobedo -->
+
+<launch>
+	<arg name="sim" default="1"/>
+	<!-- if we are using it in a simulation -->
+	<group if="$(arg sim)" ns="robot_0">
+		<node pkg="sound_play" type="soundplay_node.py" name="wheelchair_play_voice" output="screen"/>
+	    <node name="wheelchair_talk" pkg="wheelchairint" type="wheelchair_talk.py" output="screen">
+	    	<param name="voice" value="voice_kal_diphone"/><!-- voice_don_diphone -->
+	        <param name="wavepath" value="$(find wheelchairint)/sounds"/>
+	   	</node>
+   	</group>
+   	<!-- if we are using it with the real wheelchair -->
+	<group unless="$(arg sim)" ns="wheelchair">
+		<node pkg="sound_play" type="soundplay_node.py" name="wheelchair_play_voice" output="screen"/>
+	    <node name="wheelchair_talk" pkg="wheelchairint" type="wheelchair_talk.py" output="screen">
+	    	<param name="voice" value="voice_kal_diphone"/><!-- voice_don_diphone -->
+	        <param name="wavepath" value="$(find wheelchairint)/sounds"/>
+	   	</node>
+   	</group>
+
+</launch>

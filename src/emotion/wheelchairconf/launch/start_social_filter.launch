@@ -1,0 +1,22 @@
+<!-- Use this to start the navigation module for the wheelchair
+	It starts amcl, and move_base for simulations or demos with or without user_intentions module     	
+-->
+<launch>
+	<arg name="sim" default="1"/>
+	<arg name="persons" default="2" /> <!--change this according to the maximum number that you want to take into account in calculations-->
+	<!-- In simulation -->
+    <group if="$(arg sim)"  ns="robot_0"> 
+        <param name="/use_sim_time" value="true" />
+		<param name="tf_prefix" value="robot_0" />
+	    <include file="$(find wheelchairconf)/launch/social_filter/social_filter.launch" >
+	    		<arg name="persons" value="$(arg persons)" />
+	    </include>
+	</group>	
+	<!-- In Real -->
+    <group unless="$(arg sim)"  ns="wheelchair"> 
+		<param name="tf_prefix" value="wheelchair" />
+	    <include file="$(find wheelchairconf)/launch/social_filter/social_filter.launch" >
+	    		<arg name="persons" value="$(arg persons)" />
+	    </include>
+	</group>		
+</launch>

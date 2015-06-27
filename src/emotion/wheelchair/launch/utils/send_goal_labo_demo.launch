@@ -1,0 +1,12 @@
+<!--run this launch file once that you are running the navigation_wheelchair.launch
+this will send the sequence of points (path) writen in the wheelchair/data/labo_demo1.dat-->
+<!-- make sure that the values in the labo_demo1 are respect to the /map frame -->
+<!-- author: Arturo -->
+
+<launch>
+      
+    <!-- reading a trayectory script and send navigation goals to move the obstacle -->
+    <node pkg="wheelchair_nav_goals" type="nav_goal_script" name="nav_goal_script" args="$(find wheelchair)/data/labo_demo1.dat" output="screen">
+	</node>
+	
+</launch>

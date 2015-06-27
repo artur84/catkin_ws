@@ -1,0 +1,79 @@
+<!-- Used to run a demo of user intentions module using the head as input	-->
+<!--  PREREQUISITES: 
+		- Connect the wheelchair and the kinect pointing to the face of the user.
+		- roslaunch wheelchairconf start_kinect_face_pose_estimator.launch
+-->
+
+
+<launch>
+	<arg name="scenario" default="hall_inria" />
+  	<arg name="riskrrt" default="0" />
+ 	<arg name="riskrrt_exec" default="0" />
+  	<arg name="social" default="0" />
+  	<arg name="control" default="head" /> #User intentions receives direction from head interface
+	<arg name="corpus" default="demo_iros2012" /> #List of words to be considered by the voice.py node
+	<arg name="mode" default="manual" /> #User intention will be initially in manual mode
+	
+	
+	<!-- Publish our map --> 
+    <node pkg="map_server" type="map_server" name="map_server" args="$(find wheelchairconf)/world/$(arg scenario).yaml" respawn="false">
+	    <param name="frame_id" value="/map" /> <!--Check this in rviz yo have to change the reference frame to wheelchair/map to work-->
+    </node>
+    
+    #### WHEELCHAIR ROBOT ####
+    <group ns="wheelchair">
+		<param name="tf_prefix" value="wheelchair" />
+		<param name="amcl/initial_pose_x" value="1.38" />
+		<param name="amcl/initial_pose_y" value="2.48" />
+		<param name="amcl/initial_pose_a" value="3.14" />
+		
+		<!-- Necessary static transformations -->
+        <node pkg="tf" type="static_transform_publisher" name="tf_map_to_wheelchair" args="0 0 0 0 0 0 /map map 50" />
+        
+		<!--Wheelchair driver -->
+		<include file="$(find wheelchairconf)/launch/start_wheelchair_auto.launch" />
+		
+		<!-- Navigation -->
+		<group if="$(arg riskrrt)">
+		    <include file="$(find wheelchairconf)/launch/navigation/navigation_riskrrt.launch" >
+		        <arg name="riskrrt_exec" value="$(arg riskrrt_exec)" />
+		    </include>
+		    <param name="move_base/RiskRRTPlanner/plan_topic" value="/wheelchair/plan"/>  
+		</group>
+		
+		<group unless="$(arg riskrrt)">
+		    <include file="$(find wheelchairconf)/launch/navigation/navigation_ros_planner.launch" >
+		    	<arg name="mode_selector" value="1"/>
+			</include>
+		</group>
+		
+		<!-- Social Filter  -->
+		<group if="$(arg social)">
+            <node pkg="social_filter" type="fform_detect" name="fform_detect" respawn="true" /> 
+            <!--node pkg="social_filter" type="ar_human_proc" name="ar_human_proc" output="screen"/-->
+            <node pkg="social_filter"  type="kinect_human_proc" name="human_proc" args="$(arg persons)" />	
+            <!-- human markers "args"= 1->human, 2->draw personal space, 3-> draw o-space, 4-> draw ips, 5 -> draw interesting objects -->
+            <node pkg="social_filter" type="human_markers" name="human_markers" args="11101" /> 
+        </group> 
+    	
+		<!-- User Intentions Node -->
+		<node pkg="sound_play" type="soundplay_node.py" name="wheelchair_play_voice"/>
+    	<node pkg="user_intentions" type="destination_inference.py" name="destination_inference" respawn="true" output="screen" >    
+			<param name="mode" value="$(arg mode)"/> #Set to "autonomous" to be active
+			<param name="BN_goals_file" value="$(find wheelchairconf)/world/$(arg scenario)_goals.yaml"/>
+			<param name="riskrrt" value="$(arg riskrrt)"/>
+	        <remap from="cmd_dir" to="$(arg control)_dir" /> 
+    	</node>   
+	</group>
+	
+
+
+
+    <!-- Visualizer -->
+	<group if="$(arg riskrrt)">
+	    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find wheelchairconf)/config/rviz/demo_nav_riskrrt.vcg" />
+    </group>
+    <group unless="$(arg riskrrt)">
+	    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find wheelchairconf)/config/rviz/demo_nav.vcg" />
+    </group>
+</launch>

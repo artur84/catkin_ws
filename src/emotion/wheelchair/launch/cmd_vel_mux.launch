@@ -1,0 +1,7 @@
+<launch>
+  <node pkg="nodelet" type="nodelet" name="nodelet_manager" args="manager"/>
+  <node pkg="nodelet" type="nodelet" name="cmd_vel_mux" args="load cmd_vel_mux/CmdVelMuxNodelet nodelet_manager">
+    <param name="yaml_cfg_file" value="$(find wheelchair)/params/cmd_vel_mux.yaml"/>
+    <remap from="/output" to="/cmd_vel" />
+  </node>
+</launch>

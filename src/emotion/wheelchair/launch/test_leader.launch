@@ -1,0 +1,48 @@
+<launch>
+  
+  <param name="/use_sim_time" value="true" /> 
+
+  
+  ### start leg based tracker
+
+  <node pkg="leg_detector" 
+        type="leg_detector" 
+        name="leg_detector_front" 
+        args="scan:=scan target:=map $(find leg_detector)/config/trained_leg_detector.yaml" 
+        output="screen">
+    <param name="leg_reliability_limit" value="0.1" />
+    <param name="connection_threshold" value="0.1" />
+    <param name="leg_pair_separation" value="0.4" />
+    <remap from="leg_tracker_marker" to="front_leg_tracker_marker"/>
+  </node>
+
+<!--  <node pkg="leg_detector" 
+        type="leg_detector" 
+        name="leg_detector_bottom" 
+        args="scan:=base_scan target:=map $(find leg_detector)/config/trained_leg_detector.yaml" 
+        output="screen">
+    <param name="leg_reliability_limit" value="0.1" />
+    <param name="connection_threshold" value="0.2" />
+    <remap from="leg_tracker_marker" to="bottom_leg_tracker_marker"/>
+  </node>-->
+
+
+  ### start classifier
+  <node pkg="human_leader" 
+        type="classify_features" 
+        name="classifier" 
+        args="$(find human_leader)/trained_boost.xml" output="screen"/>  
+    
+  ## leader selection and following
+  <node pkg="human_leader" 
+        type="leader_follower_class" 
+        name="follower" 
+        output="screen">
+    <remap from="/cmd_vel" to="/cmd_vel_mux/input/leader_cmd_vel" />
+  </node>
+    
+    
+<!--   ### launch rviz -->
+<!--   <node pkg="rviz" type="rviz" name="rviz" args="-d $(find wheelchair)/conf/iser_test.rviz" /> -->
+  
+</launch>

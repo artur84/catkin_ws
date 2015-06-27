@@ -1,0 +1,29 @@
+<launch>
+  
+  ### start classifier
+  <node pkg="human_leader" 
+        type="classify_features" 
+        name="classifier" 
+        args="$(find human_leader)/trained_boost.xml" output="screen"/>
+        
+  ### start mtt based tracker
+  <node name="tracker" pkg="mtt" type="mtt">
+    <remap from="/points" to="/pointcloud"/>
+    <remap from="/markers" to="/ids"/>
+  </node>
+  
+  <group ns="/pcp/fus/planar_pc">
+    <remap from="/laserscan0" to="/scan"/>
+    <remap from="/base_laser_link" to="/laser"/>
+    <remap from="/tracking_frame" to="/map"/> 
+    <remap from="/pc_out" to="/pointcloud"/>
+    <node name="planar_pc" pkg="mtt" type="planar_pc_generator" output="screen">
+      <param name="output_frequency" value="100.0"/>
+      <param name="perpendicular_treshold" value="0.15"/>
+    </node>
+  </group>
+  
+<!--   ### launch rviz -->
+<!--   <node pkg="rviz" type="rviz" name="rviz" args="-d $(find wheelchair)/conf/iser_test.rviz" /> -->
+    
+</launch>

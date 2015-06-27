@@ -1,0 +1,8 @@
+<launch>
+	<!--<param name="/use_sim_time" value="true"/>-->
+	<group ns="wheelchair">
+		<param name="tf_prefix" value="wheelchair" />
+		
+		<include file="$(find wheelchair)/launch/bb_manual.launch" />
+	</group>
+</launch>

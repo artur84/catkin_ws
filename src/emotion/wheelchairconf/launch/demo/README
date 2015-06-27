@@ -1,0 +1,47 @@
+In this directory i put all the ready-to-use launch files that i have used to do a demo using the wheelchair.
+#DEMO 1: Autonomous navigation and obstacle avoidance
+1.- Connect the wheelchair
+2.- roslaunch wheelchairconf demo_nav.launch 
+#DEMO 2: Person following.
+1.- Connect the wheelchair and the kinect that looks to the front.
+2.- roslaunch pal_launch wheelchair_driver.launch
+3.- roslaunch pal_launch demo_grenoble_kinect.launch
+4.- rosservice call /ctrl_node/enable_control true
+
+#DEMO 3: Control the wheelchair with the head (just angular velocity)
+1.- Connect the wheelchair and the kinect pointing to the face of the user.
+2.- roslaunch wheelchairconf start_kinect_face_pose_estimator.launch sim:=0
+3.- roslaunch wheelchairconf start_head_cmd.launch sim:=0 user_intentions:=0
+4.- roslaunch wheelchairconf demo_nav.launch sim:=0
+5.- roslaunch wheelchairconf start_recognizer.launch sim:=0
+
+#DEMO 4: Control the wheelchair with head and voice
+1.- Connect the wheelchair and the kinect pointing to the face of the user.
+2.- Make sure to edit ROS_MASTER_URI = localhost and ROS_HOSTNAME = localhost in ~/.bashrc file (is the fastest config to run ROS)
+3.- roslaunch wheelchairconf start_kinect_face_pose_estimator.launch sim:=0
+4.- roslaunch wheelchairconf start_voice_and_head_cmd.launch sim:=0 user_intentions:=1
+5.- roslaunch wheelchairconf start_wheelchair_auto.launch 
+6.- roslaunch wheelchairconf start_navigation.launch sim:=0 user_intentions:=1 scenario:=hall_inria
+7.- roslaunch wheelchairconf start_vel_selector.launch sim:=0
+8.- roslaunch wheelchairconf start_recognizer.launch sim:=0 corpus:=general
+
+#DEMO 5: Head-voice driving with caregiver following is switch by voice: First connect the wheelchair to the computer, connect the kinect that looks to the front, connect the microphone.
+--connect the wireless microphone and adjust sound settings so that the sound don't get saturated.
+
+
+roscore
+roslaunch wheelchairconf start_wheelchair_talk.launch sim:=0 ---- ya esta en launch demo_4i_...
+roslaunch wheelchairconf start_recognizer.launch sim:=0
+
+roslaunch wheelchairconf start_wheelchair_auto.launch ---- ya esta en launch demo_4i_...
+roslaunch wheelchairconf start_navigation.launch sim:=0 user_intentions:=1 scenario:=hall_inria ---- ya esta en launch demo_4i_...
+roslaunch wheelchairconf start_follower.launch sim:=0 user_intentions:=1
+roslaunch wheelchairconf start_voice_and_head_cmd.launch sim:=0 user_intentions:=1
+roslaunch wheelchairconf start_vel_selector.launch sim:=0 ---- ya esta en launch demo_4i_...
+
+
+rosrun rviz rviz
+
+
+
+

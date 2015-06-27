@@ -1,0 +1,33 @@
+<!-- 	Used to test run all the necessary nodes to perform our study of "user as sensor"						
+ 		This demo consisted in using the face tracker to read the position and orientation of user's face			
+	 	while he is driving the wheelchair with the joystick. the idea is to understand how related is the real control 
+		the user gives to the wheelchair with the orientation of the face.  	-->
+<!-- author: Arturo Escobedo-->
+<!-- PREREQUISITES: 
+		The computer where this script will run should be connected to the wheelchair.
+		The kinect should be connected to this computer. -->     												
+<launch>
+<arg name="scenario" default="lab" />
+	<!-- Publish our map --> 
+    <node pkg="map_server" type="map_server" name="map_server" args="$(find wheelchairconf)/world/$(arg scenario).yaml" respawn="true">
+	    <param name="frame_id" value="/map" /> <!--Check this in rviz yo have to change the reference frame to wheelchair/map to work-->
+    </node>
+    <!-- Transform from /map to /wheelchair/map -->
+    <node pkg="tf" type="static_transform_publisher" name="map_to_wheelchairmap" args="0 0 0 0 0 0 /map /wheelchair/map 50" />
+	<!-- Wheelchair driver and localization -->
+	<group ns="wheelchair">
+		<param name="tf_prefix" value="wheelchair" />
+		<param name="amcl/initial_pose_x" value="4." />
+		<param name="amcl/initial_pose_y" value="13.5" />
+		<param name="amcl/initial_pose_a" value="-1.4." />
+		<!--Wheelchair driver -->
+		<include file="$(find wheelchair)/launch/bb_manual.launch" />
+		<!-- start localization (amcl) -->
+	  	<include file="$(find pal_launch)/config/navigation/amcl_node.xml" />
+	</group>
+	<!-- Launch head pose_estimator -->
+    <include file="$(find wheelchairconf)/launch/wheelchairint/start_kinect_face_pose_estimator.launch">    
+    	<arg name="sim" value="0" />
+    </include>
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find wheelchairconf)/config/rviz/demo_nav.vcg" />
+</launch>

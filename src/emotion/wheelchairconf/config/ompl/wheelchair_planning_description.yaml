@@ -1,0 +1,11 @@
+## the definition of each group
+groups:
+
+  - name: robot_body
+    joints:
+      baselink_laserlink_joint
+    links:
+      base_link
+      base_laser_link
+
+

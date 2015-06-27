@@ -1,0 +1,26 @@
+<!-- This launches the head pose estimator for the wheelchair or a simulation tf_prefix:=robot_0 -->
+<!-- author: Arturo -->
+<!-- BEFORE LAUNCHING THIS PLEASE LAUNCH THE openni.launch file and wait until is ready, otherwise it fails.
+	roslaunch  openni_launch openni.launch
+	(it can't be added in this launch file because it gets stuck so you have to start it manually)
+-->
+
+
+
+<launch>
+ 	<arg name="tf_prefix" default="robot_0"/>
+  
+	<!--Start the depthimage to laserscan node-->
+	<node pkg="depthimage_to_laserscan" type="depthimage_to_laserscan" name="kinect_laser">
+		<remap from="image" to="/camera/depth/image_rect"/>
+		<remap from="scan" to="/$(arg tf_prefix)/kinect_scan"/>
+		<param name="scan_height" value="30"/> <!--The number of pixels rows to use to generate the laserscan. For each column, the scan will return the minimum value for those pixels centered vertically in the image.-->
+		<!--param name="scan_time" value="0.033"/-->
+		<param name="range_min" value="0.5"/>
+		<param name="range_max" value="4.5"/>
+		<param name="output_frame_id" value="/camera_depth_frame"/>
+	</node>
+	#This is the position of the kinect on the wheelchair
+	<node pkg="tf" type="static_transform_publisher" name="baselink2cameralink" args="-0.6 0 1.5 0 0.25 0.0 /$(arg tf_prefix)/base_link /camera_link 100" />    
+
+</launch>

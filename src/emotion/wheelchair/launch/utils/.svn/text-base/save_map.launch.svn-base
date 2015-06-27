@@ -1,0 +1,8 @@
+<!-- After running slam-wheelchair we need to launch this file   -->
+<!-- in order to save the map.  -->
+<!-- author: Arturo -->
+
+<launch> 
+<node pkg="map_server" type="map_saver" name="map_saver" args="-f $(find wheelchair)/world/temp_map" >
+	</node>
+</launch>

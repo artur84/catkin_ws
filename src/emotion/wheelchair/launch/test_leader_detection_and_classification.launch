@@ -1,0 +1,40 @@
+<launch>
+  
+  <param name="/use_sim_time" value="true" /> 
+  
+  ## Publish our map 
+  <node pkg="map_server" 
+        type="map_server" 
+        name="map_server" 
+        output="screen" 
+        args="$(find wheelchair)/world/innorobo.yaml" 
+        respawn="false" >
+    <param name="frame_id" value="/map" />
+  </node>
+  
+  ## start classifier
+  <node pkg="human_leader" 
+        type="classify_features" 
+        name="classifier" 
+        args="$(find human_leader)/trained_boost.xml" output="screen"/>
+  
+  ## leader detection using mtt
+  <include file="$(find mtt)/launch/generate_planar_pc_from_laser.launch"/>
+  <include file="$(find mtt)/launch/mtt.launch"/> 
+  
+  ## leader detection using leg tracking
+<!--   <include file="$(find leg_detector)/launch/leg_detector_test.launch"/> -->
+  
+  ## leader selection and following
+  <node pkg="human_leader" 
+        type="leader_follower_class" 
+        name="follower" 
+        output="screen"/>
+  
+  ## launch rviz
+  <node pkg="rviz" 
+        type="rviz" 
+        name="rviz" 
+        args="-d $(find wheelchair)/conf/iser_test.rviz" />
+  
+</launch>

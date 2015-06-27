@@ -1,0 +1,26 @@
+<!-- Run a simulation using the voice_and_head controller, to move say "ok wheelchair go", "ok wheelchair back", "ok wheelchair left"-->
+<!-- Make sure that the microphone is connected and working :) -->
+<!-- Make sure that you have internet to use google recognizer:) -->
+<!-- Connect the kinect -->
+
+<!-- prerequisites:
+	roslaunch wheelchairconf start_bootcamp_voice_and_head_1.launch
+
+I got many troubles when trying to launch openni.launch and kinect_face_pose_estimator.launch file together
+	so normally you should first start openni.launch and then use this file -->
+
+
+
+<launch>
+	<arg name="sim" default="1"/>
+	    ##### change params acording if it is sim or demo ####
+	<group if="$(arg sim)">
+		<arg name="tf_prefix" value="robot_0" />
+		<include file="$(find wheelchairconf)/launch/bootcamp/bootcamp_voice_and_head_2.launch/>
+	</group>
+
+	<group unless="$(arg sim)">
+		<arg name="tf_prefix" value="/palgate/lagadic/wheelchair" />
+	</group>
+
+</launch>

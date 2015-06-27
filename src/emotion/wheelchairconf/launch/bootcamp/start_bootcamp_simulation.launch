@@ -1,0 +1,23 @@
+<!-- Launch a simulated world  -->
+<launch>
+
+<arg name="scenario" default="appart_nancy" />
+<arg name="tf_prefix" default="robot_0"/> <!-- The name for the robot_0 -->
+<!-- Start stage -->
+
+
+    <node pkg="stage" type="stageros" name="stageros" args="$(find wheelchairconf)/world/$(arg scenario).world" respawn="false" output="screen">
+	    <param name="base_watchdog_timeout" value="0.2"/>
+		#WARNING!!!!!!!! THIS REMAPS ODOM SO THAT WE WILL NOT USE IT (as lagadic's dont have odometry)
+	    <remap from="/robot_0/odom" to="/$(arg tf_prefix)/odom_false" />
+	    #####################################################################
+    </node>
+
+
+    <!-- launches scenario-specific configurations as initial poses of robot and people in the environment -->
+    <include file="$(find wheelchairconf)/world/$(arg scenario).launch">
+        <arg name="tf_prefix" value="$(arg tf_prefix)"/>
+    </include>
+
+
+</launch>

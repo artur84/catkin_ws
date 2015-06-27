@@ -1,0 +1,48 @@
+<!-- Before using this launch file please start a simulation 
+        roslaunch wheelchairconf sim_nav.launch
+        
+  	This demo consisted in use the voice command to switch between  user_intentions asssited 			
+	Driving and manual driving, the driving is performed using the head that is tracked by means of 	
+	a kinect located in front of the person.    
+	
+	MATERIAL: plug a mic, the kinect and the wheelchair to the computer.
+-->         												
+
+
+<launch>
+
+  	<arg name="mode" default="manual"/>
+  	<arg name="control" default="head" />
+  	<arg name="cmd_vel" default="move_base_vel" />
+  	<arg name="prefix" default="robot_0" /><!--change this to "wheelchair" to use the real wheelchair-->
+    <!-- Launch head controller -->
+    <!-- NOTE: for some reason it  doesn't work if we start first the voice recognizer and then the head controller
+        So this orther should be always respected
+    -->
+    <include file="$(find wheelchairconf)/launch/wheelchairint/head_cmd.launch">    
+    	<arg name="user_intentions" value="1" />
+    	<arg name="prefix" value="$(arg prefix)" /><!--change this to "wheelchair" to use the real wheelchair-->
+    </include>
+
+	
+	 
+   	    
+   	     
+        <group ns="$(arg prefix)">
+        #### WHEELCHAIR ROBOT ####
+        <!-- Launch voice recognizer -->
+        <node name="recognizer" pkg="pocketsphinx" type="recognizer.py">
+	        <param name="lm" value="$(find wheelchairint)/voice_rcgn_files/demo_iros2012.lm"/>
+            <param name="dict" value="$(find wheelchairint)/voice_rcgn_files/demo_iros2012.dic"/>
+        </node>
+        <node pkg="user_intentions" type="vel_selector.py" name="vel_selector" output="screen" respawn="true">
+				<param name="mode" value="$(arg mode)"/>	#Set to "autonomous" if you want to use commands from the move_base 
+													        #"manual" to use vel commands from the head
+				<remap from="control_vel" to="$(arg control)_vel" />
+		</node> 
+		</group>
+
+
+    <!--node pkg="rviz" type="rviz" name="rviz_sim_head_voice" args="-d $(find wheelchairconf)/conf/sim_head_voice_mixed_control.vcg" /-->
+	<!--node pkg="rviz" type="rviz" name="rviz" args="-d $(find wheelchairconf)/conf/sim_riskrrt.vcg" /-->
+</launch>

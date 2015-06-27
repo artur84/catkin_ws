@@ -1,0 +1,149 @@
+Background\ ColorR=0
+Background\ ColorG=0
+Background\ ColorB=0
+Fixed\ Frame=/map
+Target\ Frame=/robot_0/base_link
+Grid.Alpha=0.5
+Grid.Cell\ Size=1
+Grid.ColorR=0.5
+Grid.ColorG=0.5
+Grid.ColorB=0.5
+Grid.Enabled=1
+Grid.Line\ Style=0
+Grid.Line\ Width=0.03
+Grid.Normal\ Cell\ Count=0
+Grid.OffsetX=0
+Grid.OffsetY=0
+Grid.OffsetZ=0
+Grid.Plane=0
+Grid.Plane\ Cell\ Count=10
+Grid.Reference\ Frame=<Fixed Frame>
+Interactive\ Markers.Enabled=1
+Interactive\ Markers.Show\ Axes=0
+Interactive\ Markers.Show\ Descriptions=1
+Interactive\ Markers.Show\ Tool\ Tips=1
+Interactive\ Markers.Update\ Topic=
+Map.Alpha=0.8
+Map.Draw\ Behind=0
+Map.Enabled=1
+Map.Topic=/map
+Marker.Enabled=1
+Marker.Marker\ Topic=visualization_marker
+MarkerArray.Enabled=1
+MarkerArray.Marker\ Array\ Topic=visualization_marker_array
+Odometry.Angle\ Tolerance=0.1
+Odometry.ColorR=1
+Odometry.ColorG=0.1
+Odometry.ColorB=0
+Odometry.Enabled=0
+Odometry.Keep=100
+Odometry.Position\ Tolerance=0.1
+Odometry.Topic=/odom
+TF.All\ Enabled=0
+TF.Enabled=1
+TF.Frame\ Timeout=15
+TF.Marker\ Scale=1
+TF.Show\ Arrows=0
+TF.Show\ Axes=1
+TF.Show\ Names=1
+TF.Update\ Interval=0
+current\ goal.Alpha=1
+current\ goal.ColorR=1
+current\ goal.ColorG=0.1
+current\ goal.ColorB=0
+current\ goal.Enabled=1
+current\ goal.Head\ Length=0.3
+current\ goal.Head\ Radius=0.2
+current\ goal.Shaft\ Length=1
+current\ goal.Shaft\ Radius=0.1
+current\ goal.Shape=0
+current\ goal.Topic=/robot_0/move_base_simple/goal
+footprint.Alpha=1
+footprint.ColorR=1
+footprint.ColorG=0
+footprint.ColorB=0.12549
+footprint.Enabled=1
+footprint.Topic=/robot_0/move_base_node/local_costmap/robot_footprint
+global\ plan.Alpha=1
+global\ plan.ColorR=1
+global\ plan.ColorG=0
+global\ plan.ColorB=0.0823529
+global\ plan.Enabled=1
+global\ plan.Topic=/robot_0/move_base_node/NavfnROS/plan
+inflated\ global.Alpha=0.5
+inflated\ global.ColorR=0
+inflated\ global.ColorG=0.909804
+inflated\ global.ColorB=1
+inflated\ global.Enabled=1
+inflated\ global.Topic=/robot_0/move_base_node/global_costmap/inflated_obstacles
+planner\ plan.Alpha=1
+planner\ plan.ColorR=0.952941
+planner\ plan.ColorG=0.47451
+planner\ plan.ColorB=0.917647
+planner\ plan.Enabled=1
+planner\ plan.Topic=/robot_0/move_base_node/TrajectoryPlannerROS/global_plan
+Tool\ 2D\ Nav\ GoalTopic=robot_0/move_base_simple/goal
+Tool\ 2D\ Pose\ EstimateTopic=robot_0/initialpose
+Camera\ Type=rviz::XYOrbitViewController
+Camera\ Config=0.001 1.5704 43.0367 1.95405 3.67191e-06 20.261
+Property\ Grid\ State=selection=;expanded=.Global Options,Map.Enabled,TF./robot_0/base_footprint/robot_0/base_footprint,TF./robot_0/base_laser_link/robot_0/base_laser_link,TF./robot_0/base_link/robot_0/base_link,TF./robot_0/odom/robot_0/odom,TF./robot_1/base_footprint/robot_1/base_footprint,TF./robot_1/base_laser_link/robot_1/base_laser_link,TF./robot_1/base_link/robot_1/base_link,TF./robot_1/odom/robot_1/odom,TF./map/map,TF.Enabled.TF.Tree,TF./robot_1/odomTree/robot_1/odom,TF./robot_1/base_footprintTree/robot_1/base_footprint,TF./robot_1/base_linkTree/robot_1/base_link,TF./robot_1/base_laser_linkTree/robot_1/base_laser_link,TF./mapTree/map,TF./robot_0/odomTree/robot_0/odom,TF./robot_0/base_footprintTree/robot_0/base_footprint,TF./robot_0/base_linkTree/robot_0/base_link,TF./robot_0/base_laser_linkTree/robot_0/base_laser_link,inflated global.Enabled,planner plan.Enabled,global plan.Enabled,current goal.Enabled,Marker.Enabled,Marker.Enabled.Marker.Namespaces,MarkerArray.Enabled,MarkerArray.Enabled.MarkerArray.Namespaces,Interactive Markers.Enabled;scrollpos=0,37;splitterpos=195,250;ispageselected=1
+[Display0]
+Name=Grid
+Package=rviz
+ClassName=rviz::GridDisplay
+[Display1]
+Name=Odometry
+Package=rviz
+ClassName=rviz::OdometryDisplay
+[Display2]
+Name=Map
+Package=rviz
+ClassName=rviz::MapDisplay
+[Display3]
+Name=TF
+Package=rviz
+ClassName=rviz::TFDisplay
+[Display4]
+Name=footprint
+Package=rviz
+ClassName=rviz::PolygonDisplay
+[Display5]
+Name=inflated global
+Package=rviz
+ClassName=rviz::GridCellsDisplay
+[Display6]
+Name=planner plan
+Package=rviz
+ClassName=rviz::PathDisplay
+[Display7]
+Name=global plan
+Package=rviz
+ClassName=rviz::PathDisplay
+[Display8]
+Name=current goal
+Package=rviz
+ClassName=rviz::PoseDisplay
+[Display9]
+Name=Marker
+Package=rviz
+ClassName=rviz::MarkerDisplay
+[Display10]
+Name=MarkerArray
+Package=rviz
+ClassName=rviz::MarkerArrayDisplay
+[Display11]
+Name=Interactive Markers
+Package=rviz
+ClassName=rviz::InteractiveMarkerDisplay
+[TF.]
+mapEnabled=1
+[TF./robot_0]
+base_footprintEnabled=1
+base_laser_linkEnabled=1
+base_linkEnabled=1
+odomEnabled=1
+[TF./robot_1]
+base_footprintEnabled=1
+base_laser_linkEnabled=1
+base_linkEnabled=1
+odomEnabled=1

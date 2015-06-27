@@ -1,0 +1,24 @@
+<!-- This launches the head controller to drive the wheelchair -->
+<!-- author: Arturo -->
+
+<!--
+start_kinect_face_pose_estimator.launch previously from external command line
+ -->
+
+<launch>
+ 	<arg name="mode_selector" default="0" />
+ 	#If mode_selector == 1
+	<group if="$(arg mode_selector)">
+		<node pkg="wheelchairint" type="head.py" name="head"  respawn="true" output="screen" >
+			<remap from="head_vel" to="user_vel"/>
+			<remap from="head_dir" to="user_dir"/>
+		</node>
+	</group>
+	#if mode_selector == 0
+	<group unless="$(arg mode_selector)">
+		<node pkg="wheelchairint" type="head.py" name="head"  respawn="true" output="screen" >
+			<remap from="head_vel" to="cmd_vel"/>
+			<remap from="head_dir" to="user_dir"/>
+		</node>
+	</group>
+</launch>

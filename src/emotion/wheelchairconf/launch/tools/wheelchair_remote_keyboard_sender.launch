@@ -1,0 +1,6 @@
+<!-- This file should be launched in the remote machine, -->
+<!-- this will send a cmd_vel message to the local computer running "navigation_wheelchair.launch" -->
+<!-- Author: Arturo Escobedo  -->
+<launch>
+	<node pkg="wheelchair_teleop" type="wheelchair_teleop" name="wheelchair_teleop" output="screen"/>
+</launch>

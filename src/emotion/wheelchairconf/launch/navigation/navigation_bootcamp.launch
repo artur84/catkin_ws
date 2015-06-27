@@ -1,0 +1,31 @@
+<!-- Use this file to quickly include the wheelchair configuration to navigate using ROS move base
+     *Call this file from a correctly defined namespace.
+
+		<include file="$(find wheelchairconf)/launch/navigation_planner_ros.launch" />
+-->
+<launch>
+	<arg name="mode_selector" default="0" />
+	<arg name="planner" default="bootcamp"/>
+	<arg name="tf_prefix" default="robot_0"/>
+
+	<group unless="$(arg mode_selector)">
+		<include file="$(find wheelchairconf)/launch/navigation/amcl_$(arg planner).launch" >
+		    <arg name="tf_prefix" value="$(arg tf_prefix)"/> <!-- This is necesary for the amcl node -->
+		</include>
+		<include file="$(find wheelchairconf)/launch/navigation/move_base_$(arg planner)_planner.launch" >
+		    <arg name="cmd_vel" value="velocity_cmd"/> <!-- this is necessary for lagadic's wheelchair -->
+		    
+		    <arg name="tf_prefix" value="$(arg tf_prefix)"/>
+		</include>
+	</group>
+
+	<group if="$(arg mode_selector)">
+		<include file="$(find wheelchairconf)/launch/navigation/amcl_$(arg planner).launch" >
+		    <arg name="tf_prefix" value="$(arg tf_prefix)"/>
+		</include>
+		<include file="$(find wheelchairconf)/launch/navigation/move_base_$(arg planner)_planner.launch" >
+			<arg name="cmd_vel" value="move_base_vel"/>
+			<arg name="tf_prefix" value="$(arg tf_prefix)"/>
+		</include>
+	</group>
+</launch>

@@ -1,0 +1,12 @@
+<!-- Launch a simulated world  -->
+<launch>
+
+<arg name="scenario" default="hall_inria" />
+
+<!-- Start stage -->
+<node pkg="stage" type="stageros" name="stageros" args="$(find wheelchairconf)/world/$(arg scenario).world" respawn="false" output="screen">
+	<param name="base_watchdog_timeout" value="0.2"/>
+</node>
+
+<include file="$(find wheelchairconf)/world/$(arg scenario).launch"/>
+</launch>

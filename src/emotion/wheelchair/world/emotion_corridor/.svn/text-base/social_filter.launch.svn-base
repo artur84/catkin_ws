@@ -1,0 +1,45 @@
+<!--Static transformations for pedestrian to /map scenario -->
+<!-- author: Jorge -->
+<launch>
+  <!--Verify the correct assign of names with scenario.world-->
+
+
+<!-- static front -->
+<!--
+<node pkg="tf" type="static_transform_publisher" name="robot1_broadcast" args="-1.7 2 0 -1.57 0 0 /map  /robot_1/odom  10" />
+-->
+<!-- static left -->
+<!--
+<node pkg="tf" type="static_transform_publisher" name="robot1_broadcast" args="-1.7 2 0 3.14 0 0 /map  /robot_1/odom  10" />
+-->
+<!-- static right -->
+<!--
+<node pkg="tf" type="static_transform_publisher" name="robot1_broadcast" args="-1.7 2 0 0 0 0 /map  /robot_1/odom  10" />
+-->
+<!-- moving -->
+<param name="use_sim_time" value="true" />
+<node pkg="tf" type="static_transform_publisher" name="base_laser_broadcaster" args="0 0 0 0 0 0 /map /base_laser  10" />
+<node pkg="rosbag" type="play" name="laser_bag" args="/home/greg/2014-04-02-18-07-57.bag -l"/>
+
+<node pkg="tf" type="static_transform_publisher" name="robot1_broadcast" args="-20 -20 0 1.57 0 0 /map  /robot_1/odom  10" />
+<!--
+<node pkg="tf" type="static_transform_publisher" name="robot2_broadcast" args="-1.7 4.5 0 -1.57 0 0 /map  /robot_2/odom  10" />
+
+<node pkg="tf" type="static_transform_publisher" name="robot2_broadcast" args="-3.5 2.0 0 0.0 0 0 /map  /robot_2/odom  10" />
+
+<node pkg="tf" type="static_transform_publisher" name="robot3_broadcast" args="-1.0 2.0 0 3.14 0 0 /map  /robot_3/odom  10" />
+-->
+<arg name="persons" value="1" /> 
+
+<node pkg="social_filter" type="fform_detect" name="fform_detect" output="screen" respawn="true"/>
+  
+<node pkg="social_filter"  type="human_proc" name="human_proc" args="$(arg persons)" output="screen"/>
+<!--<node pkg="social_filter"  type="kinect_human_proc" name="kinect_human_proc" args="$(arg persons)" output="screen"/>-->	
+
+<node pkg="social_filter" type="human_markers" name="human_markers" args="11101" output="screen"/>
+
+ <node pkg="nav_tools" type="send_initialpose" name="send_initialpose" args="-1.7 -5.0 1.57 " />
+ 
+<!--<node pkg="tf" type="static_transform_publisher" name="kinect_to_map" args="-5.0 0 0 0 0 0 /map /openni_depth_frame 10"/>--> 
+<!--<node pkg="tf" type="static_transform_publisher" name="laser_pos" args="0 0 0 0 0 0 /robot_0/base_laser_link /laser 10"/>-->
+</launch>

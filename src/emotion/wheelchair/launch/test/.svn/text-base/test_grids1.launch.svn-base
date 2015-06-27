@@ -1,0 +1,25 @@
+<!-- Simulation for RiskRRT experiments using Stage -->
+<!-- author: Jorge and Procopio -->
+<!-- usage: scenario:=xxxx to change the scenario -->
+<!-- each scenario has a folder inside world folder, and it must have -->
+<!-- the following files: map.yaml, image.pgm, scenario.world and social_filter.launch -->
+
+<!-- usage: move_base:=0 to use RiskRRT home-made executor -->
+
+<launch>
+
+
+
+  <!-- BEGIN ROBOT 0 = WHEELCHAIR -->
+  <group ns="robot_0">
+    <param name="tf_prefix" value="robot_0" />
+
+ 
+    <node pkg="social_filter" type="human_grids" name="human_grids" respawn="false"  output="screen">
+    </node>
+  
+  </group>
+  <!-- END ROBOT 0 -->
+
+
+</launch>

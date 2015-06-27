@@ -1,0 +1,29 @@
+<!-- This launches the keyboard controller to drive the wheelchair -->
+<!-- author: Arturo Escobedo -->
+
+
+<launch>
+
+	<arg name="mode_selector" default="0"/>
+	<arg name="tf_prefix" default="robot_0"/>
+	#if not user intentions
+	<group unless="$(arg mode_selector)">
+
+		<node pkg="wheelchairint" type="keyboard.py" name="keyboard"  output="screen">
+			<param name="tf_prefix" value="$(arg tf_prefix)"/>
+			<remap from="key_vel" to="cmd_vel"/>
+			<remap from="key_dir" to="user_dir"/>
+		</node>
+	</group>
+
+	#if mode_selector == 1
+	<group if="$(arg mode_selector)">
+		<node pkg="wheelchairint" type="keyboard.py" name="keyboard"  output="screen">
+			<param name="tf_prefix" value="$(arg tf_prefix)"/>
+			<remap from="key_vel" to="user_vel"/>
+			<remap from="key_dir" to="user_dir"/>
+		</node>
+	</group>
+
+
+</launch>
