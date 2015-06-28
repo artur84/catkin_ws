@@ -93,8 +93,8 @@ class Recognizer:
         flac_cont = f.read()
         f.close()
         # post it
-        lang_code = 'en-US'  # es-Latn,en-US
-        googl_speech_url = 'https://www.google.com/speech-api/v1/recognize?xjerr=1&client=chromium&pfilter=2&lang=%s&maxresults=6' % (lang_code)
+        lang_code = 'en-us'  # es-Latn,en-US
+        googl_speech_url = 'https://www.google.com/speech-api/v2/recognize?output=json&lang=en_us&key=AIzaSyAnGnFzW77_jdE-SwilZBQvAVdYkBcilPs' 
         hrs = {"User-Agent": "Mozilla/5.0 (X11; Linux i686) AppleWebKit/535.7 (KHTML, like Gecko) Chrome/16.0.912.63 Safari/535.7", 'Content-type': 'audio/x-flac; rate=16000'}
         req = urllib2.Request(googl_speech_url, data=flac_cont, headers=hrs)
         p = urllib2.urlopen(req)

@@ -14,6 +14,8 @@ from std_msgs.msg import String
 from wheelchairint._keywords_to_command import *
 import re #Regular expressions package
 
+
+
 class WheelchairRecognizer:
     """This class performs speech recognition using Google's speech  recognition service.
     It only recognizes very specific commands used by our wheelchair.
@@ -26,15 +28,18 @@ class WheelchairRecognizer:
         """ The Constructor of the class
         """
         self.FLAC_CONV = 'flac -f '
+        """You can get your own google key as explained here: 
+        https://developers.google.com/youtube/registering_an_application"""
+        self.GOOGLE_KEY = 'AIzaSyAnGnFzW77_jdE-SwilZBQvAVdYkBcilPs'
         ## @var self.FLAC_CONV
         # This is a WAV to FLAC converter. In linux you can use synaptic to install the flac package.
         chunk = 256
         FORMAT = pyaudio.paInt16
         CHANNELS = 1
         RATE = 16000
-        THRESHOLD = 20  #20 for blurtooth mic. The threshold intensity that defines silence signal (lower than).
-        SILENCE_LIMIT = 0.5  # Silence limit in seconds. The max ammount of seconds where only silence is recorded. When this time passes the recording finishes and the file is delivered.
-
+        THRESHOLD = 70  #20 for bluetooth mic. The threshold intensity that defines silence signal (lower than).
+        SILENCE_LIMIT = 0.5  # Silence limit in seconds. The max amount of seconds where only silence is recorded. When this time passes the recording finishes and the file is delivered.
+        
 
         self.p = pyaudio.PyAudio()
         ## @var p
@@ -91,28 +96,16 @@ class WheelchairRecognizer:
     def get_command(self, res):
         """ Look for the corresponding wheelchair command from the answer
         given by the google server.
-
         res is of the following type:
-
-            res = [{'confidence': 0.9303669, 'utterance': 'okay go'},
-            {'utterance': 'can you go'}, {'utterance': 'okay to go'},
-            {'utterance': 'can I go'}, {'utterance': 'go'},
-            {'utterance': 'can go'}]
-
-
+            res = [{'transcript': 'Ok Go'}, {'transcript': 'okay go'}, 
+            {'transcript': 'okay Google'}, {'transcript': 'ok Google'}, 
+            {'transcript': 'locate gold'}]
         """
-        print "Confidence"
-        res_confidence = res[0]['confidence'] #The confidence in the recognized command
-        #print res_confidence
-        #print "res"
-        #print res
-        #Only accept words with a confidence bigger than 0.
         voice_command = ''
-
-
+        
         for element in res:
-            phrase = element['utterance']
-            if len(phrase) <= "25": #Avoid analysing long phrases, i means the user is doing something else
+            phrase = element['transcript']
+            if len(phrase) <= "25": #Avoid analysing long phrases, it means the user is doing something else
                 #Check if it was an stop command
                 for brake_word in BEHAVIOUR_DICT['brake']:
                     match = re.search(brake_word, phrase)
@@ -165,35 +158,75 @@ class WheelchairRecognizer:
         @param filename: "The name of the .wav file containing the sound to be recognized."
         """
         # Convert to flac compressed audio format
+        print "stt_google wav"
         os.system(self.FLAC_CONV + filename + '.wav')
         f = open(filename + '.flac', 'rb')
         flac_cont = f.read()  # If you print it it gives a series of strange symbols
         f.close()
         # post it
-        lang_code = 'en-US'  # es-Latn,en-US
-        googl_speech_url = 'https://www.google.com/speech-api/v1/recognize?xjerr=1&client=chromium&pfilter=2&lang=%s&maxresults=6' % (lang_code)
+        print "url"
+        lang_code = 'en-us'  # es-Latn,en-US
+        googl_speech_url = 'https://www.google.com/speech-api/v2/recognize?output=json&lang=en_us&key=%s' %self.GOOGLE_KEY 
         hrs = {"User-Agent": "Mozilla/5.0 (X11; Linux i686) AppleWebKit/535.7 (KHTML, like Gecko) Chrome/16.0.912.63 Safari/535.7", 'Content-type': 'audio/x-flac; rate=16000'}
+        print "urllib2 request"
         req = urllib2.Request(googl_speech_url, data=flac_cont, headers=hrs)
-        p = urllib2.urlopen(req)
+        print "urllib2 open requestt"
+        try:
+            p = urllib2.urlopen(req)
+        except:
+            print "urllib2.urlopen(req) error"
+            return
+        
+        
+        print "urllib2 request finished"
+        answer_str = p.read()
+        print "Answer string:"
+        print answer_str
+        string_splitted = answer_str.split("\n")
+        print "New string:"
+        print string_splitted
+        
+        if (string_splitted[1]==""):
+            print "google empty answer"
+            return
 
-
-        """ @var res: This is the complete answer from google voice recognition server
+        
+        
+        
+        
+        raw_answer = string_splitted[1] #We only need the second line of this multi-line string
+        corrected_answer = raw_answer.replace('true','True')    #The google answer can contain not python commands 
+                                                                #that can't be converted into a python expression with eval
+        
+        #Decode google answer, and put the result in a python structure
+        try:  
+            print "evaluating expression:"    
+            """ @var res: This is the complete answer from google voice recognition server
             It gives an array like the following when saying "ok go":
             [{'confidence': 0.9303669, 'utterance': 'okay go'},
             {'utterance': 'can you go'}, {'utterance': 'okay to go'},
             {'utterance': 'can I go'}, {'utterance': 'go'},
             {'utterance': 'can go'}]
 
-        """
-        res = eval(p.read())['hypotheses']  #This the complete answer from google voice recognition server
-        map(os.remove, (filename + '.flac', filename + '.wav'))
-        print res
-        if res != []:
-            voice_command = self.get_command(res)
-            if voice_command != '':
-                self.rec_out.data = voice_command
-                print "******* RECOGNIZED COMMAND= ", self.rec_out.data, "*********"
-                self.rec_out_pub.publish(self.rec_out)  # vel_command should be continuosly published
+            """                                               
+            res = eval(corrected_answer)['result'][0]['alternative']
+        except:
+            print "Couldn't convert string into a python expression"
+        
+        #Delete the generated sound file 
+        try:
+            print "trying to delete the generated wav file: "+'~/'+filename + '.flac'
+            os.remove(filename + '.flac')
+            os.remove(filename + '.wav')
+        except:
+            print "Could not erase the file" 
+        
+        print "file deleted"
+        voice_command = self.get_command(res)
+        if voice_command != '':
+            self.rec_out.data = voice_command
+            print "******* RECOGNIZED COMMAND= ", self.rec_out.data, "*********"
+            self.rec_out_pub.publish(self.rec_out)  # vel_command should be continuosly published
         return res
 
 if __name__ == "__main__":
