@@ -4,10 +4,17 @@
 <launch>
 
 
-<node pkg="amcl_emotion" type="amcl" name="amcl" respawn="true">
+<node pkg="amcl" type="amcl" name="amcl" respawn="true">
 
   <remap from="scan" to="base_scan" />
-  <remap from="static_map" to="/static_map" />
+  <remap from="map" to="/map" />
+  <param name="odom_frame_id" value="/robot_0/odom"/> 
+  <param name="base_frame_id" value="/robot_0/base_link"/> 
+  <param name="global_frame_id" value="/map"/> 
+  <param name="use_map_topic" value="true"/> 
+  <!--param name="first_map_only" value="true"/--> 
+  		
+  
   <!--set initial pose -->
   <!--param name="initial_pose_x" value="2.0" /--> <!--lab= 1,13,0 -->
   <!--param name="initial_pose_y" value="12.0" />
@@ -44,7 +51,7 @@
   <!--<param name="update_min_d" value="0"/>-->
 	<param name="update_min_a" value="0.5"/>
   <!--<param name="update_min_a" value="0"/>-->
-  <param name="odom_frame_id" value="odom"/>
+  
   <param name="resample_interval" value="1"/>
   <param name="transform_tolerance" value="0.1"/>
   <param name="recovery_alpha_slow" value="0.0"/>

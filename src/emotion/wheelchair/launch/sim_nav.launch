@@ -1,6 +1,6 @@
 <!-- simulation of a single robot in stage -->
 <!-- useful to test navigation techniques -->
-<!-- author: Procopio -->
+<!-- author: Arturo Escobedo -->
 
 <launch>
   
@@ -12,13 +12,13 @@
   </node>
 
   <!-- Start stage -->
-  <node pkg="stage" type="stageros" name="stageros" args="$(find wheelchair)/world/hall_inria.world" respawn="false" output="screen">
+  <node pkg="stage_ros" type="stageros" name="stageros" args="$(find wheelchair)/world/hall_inria.world" respawn="false" output="screen">
     <param name="base_watchdog_timeout" value="0.2"/>
   </node>
   
   <node pkg="tf" type="static_transform_publisher" name="map2odom" args="4.0 12.0 0 -1.57 0 0 /map /odom  10" />
   
-  <node pkg="rviz" type="rviz" name="rviz" args="-d $(find wheelchair)/conf/demo_nav.vcg" />
+  <node pkg="rviz" type="rviz" name="rviz"/>
 
   <node pkg="move_base" type="move_base" respawn="false" name="move_base_node" output="screen">
     <remap from="map" to="/map" />

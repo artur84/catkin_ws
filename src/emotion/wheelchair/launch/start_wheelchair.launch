@@ -13,7 +13,7 @@
     <param name="watchdogDuration" value="0.5"/>
   </node>
   
-  <node pkg="amcl_emotion" type="amcl" name="amcl" respawn="false" output="screen">
+  <node pkg="amcl" type="amcl" name="amcl" respawn="false" output="screen">
     <remap from="scan" to="base_scan" />
     <remap from="map" to="/map" />
 

@@ -1,9 +1,11 @@
 #Independent settings for the planner's costmap
 global_costmap:
     #publish_voxel_map: true
-    global_frame: map
-    robot_base_frame: base_link
-    #update_frequency: 0.3
-    #publish_frequency: 0.3
-    #static_map: true
+    #global_frame: map
+    #robot_base_frame: /robot_0/base_link
+    update_frequency: 0.3
+    publish_frequency: 0.3
+    static_map: true
+    width: 20
+    height: 20
     #rolling_window: true

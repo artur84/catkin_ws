@@ -33,7 +33,7 @@ class GoogleRecognizer:
         ## @var self.FLAC_CONV
         self.FLAC_CONV = 'flac -f '
         # This is a WAV to FLAC converter. In linux you can use synaptic to install the flac package.
-        self.LANG_CODE ='en-us'  # es-Latn,en-US, es-me
+        self.LANG_CODE ='es-me'  # es-Latn,en-US, es-me
         chunk = 256
         FORMAT = pyaudio.paInt16
         CHANNELS = 1
