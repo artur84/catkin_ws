@@ -3,3 +3,6 @@ This is a guide you need to follow if you find problms with your audio device in
 To solve the problem: "JACK server could not be started."
 
 Install the jackd2 package 
+install the flac package
+install PulseAudio 
+install PulseAudio volume control

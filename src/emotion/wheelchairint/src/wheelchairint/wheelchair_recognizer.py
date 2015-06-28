@@ -27,11 +27,12 @@ class WheelchairRecognizer:
     def __init__(self):
         """ The Constructor of the class
         """
-        self.FLAC_CONV = 'flac -f '
+        
         """You can get your own google key as explained here: 
         https://developers.google.com/youtube/registering_an_application"""
         self.GOOGLE_KEY = 'AIzaSyAnGnFzW77_jdE-SwilZBQvAVdYkBcilPs'
         ## @var self.FLAC_CONV
+        self.FLAC_CONV = 'flac -f '
         # This is a WAV to FLAC converter. In linux you can use synaptic to install the flac package.
         chunk = 256
         FORMAT = pyaudio.paInt16
