@@ -76,7 +76,7 @@ class Servo():
         self.angle = UInt16() #Values 0 "right"  - 180 "left", The angle where we want the serve moves to 
         """Publishers
         """
-        self.angle_pub = rospy.Publisher( '/servo', UInt16 ) #Should have values between 0 and 180
+        self.angle_pub = rospy.Publisher( '/servo', UInt16, queue_size=10 ) #Should have values between 0 and 180
         self.servo_tf_br = tf.TransformBroadcaster()
         """Subscribers
         """

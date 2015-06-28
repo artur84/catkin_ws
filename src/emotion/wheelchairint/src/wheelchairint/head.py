@@ -40,8 +40,8 @@ class HeadCmd():
 
         """ Publishers
         """
-        self.head_vel_pub = rospy.Publisher('head_vel', Twist)
-        self.head_dir_pub = rospy.Publisher('head_dir', Twist)
+        self.head_vel_pub = rospy.Publisher('head_vel', Twist, queue_size=10)
+        self.head_dir_pub = rospy.Publisher('head_dir', Twist, queue_size=10)
 
         """ Subscribers
         """

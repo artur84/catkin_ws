@@ -96,7 +96,6 @@ def fill_command_marker(command, theta, tf_prefix):
     command: Twist(), I contains the angular and linear speed of the command that we want to plot in rviz
     tf_prefix: String(), The namespace to be added to the name of the base_link, ex. robot_0 or wheelchair
     """
-    print "print"
     marker = Marker()
     orientation = tf.transformations.quaternion_from_euler(0, 0, theta)
     marker.header.frame_id = tf_prefix + '/base_link'
@@ -153,11 +152,11 @@ if __name__ == "__main__":
     if tf_prefix != '':
         tf_prefix = "/"+tf_prefix
 
-    vel_pub = rospy.Publisher('key_vel', Twist)
-    key_pub = rospy.Publisher('key_dir', Twist)
-    voice_command_pub = rospy.Publisher('recognizer/output', String)
-    dir_marker_pub = rospy.Publisher("keyboard_marker", Marker)
-    text_marker_pub = rospy.Publisher('keyboard_text', Marker)
+    vel_pub = rospy.Publisher('key_vel', Twist, queue_size=10)
+    key_pub = rospy.Publisher('key_dir', Twist, queue_size=10)
+    voice_command_pub = rospy.Publisher('recognizer/output', String, queue_size=10)
+    dir_marker_pub = rospy.Publisher("keyboard_marker", Marker, queue_size=10)
+    text_marker_pub = rospy.Publisher('keyboard_text', Marker, queue_size=10)
     x = 0
     th = 0
     status = 0
@@ -168,6 +167,7 @@ if __name__ == "__main__":
         key_dir = Twist()
         while(1):
             key = getKey()
+            
 
             if key in moveBindings.keys():
                 x = moveBindings[key][0]
@@ -175,6 +175,7 @@ if __name__ == "__main__":
                 key_vel.linear.x = x * speed; key_vel.linear.y = 0; key_vel.linear.z = 0
                 key_vel.angular.x = 0; key_vel.angular.y = 0; key_vel.angular.z = th * turn
                 vel_pub.publish(key_vel)
+                print key_vel
                 # Printing a marker
                 marker = fill_command_marker(key_vel, moveBindings[key][2],  tf_prefix)
                 dir_marker_pub.publish(marker)
@@ -201,6 +202,7 @@ if __name__ == "__main__":
                     key_vel.linear.x = x * speed; key_vel.linear.y = 0; key_vel.linear.z = 0
                     key_vel.angular.x = 0; key_vel.angular.y = 0; key_vel.angular.z = th * turn
                     vel_pub.publish(key_vel)
+                    print key_vel
                     key_dir.linear.x = dir_x; key_dir.linear.y = 0; key_dir.linear.z = 0
                     key_dir.angular.x = 0; key_dir.angular.y = 0; key_dir.angular.z = dir_th
                     key_pub.publish(key_dir)
@@ -224,6 +226,7 @@ if __name__ == "__main__":
         key_vel.linear.x = 0; key_vel.linear.y = 0; key_vel.linear.z = 0
         key_vel.angular.x = 0; key_vel.angular.y = 0; key_vel.angular.z = 0
         vel_pub.publish(key_vel)
+        print key_vel
 
         key_dir.linear.x = 0; key_dir.linear.y = 0; key_dir.linear.z = 0
         key_dir.angular.x = 0; key_dir.angular.y = 0; key_dir.angular.z = 0

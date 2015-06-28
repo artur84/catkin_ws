@@ -28,4 +28,7 @@
 *.app
 
 #catkin
-devel
+devel/
+build/
+*.*~
+.gitignore~

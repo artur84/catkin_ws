@@ -63,10 +63,10 @@ class VoiceAndHead():
         self.voice_sub = rospy.Subscriber("recognizer/output", String , self.__voice_callback__)
         """ Publishers
         """
-        self.voice_and_head_vel_pub = rospy.Publisher("voice_and_head_vel", Twist)
-        self.voice_and_head_dir_pub = rospy.Publisher("voice_and_head_dir", Twist)
-        self.dir_marker_pub = rospy.Publisher("voice_and_head_dir_marker", Marker)
-        self.text_marker_pub = rospy.Publisher('voice_and_head_text', Marker)
+        self.voice_and_head_vel_pub = rospy.Publisher("voice_and_head_vel", Twist, queue_size=10)
+        self.voice_and_head_dir_pub = rospy.Publisher("voice_and_head_dir", Twist, queue_size=10)
+        self.dir_marker_pub = rospy.Publisher("voice_and_head_dir_marker", Marker, queue_size=10)
+        self.text_marker_pub = rospy.Publisher('voice_and_head_text', Marker, queue_size=10)
         rospy.on_shutdown(self.cleanup)
         """    Main
         """

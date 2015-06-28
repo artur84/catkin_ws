@@ -25,8 +25,8 @@ class voice_cmd_vel:
 		self.forward = 1
 
         # publish to cmd_vel, subscribe to speech output
-		self.pub_ = rospy.Publisher('voice_vel', Twist)
-		self.pub2_ = rospy.Publisher('signal', Int32)
+		self.pub_ = rospy.Publisher('voice_vel', Twist, queue_size=10)
+		self.pub2_ = rospy.Publisher('signal', Int32, queue_size=10)
 		rospy.Subscriber('recognizer/output', String, self.speechCb)
 
 		r = rospy.Rate(10.0)

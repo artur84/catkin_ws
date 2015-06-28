@@ -52,7 +52,7 @@ class WheelchairRecognizer:
         self.slid_win = deque(maxlen=SILENCE_LIMIT * self.rel)
         self.started = False
         """ROS publishers"""
-        self.rec_out_pub = rospy.Publisher('recognizer/output', String)
+        self.rec_out_pub = rospy.Publisher('recognizer/output', String, queue_size=10)
         ## @var rec_out_pub
         #  The ros publisher where the recognized String will be advertised.
         self.rec_out = String()

@@ -28,7 +28,7 @@ class CutKinectImage():
         self.rows = rospy.get_param("~rows", 480)
         """ Publishers
         """
-        self.out_img_pub = rospy.Publisher( 'out_img', Image )
+        self.out_img_pub = rospy.Publisher( 'out_img', Image, queue_size=10 )
         
         """ Subscribers
         """
