@@ -112,14 +112,6 @@ Visualization Manager:
       Plane Cell Count: 10
       Reference Frame: <Fixed Frame>
       Value: true
-    - Alpha: 0.7
-      Class: rviz/Map
-      Color Scheme: map
-      Draw Behind: false
-      Enabled: true
-      Name: Map
-      Topic: /map
-      Value: true
     - Alpha: 1
       Class: rviz/Polygon
       Color: 8; 24; 255
@@ -191,9 +183,9 @@ Visualization Manager:
       Enabled: true
       Invert Rainbow: false
       Max Color: 255; 255; 255
-      Max Intensity: 13.6028
+      Max Intensity: 16.5583
       Min Color: 0; 0; 0
-      Min Intensity: 3.19398
+      Min Intensity: -0.184491
       Name: LaserScan
       Position Transformer: XYZ
       Queue Size: 10
@@ -223,9 +215,17 @@ Visualization Manager:
       Class: rviz/Map
       Color Scheme: costmap
       Draw Behind: false
-      Enabled: true
+      Enabled: false
       Name: Map
       Topic: /robot_0/move_base/global_costmap/costmap
+      Value: false
+    - Alpha: 0.7
+      Class: rviz/Map
+      Color Scheme: map
+      Draw Behind: false
+      Enabled: true
+      Name: Map
+      Topic: /map
       Value: true
   Enabled: true
   Global Options:
