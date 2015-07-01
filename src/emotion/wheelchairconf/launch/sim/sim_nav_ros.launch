@@ -8,7 +8,6 @@
 <arg name="sim" default="1"/><!--not used in this launch file I just didn't want to remove it -->
 <arg name="scenario" default="hall_inria" /><!-- It can be hall_inria, airport, inria, lab, (all those in /world directory)  -->
 <arg name="planner" default="ros_planner" /> <!-- It can be ros_planner, ui_planner, or riskrrt -->
-<arg name="tf_prefix" default="robot_0"/>
 
 <param name="/use_sim_time" value="true" />
     #### START SIMULATED WORLD ####
@@ -21,17 +20,23 @@
 
 	##### START NAVIGATION ####
     ####### Publish the map: It should be global so no namespace is defined #####
-	<node pkg="map_server" type="map_server" name="map_server" output="log" args="$(find wheelchairconf)/world/$(arg scenario).yaml" respawn="true" >
-		<param name="frame_id" value="/map" />
-	</node>
+    <group if="$(arg sim)">
+		<param name="/use_sim_time" value="true" />
+		<node pkg="map_server" type="map_server" name="map_server" output="log" args="$(find wheelchairconf)/world/$(arg scenario).yaml" respawn="true" >
+			<param name="frame_id" value="/map" />
+		</node>
+	</group>
 
-
-	##### MOVE BASE #######
+	##### Start navigation #######
 	<group if="$(arg sim)" ns="robot_0">
+		<param name="/use_sim_time" value="true" />
+		<param name="tf_prefix" value="robot_0" />
 		<param name="move_base/RiskRRTPlanner/plan_topic" value="/robot_0/plan"/>  <!--Just needed for the riskrrt-->
-	    <include file="$(find wheelchairconf)/launch/navigation/amcl.launch" />
-		<include file="$(find wheelchairconf)/launch/navigation/move_base_ros_planner.launch" />
-		<!--node pkg="tf" type="static_transform_publisher" name="tf_map_to_wheelchair" args="0 0 0 0 0 0 /map /robot_0/map 100" /-->
+	    <include file="$(find wheelchairconf)/launch/navigation/navigation_$(arg planner).launch" >
+	    		<arg name="mode_selector" value="0" /> <!-- zero because we want to send cmd_vel directly from planner to the simulated wheelchair -->
+	    </include>
+		<node pkg="tf" type="static_transform_publisher" name="tf_map_to_wheelchair" args="0 0 0 0 0 0 /map /robot_0/map 100" />
+        <node pkg="tf" type="static_transform_publisher" name="tf_stage_laser_to_real_laser" args="0 0 0 0 0 0 base_laser_link base_laser 100" />
 	</group>
 
 	##### START RVIZ   #####

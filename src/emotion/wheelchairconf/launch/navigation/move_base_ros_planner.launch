@@ -4,7 +4,7 @@ Launches move base with the default ROS planner, The parameters have been set so
 <launch>
 	<arg name="cmd_vel" default="cmd_vel"/>
     <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
-        <remap from="map" to="map" />
+        <remap from="map" to="/map" />
         <remap from="cmd_vel" to="$(arg cmd_vel)" />
         <param name="controller_frequency" value="10.0" />
 
