@@ -1,0 +1,10 @@
+<!-- Esto es un comentario -->
+<launch>
+  <!-- Esto es un comentario -->
+  <group ns="equipo_prof">
+    <node pkg="beginner_tutorials" name="my_talker" type="talker.py" output="screen"/>
+    <node pkg="beginner_tutorials" name="my_listener" type="listener.py"/>
+  </group>
+
+  
+</launch>

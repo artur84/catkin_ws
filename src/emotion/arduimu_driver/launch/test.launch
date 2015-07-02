@@ -1,0 +1,12 @@
+<launch>
+    <node pkg="arduimu_ros" type="imu_arduimu_node.py" ns="arduimu" name="imu_arduimu_node" output="screen" respawn="true">
+        <param name="port" type="string" value="/dev/ttyUSB0"/>
+    </node>
+
+	<node pkg="tf" type="static_transform_publisher" name="arduimu_tf" args="2 0 1.03 0 0 0 map imu_link_arduimu 50" />
+
+    <node pkg="arduimu_ros" type="imu_pose.py" ns="arduimu" name="imu_pose" output="screen" respawn="false">
+        <remap from="imu_data" to="/arduimu/imu/data"/>
+    </node>
+
+</launch>
