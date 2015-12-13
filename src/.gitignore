@@ -1,1 +1,9 @@
 *.*~
+/catkin/
+/catkin_generated/
+/CMakeFiles/
+/gtest/
+/CTestTestfile.cmake
+/Makefile
+/CMakeCache.txt
+/cmake_install.cmake
