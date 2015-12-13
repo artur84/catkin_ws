@@ -13,3 +13,6 @@ mainpage.dox
 /build
 /bin
 /lib
+/cmake/
+/CTestTestfile.cmake
+/Makefile

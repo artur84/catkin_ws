@@ -11,3 +11,5 @@ Makefile~
 .settings/
 bagfiles/*
 bagfiles/
+/CTestTestfile.cmake
+/Makefile

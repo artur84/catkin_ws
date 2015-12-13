@@ -21,3 +21,4 @@ mainpage.dox
 /bin
 /lib
 /.settings
+/CTestTestfile.cmake
