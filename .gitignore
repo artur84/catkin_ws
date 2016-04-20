@@ -32,3 +32,4 @@ devel/
 build/
 *.*~
 .gitignore~
+install/
