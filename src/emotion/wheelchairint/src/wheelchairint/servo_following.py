@@ -1,12 +1,13 @@
 #!/usr/bin/env python
 """
- kinect_arduino.py
+servo_following.py
  This program will read the position of a user given by openni_tracker
  then it will move the kinect by using the servo motor connected to an arduino board
- It relies on openni_tracker and serial_node.py nodes, so make shure you 
+ It relies on openni_tracker and serial_node.py nodes, so be sure you 
  launch them first.
+maintainer: arturoescobedo.iq@gmail.com
 """
-import roslib; roslib.load_manifest( 'wheelchairint' )
+import roslib
 import rospy
 import math
 import tf
@@ -39,7 +40,7 @@ class TrackedPerson():
             #wait transformation for 500 msec = 500 000 000 nsec )
             #It caused the node to die
             #self.__listener.waitForTransform( '/new_ref', '/head_origin', now, rospy.Duration( 1, 500000000 )) 
-            (trans, rot) = self.__listener.lookupTransform( '/violet/openni_depth_frame', '/violet/torso_1',  now)
+            (trans, rot) = self.__listener.lookupTransform( 'openni_depth_frame', 'torso_1',  now)
         except ( tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException ):
             pass
         self.last_angle_from_kinect = self.current_angle_from_kinect
@@ -101,13 +102,9 @@ class Servo():
                 rospy.loginfo("Servo can't move more")
     
     def pid_control(self, angle_error):
-        print "Hasta aqui"
         self.angle_error = angle_error
-        print "Hasta aqui"
         rospy.sleep(rospy.Duration.from_sec(self.dt))
-        print "Hasta aqui"
         self.integral = self.integral + (self.angle_error*self.dt)
-        print "Hasta aqui"
         self.derivative = (self.angle_error - self.previous_angle_error)/self.dt
         self.pid_output = (self.Kp*self.angle_error) + (self.Ki*self.integral) + (self.Kd*self.derivative)
         self.previous_angle_error = self.angle_error
@@ -151,6 +148,7 @@ class ServoFollowing():
         while not rospy.is_shutdown():
             try:
                 angle = self.user.get_angle_from_kinect()  
+                print "Angle between tracked person and kinect:"                
                 print angle
             except:
                 print "Cannot find the tracked person"

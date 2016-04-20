@@ -1,0 +1,157 @@
+<?xml version="1.0"?>
+<robot xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"> 
+
+<macro name="gazebo_propiedades_link" params="nombre material">
+  <gazebo reference="${nombre}">
+	<mu1>0.5</mu1>
+	<mu2>0.5</mu2>
+	<material>Gazebo/${material}</material>
+    <selfCollide>true</selfCollide>
+    <turnGravityOff>false</turnGravityOff> 
+  </gazebo>
+</macro>
+
+<macro name="gazebo_propiedades_joint" params="nombre">
+ <gazebo reference="${nombre}">
+    <erp>0.1</erp>
+    <stopKd value="1000000.0" />
+    <stopKp value="10000000.0" />
+    <fudgeFactor value="0.5" />
+ </gazebo>
+</macro> 
+ 
+<gazebo>   
+     <controller:gazebo_ros_controller_manager name="gazebo_ros_controller_manager" plugin="libgazebo_ros_controller_manager.so">
+          <alwaysOn>true</alwaysOn>
+          <updateRate>1000.0</updateRate>
+          <robotNamespace>brazo</robotNamespace>
+     </controller:gazebo_ros_controller_manager>
+</gazebo>
+ 
+ <transmission type="pr2_mechanism_model/SimpleTransmission" name="base_trans">
+    <actuator name="base_motor" />
+    <joint name="base" />
+    <mechanicalReduction>1.0</mechanicalReduction>
+    <motorTorqueConstant>1.0</motorTorqueConstant>
+ </transmission>
+ 
+ <transmission type="pr2_mechanism_model/SimpleTransmission" name="arti1_trans">
+    <actuator name="arti1_motor" />
+    <joint name="arti1" />
+    <mechanicalReduction>1.0</mechanicalReduction>
+    <motorTorqueConstant>1.0</motorTorqueConstant>
+ </transmission>              
+ 
+ <transmission type="pr2_mechanism_model/SimpleTransmission" name="arti2_trans">
+    <actuator name="arti2_motor" />
+    <joint name="arti2" />
+    <mechanicalReduction>1.0</mechanicalReduction>
+    <motorTorqueConstant>1.0</motorTorqueConstant>
+ </transmission>
+ 
+ <transmission type="pr2_mechanism_model/SimpleTransmission" name="arti3_trans">
+    <actuator name="arti3_motor" />
+    <joint name="arti3" />
+    <mechanicalReduction>1.0</mechanicalReduction>
+    <motorTorqueConstant>1.0</motorTorqueConstant>
+ </transmission>
+ 
+ <transmission type="pr2_mechanism_model/SimpleTransmission" name="pinza_trans">
+    <actuator name="pinza_motor" />
+    <joint name="pinza" />
+    <mechanicalReduction>1.0</mechanicalReduction>
+    <motorTorqueConstant>1.0</motorTorqueConstant>
+ </transmission>
+ 
+
+ 
+<macro name="default_inertia">
+      <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
+</macro>
+ 
+<macro name="default_inertia_servos">
+      <inertia ixx="0.01" ixy="0.0" ixz="0.0" iyy="0.01" iyz="0.0" izz="0.01"/>
+</macro>
+ 
+<macro name="default_limit">
+    <limit effort="100.0" lower="-2.62" upper="2.62" velocity="3"/>
+</macro>
+ 
+<macro name="default_dynamics">
+      <dynamics fricction="0" damping="0" />
+</macro>
+ 
+<macro name="servo" params="nombre">  
+  <link name="${nombre}_link">
+    <visual>
+      <geometry>
+        <box size="0.04 0.032 0.05"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0.0905"/>
+      <material name="black" />
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0.0905"/>		
+	  <geometry>
+        <box size="0.04 0.032 0.05"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0.0905"/>		
+      <mass value="0.055"/>
+	  <default_inertia_servos />
+    </inertial>             
+  </link>
+</macro>
+ 
+<macro name="base" params="nombre">    
+  <link name="${nombre}_link_B">    
+	<visual>
+      <geometry>
+        <box size="0.04 0.032 0.020"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0.0555"/>
+      <material name="white">
+		<color rgba="1 1 1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0.0555"/>		
+	  <geometry>
+        <box size="0.04 0.032 0.02"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0.0555"/>			
+      <mass value="0.001"/>
+	  <default_inertia />
+    </inertial>           
+  </link>
+</macro> 
+ 
+<macro name="soporte" params="nombre simetrico lado">    
+  <link name="${nombre}_link_S${lado}">    
+	<visual>
+      <geometry>
+        <box size="0.002 0.032 0.067"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="${simetrico*0.021} 0 0.022"/>
+      <material name="white">
+		<color rgba="1 1 1 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="${simetrico*0.021} 0 0.022"/>		
+	  <geometry>
+        <box size="0.002 0.032 0.067"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin rpy="0 0 0" xyz="${simetrico*0.021} 0 0.022"/>			
+      <mass value="0.001"/>
+	  <default_inertia />
+    </inertial>           
+  </link>
+</macro>
+ 
+</robot>

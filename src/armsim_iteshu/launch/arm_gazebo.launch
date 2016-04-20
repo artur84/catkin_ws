@@ -1,0 +1,21 @@
+<!-- Simulate iteshu arm in gazebo -->
+
+<launch>
+
+  <param name="/use_sim_time" value="true" />
+
+  <node name="gazebo" pkg="gazebo_ros" type="gazebo" args="-u $(find turtlebot_gazebo)/worlds/empty.world" respawn="false" output="screen"/>
+
+<group ns="brazo">
+
+  <param name="robot_description" command="$(find xacro)/xacro.py '$(find armsim_iteshu)/urdf/arm.urdf.xacro'" />
+
+ <node name="spawn_arm_urdf" pkg="gazebo_ros" type="spawn_model" args="-file $(find armsim_iteshu)/urdf/arm.urdf -urdf -z 100 -model arm_iteshu" />
+
+  <rosparam file="$(find armsim_iteshu)/conf/controllers.yaml" command="load"/>
+
+  <node name="spawn_controller_brazo" pkg="pr2_controller_manager" type="spawner" args="base_pos_controller arti1_pos_controller arti2_pos_controller arti3_pos_controller pinza_pos_controller base_vel_controller arti1_vel_controller arti2_vel_controller arti3_vel_controller pinza_vel_controller" respawn="false" output="screen" />
+  
+</group>  
+  
+</launch>

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(beginner_tutorials)
+project(imt_8)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -8,7 +8,6 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   std_msgs
-  message_generation
 )
 
 ## System dependencies are found with CMake's conventions
@@ -19,31 +18,6 @@ find_package(catkin REQUIRED COMPONENTS
 ## modules and global scripts declared therein get installed
 ## See http://ros.org/doc/api/catkin/html/user_guide/setup_dot_py.html
 # catkin_python_setup()
-
-
-## Generate messages in the 'msg' folder
-  add_message_files(
-   FILES
-   Num.msg
-#   Message2.msg
- )
-
-## Generate services in the 'srv' folder
- add_service_files(
-   FILES
-   AddTwoInts.srv
-#   Service1.srv
-#   Service2.srv
- )
-
-## Generate added messages and services with any dependencies listed here
- generate_messages(
-   DEPENDENCIES
-   std_msgs
- )
-
-
-
 
 ################################################
 ## Declare ROS messages, services and actions ##
@@ -63,14 +37,25 @@ find_package(catkin REQUIRED COMPONENTS
 ##   * add "message_generation" and every package in MSG_DEP_SET to
 ##     find_package(catkin REQUIRED COMPONENTS ...)
 ##   * add "message_runtime" and every package in MSG_DEP_SET to
-   catkin_package(CATKIN_DEPENDS message_runtime)
+##     catkin_package(CATKIN_DEPENDS ...)
 ##   * uncomment the add_*_files sections below as needed
 ##     and list every .msg/.srv/.action file to be processed
 ##   * uncomment the generate_messages entry below
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
+## Generate messages in the 'msg' folder
+# add_message_files(
+#   FILES
+#   Message1.msg
+#   Message2.msg
+# )
 
-
+## Generate services in the 'srv' folder
+# add_service_files(
+#   FILES
+#   Service1.srv
+#   Service2.srv
+# )
 
 ## Generate actions in the 'action' folder
 # add_action_files(
@@ -79,7 +64,11 @@ find_package(catkin REQUIRED COMPONENTS
 #   Action2.action
 # )
 
-
+## Generate added messages and services with any dependencies listed here
+# generate_messages(
+#   DEPENDENCIES
+#   std_msgs
+# )
 
 ###################################
 ## catkin specific configuration ##
@@ -90,12 +79,12 @@ find_package(catkin REQUIRED COMPONENTS
 ## LIBRARIES: libraries you create in this project that dependent projects also need
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
-#catkin_package(
+catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES beginner_tutorials
+#  LIBRARIES imt_8
 #  CATKIN_DEPENDS roscpp rospy std_msgs
 #  DEPENDS system_lib
-#)
+)
 
 ###########
 ## Build ##
@@ -109,19 +98,19 @@ include_directories(
 )
 
 ## Declare a cpp library
-# add_library(beginner_tutorials
-#   src/${PROJECT_NAME}/beginner_tutorials.cpp
+# add_library(imt_8
+#   src/${PROJECT_NAME}/imt_8.cpp
 # )
 
 ## Declare a cpp executable
-# add_executable(beginner_tutorials_node src/beginner_tutorials_node.cpp)
+# add_executable(imt_8_node src/imt_8_node.cpp)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
-# add_dependencies(beginner_tutorials_node beginner_tutorials_generate_messages_cpp)
+# add_dependencies(imt_8_node imt_8_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
-# target_link_libraries(beginner_tutorials_node
+# target_link_libraries(imt_8_node
 #   ${catkin_LIBRARIES}
 # )
 
@@ -140,7 +129,7 @@ include_directories(
 # )
 
 ## Mark executables and/or libraries for installation
-# install(TARGETS beginner_tutorials beginner_tutorials_node
+# install(TARGETS imt_8 imt_8_node
 #   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
@@ -165,30 +154,10 @@ include_directories(
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_beginner_tutorials.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_imt_8.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
-
-
-#build talker.cpp and listener.cpp
-include_directories(include ${catkin_INCLUDE_DIRS})
-
-add_executable(talker src/talker.cpp)
-target_link_libraries(talker ${catkin_LIBRARIES})
-add_dependencies(talker beginner_tutorials_generate_messages_cpp)
-
-add_executable(listener src/listener.cpp)
-target_link_libraries(listener ${catkin_LIBRARIES})
-add_dependencies(listener beginner_tutorials_generate_messages_cpp)
-
-add_executable(strings_test src/strings_test.cpp)
-target_link_libraries(strings_test ${catkin_LIBRARIES})
-add_dependencies(strings_test beginner_tutorials_generate_messages_cpp)
-
-add_executable(differential_robot_voice_control_arduino src/differential_robot_voice_control_arduino.cpp)
-target_link_libraries(differential_robot_voice_control_arduino ${catkin_LIBRARIES})
-add_dependencies(differential_robot_voice_control_arduino beginner_tutorials_generate_messages_cpp)

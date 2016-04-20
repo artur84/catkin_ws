@@ -1,5 +1,5 @@
 #! /usr/bin/env python
-import roslib; roslib.load_manifest('arduimu-ros')
+import roslib; 
 import rospy
 import math
 import numpy

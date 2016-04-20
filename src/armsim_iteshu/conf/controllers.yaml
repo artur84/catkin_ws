@@ -1,0 +1,84 @@
+base_pos_controller:
+  type: robot_mechanism_controllers/JointPositionController
+  joint: base
+  pid: &base_pos
+    p: 2.0
+    i: 0.5
+    d: 0.0
+    i_clamp: 10.0
+ 
+arti1_pos_controller:
+  type: robot_mechanism_controllers/JointPositionController
+  joint: arti1
+  pid: &arti1_pos
+    p: 2.0
+    i: 0.5
+    d: 0.0
+    i_clamp: 10.0
+ 
+arti2_pos_controller:
+  type: robot_mechanism_controllers/JointPositionController
+  joint: arti2
+  pid: &arti2_pos
+    p: 2.0
+    i: 0.5
+    d: 0.0
+    i_clamp: 10.0
+ 
+arti3_pos_controller:
+  type: robot_mechanism_controllers/JointPositionController
+  joint: arti3
+  pid: &arti3_pos
+    p: 2.0
+    i: 0.5
+    d: 0.0
+    i_clamp: 10.0
+ 
+pinza_pos_controller:
+  type: robot_mechanism_controllers/JointPositionController
+  joint: pinza
+  pid: &pinza_pos
+    p: 2.0
+    i: 0.5
+    d: 0.0
+    i_clamp: 10.0
+ 
+base_vel_controller:
+  type: robot_mechanism_controllers/JointVelocityController
+  joint: base
+  pid: &base_vel
+    p: 2.0
+    i: 0.5
+    i_clamp: 10.0
+ 
+arti1_vel_controller:
+  type: robot_mechanism_controllers/JointVelocityController
+  joint: arti1
+  pid: &arti1_vel
+    p: 2.0
+    i: 0.5
+    i_clamp: 10.0         
+ 
+arti2_vel_controller:
+  type: robot_mechanism_controllers/JointVelocityController
+  joint: arti2
+  pid: &arti2_vel
+    p: 2.0
+    i: 0.5
+    i_clamp: 10.0 
+ 
+arti3_vel_controller:
+  type: robot_mechanism_controllers/JointVelocityController
+  joint: arti3
+  pid: &arti3_vel
+    p: 2.0
+    i: 0.5
+    i_clamp: 10.0   
+ 
+pinza_vel_controller:
+  type: robot_mechanism_controllers/JointVelocityController
+  joint: pinza
+  pid: &pinza_vel
+    p: 2.0
+    i: 0.5
+    i_clamp: 10.0
