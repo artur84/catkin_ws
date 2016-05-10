@@ -11,9 +11,8 @@ import time
 import rospy
 import math
 from std_msgs.msg import String
-from wheelchairint._keywords_to_command import *
+from _keywords_to_command import *
 import re #Regular expressions package
-
 
 
 class WheelchairRecognizer:
