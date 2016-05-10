@@ -1,5 +1,4 @@
 #!/usr/bin/env python  
-# -*- coding: utf-8 -*-
 import roslib
 roslib.load_manifest('learning_tf')
 import rospy
@@ -23,18 +22,18 @@ if __name__ == '__main__':
     # Crea un publicador de velocidad para la tortuga 2 (Mover turtle2)
     turtle_vel = rospy.Publisher('turtle2/cmd_vel', geometry_msgs.msg.Twist,queue_size=1)
     
-    # Fija la frecuancia a la cual va a publicar turtle_vel
+    # Fija la frecuencia a la cual va a publicar turtle_vel
     rate = rospy.Rate(10.0)
     while not rospy.is_shutdown():
         try:
-            #Obtiene la traslación y rotación de /turtle2 con respecto a /turtle1
-            (trans,rot) = listener.lookupTransform('/turtle2', '/turtle1', rospy.Time(0))
-            #rospy.Time(0) última transformación enviada.
+            #Obtiene la traslacion y rotacion de /turtle2 con respecto a /turtle1
+            (trans,rot) = listener.lookupTransform('/turtle2', '/carrot1', rospy.Time(0))
+            #rospy.Time(0) ultima transformacion enviada.
         except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
             continue
-        #Controla la velocidad de turtle2 proporcionalmente a la distancia lineal y ángular
-        angular = 4 * math.atan2(trans[1], trans[0])
-        linear = 0.5 * math.sqrt(trans[0] ** 2 + trans[1] ** 2)
+        #Controla la velocidad de turtle2 proporcionalmente a la distancia lineal y angular
+        angular = 0.0040 * math.atan2(trans[1], trans[0])
+        linear = 0.005 * math.sqrt(trans[0] ** 2 + trans[1] ** 2)
         cmd = geometry_msgs.msg.Twist()
         cmd.linear.x = linear
         cmd.angular.z = angular
