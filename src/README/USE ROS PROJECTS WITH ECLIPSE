@@ -1,0 +1,26 @@
+
+(1)With the new catkin_tools, there are few changed from the Catkin-y method described above. To generate eclipse-project you need to execute:
+
+	catkin build  --force-cmake -G"Eclipse CDT4 - Unix Makefiles" 
+
+(2)to generate the .project files for each package and then run: the follwoing script
+  (((Yo lo guardé en catkin_ws como eclipse_ros_script))
+
+	ROOT=$PWD 
+	cd build
+	for PROJECT in `find $PWD -name .project`; do
+	    DIR=`dirname $PROJECT`
+	    echo $DIR
+	    cd $DIR
+	    awk -f $(rospack find mk)/eclipse.awk .project > .project_with_env && mv .project_with_env .project
+	done
+	cd $ROOT
+	
+(3)After executing this command you will find the project files in the build/ folder. 
+Now you can import your project as existing project into workspace.
+
+(4)To debug use the following command and you can mention the name of the package to configure that specific
+project for debug instead of the entire workspace. Remember 
+to run the script to modify .project to pass the current shell environment into the make process in Eclipse.
+
+	catkin build  --force-cmake -G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug
