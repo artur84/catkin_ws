@@ -1,0 +1,25 @@
+<launch>
+	<arg name="port" default="/dev/ttyACM0" />
+	<!--arg name="baud" default="56700" /-->	
+
+
+	### Start Rosserial ###
+   	<!-- if we want to use google recognizer -->
+    <node pkg="rosserial_python" type="serial_node.py" name="serial_node" output="screen" respawn="True">
+        <param name="port" value="$(arg port)" />
+        <!--param name="baud" value="$(arg baud)" /-->    	
+     </node>
+   	
+   	### Start Keyboard Teleop ###
+   	<!-- if we want to use google recognizer -->
+    <group ns="arduino">
+        <node pkg="iteshu_robot" type="keyboard.py" name="keyboard" output="screen" respawn="True">
+        	<remap from="key_vel" to="cmd_vel" />   	
+       	</node>
+   	</group>
+
+	##### START RVIZ   #####
+	<!--node pkg="rviz" type="rviz" name="rviz" args="-d $(find wheelchairconf)/config/rviz/sim_voice_and_head_cmd.rviz"/-->
+
+
+</launch>
