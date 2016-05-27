@@ -30,6 +30,8 @@
 #catkin
 devel/
 build/
+logs/
+.catkin_tools/
 *.*~
 .gitignore~
 install/
