@@ -6,7 +6,6 @@ to avoid areas in the image that are not interesting because the face of the use
 """
 
 import roslib
-roslib.load_manifest('wheelchairint')
 import rospy
 import cv2.cv as cv
 from sensor_msgs.msg import Image

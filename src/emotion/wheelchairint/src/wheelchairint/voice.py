@@ -6,7 +6,7 @@ voice.py is a simple demo of speech recognition.
   in the corpus file.
 """
 
-import roslib; 
+import roslib
 import rospy
 import math
 

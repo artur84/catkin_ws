@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import roslib; roslib.load_manifest('wheelchairint')
+import roslib
 import rospy
 import math
 import tf

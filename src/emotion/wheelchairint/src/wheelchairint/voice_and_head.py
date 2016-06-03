@@ -1,8 +1,6 @@
 #! /usr/bin/env python
 #
-
 import roslib;
-roslib.load_manifest('wheelchairint')
 from wheelchairint._keywords_to_command import *
 from std_srvs.srv._Empty import Empty
 from geometry_msgs.msg._Twist import Twist

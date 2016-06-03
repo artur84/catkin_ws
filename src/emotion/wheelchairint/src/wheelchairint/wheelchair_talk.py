@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
-import roslib; roslib.load_manifest('wheelchairint')
-roslib.load_manifest('sound_play')
+import roslib
 from wheelchairint._keywords_to_command import *
 import rospy
 from std_msgs.msg import String

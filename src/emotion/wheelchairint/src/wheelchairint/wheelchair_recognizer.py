@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import roslib; 
+import roslib
 import pyaudio
 import wave
 import audioop

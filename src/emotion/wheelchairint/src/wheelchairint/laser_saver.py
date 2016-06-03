@@ -1,5 +1,5 @@
 #! /usr/bin/env python
-import roslib; roslib.load_manifest('wheelchairint')
+import roslib
 import rospy
 from sensor_msgs.msg import LaserScan
 import yaml
