@@ -1,0 +1,26 @@
+<package>
+  <description brief="controller">
+
+		This node implements a simple trajectory controller to aim to following a target.
+		It uses two input topics to get target position and current agent position.
+		It evaluates the control commands (linear and angular velocity) to achieve
+		the target following.
+
+  </description>
+  <author>Luca Marchetti</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/controller</url>
+    <!-- Standard Packages -->
+	<depend package="roscpp"/>
+	<depend package="visualization_msgs"/>
+	<depend package="tf"/>
+	<depend package="dynamic_reconfigure" />
+
+    <!--Non Standard Packages -->
+    <depend package="trajectory_stabilization_devel"/>
+	<depend package="pal_msgs"/> 
+
+</package>
+
+

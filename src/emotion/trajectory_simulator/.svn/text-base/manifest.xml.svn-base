@@ -1,0 +1,17 @@
+<package>
+  <description brief="trajectory_simulator">
+
+     trajectory_simulator
+
+  </description>
+  <author>Dizan Vasquez</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/trajectory_simulator</url>
+  <depend package="geometry_msgs"/>
+  <depend package="rospy"/>
+  <depend package="tf"/>
+
+</package>
+
+

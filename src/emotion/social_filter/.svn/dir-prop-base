@@ -1,0 +1,31 @@
+K 10
+svn:ignore
+V 304
+tmp
+obj
+bin
+build
+lib
+*.o
+*.lib
+*.la
+CMakeCache.txt
+cmake_install.cmake
+CMakeLists.txt.user
+CMakeFiles
+wheelchair.cbp
+svnignore.txt
+.project
+.cproject
+.pydevproject
+msg_gen
+src/social_filter/msg
+bin/human_grids
+bin/fform_detect
+bin/leader_follower
+bin/kinect_human_proc
+bin/human_proc
+bin/human_markers
+
+
+END

@@ -1,44 +1,81 @@
 <package>
-	<description brief="user_intentions">user_intentions</description>
-	<author>Arturo Escobedo</author>
-	<license>BSD</license>
-	<review status="unreviewed" notes=""/>
-	<url>http://ros.org/wiki/user_intentions</url>
-	<depend package="nav_msgs"/>
-	<depend package="nav_core"/>
-	<depend package="geometry_msgs"/>
-	<depend package="visualization_msgs"/>
-	<depend package="roslib"/>
-	<depend package="roscpp"/>
-	<depend package="rospy"/>
-	<depend package="std_msgs"/>
-	<depend package="move_base_msgs"/>
-	<depend package="actionlib"/>
-	<depend package="tf"/>
-	<depend package="rosbag"/>
-	<depend package="dynamic_reconfigure" />
-	<depend package="cv_bridge" />
-	<depend package="trajectory_simulator" />
-	<!--package located at INRIA's Gforge -->
-	<depend package="controller"/>
-	<!-- Created by lucca Marchetti-->
-	<depend package="sound_play"/>
-	<depend package="social_filter"/>
-	<!-- from inria gforge -->
+  <name>user_intentions</name>
+  <version>1.0.0</version>
+  <description>user_intentions</description>
+  <maintainer email="arturoescobedo.iq@gmail.com">Jesus-Arturo Escobedo-Cabello</maintainer>
 
-	<!-- Libraries -->
-	<rosdep name="python-numpy" />
-	<rosdep name="festival" />
-	<rosdep name="libgstreamer0.10-dev"/>
-	<rosdep name="libgstreamer-plugins-base0.10-dev"/>
-	<rosdep name="python-gst"/>
-	<rosdep name="gstreamer0.10-plugins-ugly"/>
-	<rosdep name="gstreamer0.10-plugins-good"/>
+  <license>BSD</license>
 
-	<export>
-		<cpp cflags="-I${prefix}/include -I${prefix}/msg/cpp" />
-	</export>
+  <url type="website">http://ros.org/wiki/user_intentions</url>
+  <!-- <url type="bugtracker"></url> -->
+
+  <author>Arturo Escobedo</author>
+
+  <!-- Dependencies which this package needs to build itself. -->
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <!-- Dependencies needed to compile this package. -->
+  <build_depend>nav_msgs</build_depend>
+  <build_depend>nav_core</build_depend>
+  <build_depend>geometry_msgs</build_depend>
+  <build_depend>visualization_msgs</build_depend>
+  <build_depend>roslib</build_depend>
+  <build_depend>roscpp</build_depend>
+  <build_depend>rospy</build_depend>
+  <build_depend>std_msgs</build_depend>
+  <build_depend>move_base_msgs</build_depend>
+  <build_depend>actionlib</build_depend>
+  <build_depend>tf</build_depend>
+  <build_depend>rosbag</build_depend>
+  <build_depend>dynamic_reconfigure</build_depend>
+  <build_depend>cv_bridge</build_depend>
+  <build_depend>trajectory_simulator</build_depend>
+  <build_depend>controller</build_depend>
+  <build_depend>sound_play</build_depend>
+  <build_depend>social_filter</build_depend>
+
+  <!-- Dependencies needed after this package is compiled. -->
+  <run_depend>nav_msgs</run_depend>
+  <run_depend>nav_core</run_depend>
+  <run_depend>geometry_msgs</run_depend>
+  <run_depend>visualization_msgs</run_depend>
+  <run_depend>roslib</run_depend>
+  <run_depend>roscpp</run_depend>
+  <run_depend>rospy</run_depend>
+  <run_depend>std_msgs</run_depend>
+  <run_depend>move_base_msgs</run_depend>
+  <run_depend>actionlib</run_depend>
+  <run_depend>tf</run_depend>
+  <run_depend>rosbag</run_depend>
+  <run_depend>dynamic_reconfigure</run_depend>
+  <run_depend>cv_bridge</run_depend>
+  <run_depend>trajectory_simulator</run_depend>
+  <run_depend>controller</run_depend>
+  <run_depend>sound_play</run_depend>
+  <run_depend>social_filter</run_depend>
+
+  <!-- Dependencies needed only for running tests. -->
+  <!-- <test_depend>nav_msgs</test_depend> -->
+  <!-- <test_depend>nav_core</test_depend> -->
+  <!-- <test_depend>geometry_msgs</test_depend> -->
+  <!-- <test_depend>visualization_msgs</test_depend> -->
+  <!-- <test_depend>roslib</test_depend> -->
+  <!-- <test_depend>roscpp</test_depend> -->
+  <!-- <test_depend>rospy</test_depend> -->
+  <!-- <test_depend>std_msgs</test_depend> -->
+  <!-- <test_depend>move_base_msgs</test_depend> -->
+  <!-- <test_depend>actionlib</test_depend> -->
+  <!-- <test_depend>tf</test_depend> -->
+  <!-- <test_depend>rosbag</test_depend> -->
+  <!-- <test_depend>dynamic_reconfigure</test_depend> -->
+  <!-- <test_depend>cv_bridge</test_depend> -->
+  <!-- <test_depend>trajectory_simulator</test_depend> -->
+  <!-- <test_depend>controller</test_depend> -->
+  <!-- <test_depend>sound_play</test_depend> -->
+  <!-- <test_depend>social_filter</test_depend> -->
+
+<export>
+    <cpp cflags="-I${prefix}/include -I${prefix}/msg/cpp"/>
+</export>
 
 </package>
-
-

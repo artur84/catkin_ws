@@ -1,0 +1,44 @@
+<package>
+	<description brief="user_intentions">user_intentions</description>
+	<author>Arturo Escobedo</author>
+	<license>BSD</license>
+	<review status="unreviewed" notes=""/>
+	<url>http://ros.org/wiki/user_intentions</url>
+	<depend package="nav_msgs"/>
+	<depend package="nav_core"/>
+	<depend package="geometry_msgs"/>
+	<depend package="visualization_msgs"/>
+	<depend package="roslib"/>
+	<depend package="roscpp"/>
+	<depend package="rospy"/>
+	<depend package="std_msgs"/>
+	<depend package="move_base_msgs"/>
+	<depend package="actionlib"/>
+	<depend package="tf"/>
+	<depend package="rosbag"/>
+	<depend package="dynamic_reconfigure" />
+	<depend package="cv_bridge" />
+	<depend package="trajectory_simulator" />
+	<!--package located at INRIA's Gforge -->
+	<depend package="controller"/>
+	<!-- Created by lucca Marchetti-->
+	<depend package="sound_play"/>
+	<depend package="social_filter"/>
+	<!-- from inria gforge -->
+
+	<!-- Libraries -->
+	<rosdep name="python-numpy" />
+	<rosdep name="festival" />
+	<rosdep name="libgstreamer0.10-dev"/>
+	<rosdep name="libgstreamer-plugins-base0.10-dev"/>
+	<rosdep name="python-gst"/>
+	<rosdep name="gstreamer0.10-plugins-ugly"/>
+	<rosdep name="gstreamer0.10-plugins-good"/>
+
+	<export>
+		<cpp cflags="-I${prefix}/include -I${prefix}/msg/cpp" />
+	</export>
+
+</package>
+
+

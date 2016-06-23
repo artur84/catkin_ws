@@ -1,0 +1,2 @@
+<../images/BMan1.tif> <../images/BMan1.tif>
+<../images/Phone1.png> <../images/Phone1.png>

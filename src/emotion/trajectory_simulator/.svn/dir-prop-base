@@ -1,0 +1,23 @@
+K 10
+svn:ignore
+V 166
+tmp
+obj
+bin
+build
+lib
+*.o
+*.lib
+*.la
+CMakeCache.txt
+cmake_install.cmake
+CMakeLists.txt.user
+CMakeFiles
+wheelchair.cbp
+svnignore.txt
+.project
+.cproject
+.pydevproject
+
+
+END

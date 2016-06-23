@@ -1,0 +1,21 @@
+<package>
+  <description brief="trajectory_stabilization_devel">
+
+		Trajectory Control library.
+		It implements several motion controllers.
+		Details on them can be find in the appropriate source files.
+
+  </description>
+  <author>Luca Marchetti</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/trajectory_stabilization_devel</url>
+
+	<export>
+		<cpp cflags="`pkg-config --cflags trajectory_stabilization`"
+				 lflags="`pkg-config --libs trajectory_stabilization`" />
+	</export>
+
+</package>
+
+

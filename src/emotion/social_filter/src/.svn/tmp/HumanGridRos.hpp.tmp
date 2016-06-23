@@ -1,0 +1,77 @@
+#ifndef HUMAN_GRID_ROS_HPP
+#define  HUMAN_GRIDS_ROS_HPP
+
+#include "ros/ros.h" 
+#include "social_filter/humanPose.h"
+#include "social_filter/humanPoses.h"
+#include "social_filter/int_list.h"
+#include "tf/transform_listener.h"
+#include "GridPublisher.hpp"
+
+class HumanGridRos 
+{
+private:
+<<<<<<< .mine
+  ros::NodeHandle nodeHandle_;
+  ros::Subscriber humanSubscriber_;
+  ros::Subscriber interactionSubscriber_, global_map_subscriber_;
+  tf::TransformListener tf_listener_;
+  social_filter::humanPoses human_poses_;
+  social_filter::int_list interactions_;
+  void humanPosesCb_(const social_filter::humanPoses pos);
+  void interactionsCb_(const social_filter::int_list i_list);
+  void global_map_Cb_(const nav_msgs::OccupancyGrid::ConstPtr& msg);
+  ros::Publisher  grid_PS_Publisher_, grid_oS_Publisher_, grid_complete_publisher_;
+  nav_msgs::OccupancyGrid grid_PS_, grid_oS_, grid_complete_, global_map_;
+  float x_;			//!< Origin of the map [m]
+  float y_;			//!< Origin of the map [m], You can see it as the place where the /map tf will be placed
+  float cellSize_; //!< The social map resolution [m/cell]
+=======
+  ros::NodeHandle nodeHandle;
+  ros::Subscriber humanSubscriber;
+  ros::Subscriber intSubscriber;
+  tf::TransformListener listener;
+  social_filter::humanPoses people;
+  social_filter::int_list interactions;
+  void peopleCallback(const social_filter::humanPoses pos);
+  void intCallback(const social_filter::int_list i_list);
+  ghmm_ros::GridPublisher  *grid_PS_Publisher_;
+  ghmm_ros::GridPublisher  *grid_oS_Publisher_;
+  float x_; 
+  float y_;
+  float cellSize_;
+>>>>>>> .r890
+  uint8_t steps_;
+  float timeStep_;	//!< When using ghmm map only, time step between grids.
+  uint16_t width_;	//!< Social map height [cells]
+  uint16_t height_;	//!< Social map width [cells]
+  
+  
+public:
+  HumanGridRos();
+  ~HumanGridRos();
+  void init(float x, float y, float cell_size, uint8_t steps, float timeStep,
+			uint16_t width, uint16_t height);
+  void initSubs();
+  void init_gridPublisher(
+			  float x, 
+			  float y,
+			  float step,
+			  uint8_t steps,
+			  float timeStep,
+			  uint16_t width,
+			  uint16_t height);
+
+  void compute_PSgrid();
+  void compute_oSgrid();
+  void compute_grid_complete();
+
+  void publish_PSgrid();
+  void publish_oSgrid();
+  void publish_grid_complete();
+ 
+  bool grid_complete_ready, human_poses_ready;
+
+};
+
+#endif
