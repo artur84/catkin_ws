@@ -1,6 +1,0 @@
-<library path="lib/libuser_dir_recovery">
-	<class name="user_dir_recovery/UserDirRecovery" type="user_dir_recovery::UserDirRecovery"
-		base_class_type="nav_core::RecoveryBehavior">
-		<description>A recovery behavior that performs rotation following the user instructions.</description>
-	</class>
-</library>
