@@ -1,0 +1,7 @@
+<library path="lib/libnavfn">
+  <class name="ui_navfn/UINavfnROS" type="ui_navfn::UINavfnROS" base_class_type="nav_core::BaseGlobalPlanner">
+    <description>
+      A implementation of a grid based planner using Dijkstra considering user's input
+    </description>
+  </class>
+</library>

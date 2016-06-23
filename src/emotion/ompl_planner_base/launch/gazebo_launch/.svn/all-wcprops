@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/wg-ros-pkg/!svn/ver/50709/branches/trunk_dturtle/sandbox/ompl_planner_base/launch/gazebo_launch
+END
+move_base.xml
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/wg-ros-pkg/!svn/ver/50709/branches/trunk_dturtle/sandbox/ompl_planner_base/launch/gazebo_launch/move_base.xml
+END
+pr2_ompl_planner_base_gazebo.launch
+K 25
+svn:wc:ra_dav:version-url
+V 136
+/svn/wg-ros-pkg/!svn/ver/50709/branches/trunk_dturtle/sandbox/ompl_planner_base/launch/gazebo_launch/pr2_ompl_planner_base_gazebo.launch
+END
+2dnav_stack_fake_loc_planner_prm.launch
+K 25
+svn:wc:ra_dav:version-url
+V 140
+/svn/wg-ros-pkg/!svn/ver/50709/branches/trunk_dturtle/sandbox/ompl_planner_base/launch/gazebo_launch/2dnav_stack_fake_loc_planner_prm.launch
+END

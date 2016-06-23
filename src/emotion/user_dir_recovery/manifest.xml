@@ -1,0 +1,30 @@
+<package>
+	<description brief="user_dir_recovery">
+		This package provides a recovery behavior for the navigation stack that makes the
+		robot to move according to some user specified direction, this can be a joystick
+		or the position of the face. The template was taken from recovery_behaviour package
+	</description>
+	<author>Arturo Escobedo</author>
+	<license>BSD</license>
+	
+	
+	<depend package="roscpp"/>
+	<depend package="nav_core"/>
+	<depend package="tf"/>
+	<depend package="costmap_2d"/>
+	<depend package="geometry_msgs"/>
+	<depend package="base_local_planner"/>
+	<depend package="pluginlib"/>
+	<depend package="angles"/>
+	
+	<rosdep name="eigen" />
+	
+	<export>
+		<cpp cflags="-I${prefix}/include" lflags="-Wl,-rpath,${prefix}/lib -L${prefix}/lib
+			-luser_dir_recovery" />
+		<nav_core plugin="${prefix}/user_dir_plugin.xml" />
+	</export>
+	<platform os="ubuntu" version="12.04"/>
+</package>
+
+

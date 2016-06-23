@@ -1,0 +1,15 @@
+<package>
+  <description brief="my_python_trials">
+
+     my_python_trials
+
+  </description>
+  <author>arturo</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/my_python_trials</url>
+  <depend package="rospy"/>
+
+</package>
+
+

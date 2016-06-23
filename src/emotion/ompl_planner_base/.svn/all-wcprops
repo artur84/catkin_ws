@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/wg-ros-pkg/!svn/ver/50709/branches/trunk_dturtle/sandbox/ompl_planner_base
+END
+mainpage.dox
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/wg-ros-pkg/!svn/ver/50709/branches/trunk_dturtle/sandbox/ompl_planner_base/mainpage.dox
+END
+CMakeLists.txt
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/wg-ros-pkg/!svn/ver/50709/branches/trunk_dturtle/sandbox/ompl_planner_base/CMakeLists.txt
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/wg-ros-pkg/!svn/ver/50709/branches/trunk_dturtle/sandbox/ompl_planner_base/Makefile
+END
+bgp_plugin.xml
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/wg-ros-pkg/!svn/ver/50709/branches/trunk_dturtle/sandbox/ompl_planner_base/bgp_plugin.xml
+END
+manifest.xml
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/wg-ros-pkg/!svn/ver/50709/branches/trunk_dturtle/sandbox/ompl_planner_base/manifest.xml
+END

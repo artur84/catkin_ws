@@ -1,0 +1,27 @@
+<launch>
+	<arg name="camera" default="camera"/>
+	<arg name="filter_pose" default="false"/>
+
+	<include file="$(find face_detector)/launch/face_detector.rgbd.launch">
+		<arg name="camera" value="$(arg camera)"/>
+	</include>
+
+	<node name="head_pose_estimator" type="head_pose_estimation" pkg="head_pose_estimation" output="screen"><!-- machine="harris2">-->
+		<remap from="cloud" to="$(arg camera)/depth_registered/points"/>
+		<param name="tree_path" value="$(find head_pose_estimation)/trees/tree"/>
+		<param name="ntrees" value="10"/>
+		<param name="max_variance" value="800.0"/>
+		<param name="larger_radius_ratio" value="1.0"/>
+		<param name="smaller_radius_ratio" value="6.0"/>
+		<param name="stride" value="5"/>
+		<param name="head_threshold" value="400"/>
+		<param name="head_target_frame" value="$(arg camera)_depth_frame"/>
+	</node>
+	
+	<!--node name="head_pose_filter" type="head_pose_filter.py" pkg="head_pose_estimation" output="screen">
+		<param name="window_size" value="20"/>
+	</node-->
+	<!--node if="$(arg filter_pose)" name="head_pose_kalman" type="head_pose_kalman.py" pkg="head_pose_estimation">
+		<remap from="head_pose_filtered" to="head_pose_kalman"/>
+	</node-->
+</launch>

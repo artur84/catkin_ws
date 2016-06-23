@@ -1,0 +1,12 @@
+cfg/cpp/*
+cfg/cpp/
+/src/ui_local_planner/*
+/src/ui_local_planner/
+CATKIN_IGNORE
+catkin/
+catkin_generated/
+devel/
+docs/
+gtest/
+point_grid
+

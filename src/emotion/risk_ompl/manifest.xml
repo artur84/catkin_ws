@@ -1,0 +1,19 @@
+<package>
+  <description brief="risk_ompl">
+
+     risk_ompl
+
+  </description>
+  <author>arturo</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/risk_ompl</url>
+  <depend package="rospy"/>
+  <depend package="roscpp"/>
+  <depend package="std_msgs"/>
+  <depend package="ompl_ros_interface"/>
+  <depend package="geometry_msgs"/>
+
+</package>
+
+

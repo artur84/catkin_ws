@@ -1,0 +1,7 @@
+\subsubsection parameters ROS parameters
+
+Reads and maintains the following parameters on the ROS server
+
+- \b "~cov_mul" : \b [double] Covariance matrix multiplier min: 2.22044604925e-16, default: 1.0, max: 10.0
+- \b "~control_mul" : \b [double] Control matrix multiplier min: -1.0, default: 2.0, max: 2.0
+

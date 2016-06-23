@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/665/trunk/pi_vision/pi_face_tracker/srv
+END
+SetROI.srv
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/665/trunk/pi_vision/pi_face_tracker/srv/SetROI.srv
+END
+KeyCommand.srv
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/!svn/ver/663/trunk/pi_vision/pi_face_tracker/srv/KeyCommand.srv
+END

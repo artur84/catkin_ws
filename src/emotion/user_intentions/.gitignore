@@ -1,0 +1,25 @@
+# Lines starting with '#' are considered comments.
+# Ignore (generated) html files,
+*.html
+*.bag
+.gitignore~
+*.*~
+Makefile~
+Makefile
+nodes/ui/*.pyc
+#single files
+user_intentions.kdev4
+cmake_install.cmake
+CMakeCache.txt
+mainpage.dox
+.project
+.cproject
+.pydevproject
+/include
+/CMakeFiles
+/build
+/bin
+/lib
+/.settings
+/src/user_intentions/msg
+/src/user_intentions/cfg

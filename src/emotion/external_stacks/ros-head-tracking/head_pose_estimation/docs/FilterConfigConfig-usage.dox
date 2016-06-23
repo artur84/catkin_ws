@@ -1,0 +1,8 @@
+\subsubsection usage Usage
+\verbatim
+<node name="head_pose_estimation" pkg="head_pose_estimation" type="head_pose_estimation">
+  <param name="cov_mul" type="double" value="1.0" />
+  <param name="control_mul" type="double" value="2.0" />
+</node>
+\endverbatim
+
