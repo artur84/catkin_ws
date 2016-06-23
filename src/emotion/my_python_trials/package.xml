@@ -1,36 +1,26 @@
 <package>
   <name>my_python_trials</name>
-  <version>0.0.0</version>
+  <version>1.0.0</version>
+  <description>my_python_trials</description>
+  <maintainer email="arturoescobedo.iq@gmail.com">arturo</maintainer>
 
-  <description>
-     my_python_trials
-  </description>
-
-  <maintainer email="arturo@todo.todo">arturo</maintainer>
   <license>BSD</license>
-  <review status="unreviewed" notes=""/>
-  <url>http://ros.org/wiki/my_python_trials</url>
-  
+
+  <url type="website">http://ros.org/wiki/my_python_trials</url>
+  <!-- <url type="bugtracker"></url> -->
+
+  <author>arturo</author>
+
+  <!-- Dependencies which this package needs to build itself. -->
   <buildtool_depend>catkin</buildtool_depend>
 
-
+  <!-- Dependencies needed to compile this package. -->
   <build_depend>rospy</build_depend>
 
-  
+  <!-- Dependencies needed after this package is compiled. -->
   <run_depend>rospy</run_depend>
 
-	
-
-  <!--rosdep name="joystick" />
-  <rosdep name="ros-fuerte-joystick-drivers" /-->
-
-
-  <!-- The export tag contains other, unspecified, tags -->
-  <export>
-    <!-- Other tools can request additional information be placed here -->
-
-  </export>
+  <!-- Dependencies needed only for running tests. -->
+  <!-- <test_depend>rospy</test_depend> -->
 
 </package>
-
-
