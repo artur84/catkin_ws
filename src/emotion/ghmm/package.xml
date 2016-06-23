@@ -20,6 +20,8 @@
   <build_depend>geometry_msgs</build_depend>
   <build_depend>nav_msgs</build_depend>
   <build_depend>trajectory_simulator</build_depend>
+  <build_depend>message_generation</build_depend>
+  
 
   <!-- Dependencies needed after this package is compiled. -->
   <run_depend>rospy</run_depend>
@@ -27,6 +29,7 @@
   <run_depend>geometry_msgs</run_depend>
   <run_depend>nav_msgs</run_depend>
   <run_depend>trajectory_simulator</run_depend>
+ <run_depend>message_runtime</run_depend>
 
   <!-- Dependencies needed only for running tests. -->
   <!-- <test_depend>rospy</test_depend> -->

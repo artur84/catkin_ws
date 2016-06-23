@@ -13,7 +13,7 @@ GHMM is template based, so it's header only. You can download it from
 github. For debian-like systems, you can also generate a debian package, 
 the procedure is more or less as follows:
 
-    git clone git@github.com:dichodaemon/ghmm.git
+    git clone https://github.com/dichodaemon/ghmm.git
     cd ghmm
     mkdir build
     cd build
