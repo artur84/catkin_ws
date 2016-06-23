@@ -1,9 +1,0 @@
-\subsubsection usage Usage
-\verbatim
-<node name="rosmouse" pkg="rosmouse" type="rosmouse">
-  <param name="filter_type" type="int" value="2" />
-  <param name="window_size" type="int" value="3" />
-  <param name="cov_mul" type="double" value="1.0" />
-</node>
-\endverbatim
-

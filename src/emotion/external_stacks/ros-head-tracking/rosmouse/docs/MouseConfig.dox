@@ -1,8 +1,0 @@
-\subsubsection parameters ROS parameters
-
-Reads and maintains the following parameters on the ROS server
-
-- \b "~filter_type" : \b [int] Filter Type min: 1, default: 2, max: 2
-- \b "~window_size" : \b [int] Size of the filter's window min: 1, default: 3, max: 100
-- \b "~cov_mul" : \b [double] Covariance matrix multiplier min: 2.22044604925e-16, default: 1.0, max: 10.0
-
