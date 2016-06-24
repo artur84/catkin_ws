@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 #
-import roslib; roslib.load_manifest('user_intentions')
+import roslib
 from copy import deepcopy
 from user_intentions._Markers import UI_Markers
 from user_intentions._conversions import pose_quat_to_euler, pose_euler_to_quat
@@ -74,8 +74,8 @@ class ModeSelector():
         #self.follower_vel_sub = rospy.Subscriber("max_proba_value", Float32 , self.__max_proba_value_callback__)
         """ Publishers
         """
-        self.cmd_vel_pub = rospy.Publisher("cmd_vel", Twist)
-        self.text_marker_pub = rospy.Publisher('mode_selector_text', Marker)
+        self.cmd_vel_pub = rospy.Publisher("cmd_vel", Twist, queue_size=1)
+        self.text_marker_pub = rospy.Publisher('mode_selector_text', Marker, queue_size=1)
         # Init the wheelchair in the required mode Manual/Autonomous
         self.display_text("Autonomous mode")
         self.wheelchair_autonomous_mode_enable()

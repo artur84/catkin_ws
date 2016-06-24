@@ -1,6 +1,5 @@
 #! /usr/bin/env python
 import roslib
-roslib.load_manifest('user_intentions')
 from trajectory_simulator.msg import TrajectoryObservation
 import numpy as np
 import rospy
@@ -59,10 +58,10 @@ class ROSInterestGridHandler:
         self.whc_trans = (0, 0, 0)
         """ ROS Publishers
         """
-        self.ros_grid_pub = rospy.Publisher('grid', OccupancyGrid)
-        self.ros_img_pub = rospy.Publisher('ros_img', Image)
-        self.grid_marker_array_pub = rospy.Publisher('grid_marker_array', MarkerArray)
-        self.ghmm_obs_pub = rospy.Publisher('dynamic_objects', TrajectoryObservation)
+        self.ros_grid_pub = rospy.Publisher('grid', OccupancyGrid, queue_size=1)
+        self.ros_img_pub = rospy.Publisher('ros_img', Image, queue_size=1)
+        self.grid_marker_array_pub = rospy.Publisher('grid_marker_array', MarkerArray, queue_size=1)
+        self.ghmm_obs_pub = rospy.Publisher('dynamic_objects', TrajectoryObservation, queue_size=1)
         """ ROS Subscribers
         """
         rospy.Subscriber('head_pose_filtered', PoseStamped, self.headPoseCb)

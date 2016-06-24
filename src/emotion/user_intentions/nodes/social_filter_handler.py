@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 #
-import roslib; roslib.load_manifest('user_intentions')
+import roslib
 from copy import deepcopy
 import rospy
 from std_msgs.msg._Float64 import Float64
@@ -25,8 +25,8 @@ class SocialFilterHandler():
         self.pspace_msg.data = 0.40
 
         """ROS PUBLISHERS"""
-        self.pspace_msg_pub = rospy.Publisher("/robot_0/rosplanner_static/pspace_msg", Float64)  ##Publishes a number to control how wide should the personal space be.
-        self.interaction_msg_pub = rospy.Publisher("/robot_0/rosplanner_static/interaction_msg", Float64)
+        self.pspace_msg_pub = rospy.Publisher("/robot_0/rosplanner_static/pspace_msg", Float64, queue_size=1)  ##Publishes a number to control how wide should the personal space be.
+        self.interaction_msg_pub = rospy.Publisher("/robot_0/rosplanner_static/interaction_msg", Float64, queue_size=1)
 
         """Start
         """

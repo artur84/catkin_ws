@@ -82,7 +82,7 @@ class Trajectory( object ):
 
 class Handler( object ):
   def __init__( self, generators, max_objects ):
-    publisher = rospy.Publisher( "dynamic_objects", TrajectoryObservation ) 
+    publisher = rospy.Publisher( "dynamic_objects", TrajectoryObservation, queue_size=10) 
     br = tf.TransformBroadcaster()
     self.steps = [
       Trajectory( generators, publisher, br ) 

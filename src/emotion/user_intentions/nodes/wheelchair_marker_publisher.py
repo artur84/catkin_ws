@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 #
-import roslib; roslib.load_manifest('user_intentions')
+import roslib
 from copy import deepcopy
 import random
 from user_intentions._Markers import UI_Markers
@@ -42,11 +42,11 @@ class WheelchairMarkerPublisher():
         self.vocal_command_sub = rospy.Subscriber("recognizer/output", String , self.__voice_callback__, None, 1)
 
         """ROS PUBLISHERS"""
-        self.wheelchair_marker_pub = rospy.Publisher("wheelchair_marker", Marker)
-        self.humans_marker_array_pub = rospy.Publisher("humans_marker_array", MarkerArray)
-        self.dir_marker_pub = rospy.Publisher("dir_marker", Marker)
-        self.vel_marker_pub = rospy.Publisher("vel_marker", Marker)
-        self.text_marker_pub = rospy.Publisher('text_marker', Marker)
+        self.wheelchair_marker_pub = rospy.Publisher("wheelchair_marker", Marker, queue_size=1)
+        self.humans_marker_array_pub = rospy.Publisher("humans_marker_array", MarkerArray, queue_size=1)
+        self.dir_marker_pub = rospy.Publisher("dir_marker", Marker, queue_size=1)
+        self.vel_marker_pub = rospy.Publisher("vel_marker", Marker, queue_size=1)
+        self.text_marker_pub = rospy.Publisher('text_marker', Marker, queue_size=1)
 
         """Start
         """

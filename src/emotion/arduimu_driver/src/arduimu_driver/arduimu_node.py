@@ -42,7 +42,7 @@ class ArduIMUNode():
         self.imu_data.linear_acceleration_covariance = [1e6, 0, 0,
                                                         0, 1e6, 0,
                                                         0, 0, 1e-6]
-        self.imu_pub = rospy.Publisher('imu/data', Imu)
+        self.imu_pub = rospy.Publisher('imu/data', Imu, queue_size=10)
         """Open the port to read the data"""
         try:
             self.serial_port = open(self.port)  

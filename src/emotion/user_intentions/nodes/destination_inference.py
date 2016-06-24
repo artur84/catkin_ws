@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 #
-import roslib; roslib.load_manifest('user_intentions')
+import roslib
 from copy import deepcopy
 from social_filter.msg._humanPose import humanPose
 from social_filter.msg._humanPoses import humanPoses
@@ -118,12 +118,12 @@ class DestinationInference():
 
         # self.meeting_points_sub = rospy.Subscriber("meeting_points_goal_array", LocalGoalArray, self.__meeting_points_callback__, None, 1 )
         """ROS PUBLISHERS"""
-        self.rrrt_goal_pub = rospy.Publisher("goal", PoseStamped)
-        self.dir_marker_pub = rospy.Publisher("dest_inference_dir_marker", Marker)
-        self.goal_marker_pub = rospy.Publisher('goal_marker_array', MarkerArray)
-        self.goal_array_pub = rospy.Publisher('goal_array', LocalGoalArray)
-        self.ui_goal_pub = rospy.Publisher('ui_goal', LocalGoal)
-        self.interaction_msg_pub = rospy.Publisher("interaction_msg", Float64)
+        self.rrrt_goal_pub = rospy.Publisher("goal", PoseStamped, queue_size=10)
+        self.dir_marker_pub = rospy.Publisher("dest_inference_dir_marker", Marker, queue_size=10)
+        self.goal_marker_pub = rospy.Publisher('goal_marker_array', MarkerArray, queue_size=10)
+        self.goal_array_pub = rospy.Publisher('goal_array', LocalGoalArray, queue_size=1)
+        self.ui_goal_pub = rospy.Publisher('ui_goal', LocalGoal, queue_size=1)
+        self.interaction_msg_pub = rospy.Publisher("interaction_msg", Float64, queue_size=1)
         """ Dynamic Reconfigure Client
         """
 #         # Create a dynamic reconfigure server.

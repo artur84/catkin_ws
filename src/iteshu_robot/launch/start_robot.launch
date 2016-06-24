@@ -5,10 +5,10 @@
 
 	### Start Rosserial ###
    	<!-- if we want to use google recognizer -->
-    <node pkg="rosserial_python" type="serial_node.py" name="serial_node" output="screen" respawn="True">
-        <param name="port" value="$(arg port)" />
+    <!--node pkg="rosserial_python" type="serial_node.py" name="serial_node" output="screen" respawn="True">
+        <param name="port" value="$(arg port)" /-->
         <!--param name="baud" value="$(arg baud)" /-->    	
-     </node>
+     <!--/node-->
    	
    	### Start Keyboard Teleop ###
    	<!-- if we want to use google recognizer -->
@@ -20,6 +20,7 @@
 
 	##### START RVIZ   #####
 	<!--node pkg="rviz" type="rviz" name="rviz" args="-d $(find wheelchairconf)/config/rviz/sim_voice_and_head_cmd.rviz"/-->
-
+	<!--node pkg="rviz" type="rviz" name="rviz" /-->
+		
 
 </launch>

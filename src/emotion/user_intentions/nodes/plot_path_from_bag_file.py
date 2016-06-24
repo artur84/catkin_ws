@@ -6,8 +6,7 @@
         @contact: jesus.escobedo-cabello@inria.fr
         @organization: INRIA Grenoble, Emotion-team
 """
-import roslib; roslib.load_manifest('user_intentions')
-
+import roslib
 import sys
 import rospy
 import numpy as np
@@ -47,7 +46,7 @@ class PlotPath():
         """ SUBSCRIBERS """
         self.amcl_pose_subscriber = rospy.Subscriber(self.pose, PoseWithCovarianceStamped , self.amcl_pose_callback)
         """ PUBLISHERS """
-        self.path_publisher = rospy.Publisher(self.path, Path)
+        self.path_publisher = rospy.Publisher(self.path, Path, queue_size=1)
    
     """ In this callback we read the incoming pose and add it to the path, then we refresh
         the path 

@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 #
-import roslib; roslib.load_manifest('user_intentions')
+import roslib
 import rospy
 from geometry_msgs.msg._PoseWithCovarianceStamped import PoseWithCovarianceStamped
 from geometry_msgs.msg._PoseStamped import PoseStamped
@@ -43,7 +43,7 @@ class FalseOdomPub():
         """ROS SUBSCRIBERS"""
         self.cmd_vel_sub = rospy.Subscriber("cmd_vel", Twist, self.__cmd_vel_callback__, None, 1)
         """ROS PUBLISHERS"""
-        self.odom_pub = rospy.Publisher("odom", Odometry)
+        self.odom_pub = rospy.Publisher("odom", Odometry, queue_size=1)
         """tf"""
         tf_broadcaster = tf.TransformBroadcaster()
         current_time = rospy.Time.now()
