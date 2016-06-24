@@ -1,0 +1,28 @@
+<package>
+  <name>pal_msgs</name>
+  <version>1.0.0</version>
+  <description>Basic data types used in PAL modules.</description>
+  <maintainer email="example@gmail.com">Luca Marchetti</maintainer>
+
+  <license>BSD</license>
+
+  <url type="website">http://ros.org/wiki/pal_msgs</url>
+  <!-- <url type="bugtracker"></url> -->
+
+  <author>Luca Marchetti</author>
+
+  <!-- Dependencies which this package needs to build itself. -->
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <!-- Dependencies needed to compile this package. -->
+  <build_depend>geometry_msgs</build_depend>
+   <build_depend>message_generation</build_depend>
+
+  <!-- Dependencies needed after this package is compiled. -->
+  <run_depend>geometry_msgs</run_depend>
+<run_depend>message_runtime</run_depend>
+
+  <!-- Dependencies needed only for running tests. -->
+  <!-- <test_depend>geometry_msgs</test_depend> -->
+
+</package>

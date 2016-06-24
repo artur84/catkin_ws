@@ -1,0 +1,33 @@
+How to run examples
+===================
+
+1. Launch the demo:
+  $ roslaunch pal_launch demo_controller.launch
+
+2. By default control is not enabled. Then you can start the control like this:
+  $ rosrun pal_launch start_demo_controller.sh
+
+3. There are 4 type of controller implemented so far:
+  - parametric: simple position controller.
+                You can set the follower point in any position except for x=0
+  - singular: for follower point on y-axis (x=0).
+              We assume that the person is moving: the controller stabilizes
+              the trajectory. when the person moves. If the person stops, the 
+              stabilization neglect the error along y-axis.
+  - singular_pos: like singular, but with a take into account the error on
+                  y-axis when the person does not move.
+  - velocity: improved version of singular.
+              Unstable so far, need to be correctly tuned.
+Start any of the controller using:
+  $ rosrun pal_launch test_<CONTROLLER-NAME>.sh
+
+4. Now you can move the person on stage, or use the "2D Nav Goal" button on rviz
+
+5. To configure gain and dynamically change the follower point position or other
+   options use the dynamic_reconfigure:
+  $ rosrun dynamic_reconfigure reconfigure_gui
+
+--
+
+For any further questions contact the developer:
+Luca Marchetti <luca.marchetti@cipicchia.net>

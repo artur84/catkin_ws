@@ -1,0 +1,13 @@
+\subsubsection parameters ROS parameters
+
+Reads and maintains the following parameters on the ROS server
+
+- \b "~k1" : \b [double] k1 gain min: 0.0, default: 1.0, max: 20.0
+- \b "~k2" : \b [double] k2 gain min: 0.0, default: 1.0, max: 20.0
+- \b "~k3" : \b [double] k3 gain min: 0.0, default: 1.0, max: 20.0
+- \b "~k4" : \b [double] k4 gain min: 0.0, default: 1.0, max: 20.0
+- \b "~Pfm_x" : \b [double] Position of follower point, x coord min: -10.0, default: 1.0, max: 10.0
+- \b "~Pfm_y" : \b [double] Position of follower point, y coord min: -10.0, default: 0.0, max: 10.0
+- \b "~enable_debug" : \b [bool] Enable visual debug min: False, default: False, max: True
+- \b "~ctrl_laws" : \b [str] The control laws to use min: , default: parametric, max: 
+

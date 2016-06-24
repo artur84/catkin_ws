@@ -1,0 +1,47 @@
+<package>
+  <name>controller</name>
+  <version>1.0.0</version>
+  <description>This node implements a simple trajectory controller to aim to following a target.
+		It uses two input topics to get target position and current agent position.
+		It evaluates the control commands (linear and angular velocity) to achieve
+		the target following.</description>
+  <maintainer email="example@gmail.com">Luca Marchetti</maintainer>
+
+  <license>BSD</license>
+
+  <url type="website">http://ros.org/wiki/controller</url>
+  <!-- <url type="bugtracker"></url> -->
+
+  <author>Luca Marchetti</author>
+
+  <!-- Dependencies which this package needs to build itself. -->
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <!-- Dependencies needed to compile this package. -->
+  <build_depend>roscpp</build_depend>
+  <build_depend>visualization_msgs</build_depend>
+  <build_depend>tf</build_depend>
+  <build_depend>dynamic_reconfigure</build_depend>
+  <!--build_depend>trajectory_stabilization_devel</build_depend-->
+  <build_depend>pal_msgs</build_depend>
+  <build_depend>message_generation</build_depend>
+  
+
+  <!-- Dependencies needed after this package is compiled. -->
+  <run_depend>roscpp</run_depend>
+  <run_depend>visualization_msgs</run_depend>
+  <run_depend>tf</run_depend>
+  <run_depend>dynamic_reconfigure</run_depend>
+  <!--run_depend>trajectory_stabilization_devel</run_depend-->
+  <run_depend>pal_msgs</run_depend>
+<run_depend>message_runtime</run_depend>
+
+  <!-- Dependencies needed only for running tests. -->
+  <!-- <test_depend>roscpp</test_depend> -->
+  <!-- <test_depend>visualization_msgs</test_depend> -->
+  <!-- <test_depend>tf</test_depend> -->
+  <!-- <test_depend>dynamic_reconfigure</test_depend> -->
+  <!-- <test_depend>trajectory_stabilization_devel</test_depend> -->
+  <!-- <test_depend>pal_msgs</test_depend> -->
+
+</package>

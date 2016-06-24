@@ -1,0 +1,270 @@
+#include "HumanGridRos.hpp"
+#include "social_fcns.h"
+#include "nav_msgs/OccupancyGrid.h"
+#include "nav_msgs/GridCells.h"
+
+
+using namespace std;
+namespace HumanGridRos {
+
+	void HumanGridRos()
+	{
+		x_=0.0;
+		y_=0.0;
+		timeStep_=0.0;
+		cellSize_=0.0;
+		is_initialized=false;
+
+
+	}
+
+	void ~HumanGridRos()
+	{
+	}
+
+	void initMaps()
+	{
+			if (!is_initialized)
+			{
+				ROS_INFO("Social Grid Initialized with following parameters:");
+				x_= global_map_.info.origin.position.x;
+				y_= global_map_.info.origin.position.x;
+				cellSize_=global_map_.info.resolution;
+				ROS_INFO("cellSize: %f", cellSize_);
+				width_=global_map_.info.width;
+				ROS_INFO("width: %d", width_);
+				height_=global_map_.info.height;
+				ROS_INFO("height: %d", height_);
+				//Init Personal Space grid information
+				grid_PS_.data.resize(width_*height_);
+				grid_PS_.info.resolution = cellSize_;
+				grid_PS_.info.width = width_;
+				grid_PS_.info.height = height_;
+				grid_PS_.info.origin.position.x = x_;
+				grid_PS_.info.origin.position.y = y_;
+				grid_PS_.info.origin.position.z = 0.0;
+				grid_PS_.header.frame_id = "/map";
+				//Init o space grid information
+				grid_oS_.data.resize(width_*height_);
+				grid_oS_.info.resolution = cellSize_;
+				grid_oS_.info.width = width_;
+				grid_oS_.info.height = height_;
+				grid_oS_.info.origin.position.x = x_;
+				grid_oS_.info.origin.position.y = y_;
+				grid_oS_.info.origin.position.z = 0.0;
+				grid_oS_.header.frame_id = "/map";
+				//Init social map
+				social_map_.header.frame_id = "/map";
+				social_map_.info.resolution = cellSize_;
+				social_map_.info.width = width_;
+				social_map_.info.height = height_;
+				social_map_.info.origin.position.x = x_;
+				social_map_.info.origin.position.y = y_;
+				social_map_.info.origin.position.z = 0.0;
+				social_map_.info.origin.orientation.x =global_map_.info.origin.orientation.x;
+				social_map_.info.origin.orientation.y =global_map_.info.origin.orientation.y;
+				social_map_.info.origin.orientation.z =global_map_.info.origin.orientation.z;
+				social_map_.info.origin.orientation.w =global_map_.info.origin.orientation.w;
+				social_map_.data.resize(global_map_.info.width*global_map_.info.height);
+
+				is_initialized = true;
+			}
+
+	}
+
+	void humanPosesCb_(const social_filter::humanPoses pos)
+	{
+	  // ROS_INFO("IN human_poses_ callback");
+	  human_poses_.humans.clear();
+	  social_filter::humanPose human1;
+	  for(unsigned int i=0;i<pos.humans.size();i++)
+		{
+		  try{
+		  tf_listener_.waitForTransform("/map",pos.humans[i].header.frame_id,ros::Time(0),ros::Duration(3.0));
+		  //this is to have humans in map coordinates
+		  transformPosetoMap(&tf_listener_, pos.humans[i], &human1);
+		  }
+		  catch(tf::TransformException ex){
+		ROS_ERROR("%s",ex.what());
+		  }
+		  human1.header.stamp=pos.humans[i].header.stamp;
+		  human1.header.frame_id=pos.humans[i].header.frame_id;
+		  human1.linear_velocity=pos.humans[i].linear_velocity;
+		  human1.angular_velocity=pos.humans[i].angular_velocity;
+		  human1.id=pos.humans[i].id;
+		  human_poses_.humans.push_back(human1);
+		}
+
+
+	}
+
+	void interactionsCb_(const social_filter::int_list i_list)
+	{
+	  interactions_.header.frame_id = i_list.header.frame_id;
+	  interactions_.header.stamp = i_list.header.stamp;
+	  interactions_.formation.clear();
+	  for(uint i=0;i<i_list.formation.size();i++)
+	  {
+		interactions_.formation.push_back(i_list.formation[i]);
+	  }
+	}
+	/***
+	 * Receives a map from the map_server data
+	 * values: free ready=true;(0), occupied (100), and unknown (-1).
+	 */
+	void globalMapCb_(const nav_msgs::OccupancyGrid::ConstPtr& msg)
+	{
+		ROS_INFO("callback");
+		global_map_.header.stamp = ros::Time::now();
+		global_map_.header.frame_id = "/map";
+		global_map_.info.map_load_time = ros::Time::now();
+		global_map_.info.resolution = msg->info.resolution;
+		global_map_.info.width = msg->info.width;
+		global_map_.info.height = msg->info.height;
+		global_map_.info.origin.position.x = msg->info.origin.position.x;
+		global_map_.info.origin.position.y = msg->info.origin.position.y;
+		global_map_.info.origin.position.z = msg->info.origin.position.z;
+		global_map_.info.origin.orientation.x =msg->info.origin.orientation.x ;
+		global_map_.info.origin.orientation.y =msg->info.origin.orientation.y;
+		global_map_.info.origin.orientation.z =msg->info.origin.orientation.z;
+		global_map_.info.origin.orientation.w =msg->info.origin.orientation.w;
+		global_map_.data.resize(msg->info.width*msg->info.height);
+
+		for(unsigned int i=0; i<msg->info.width* msg->info.height; i++)
+		{
+			global_map_.data[i] = msg->data[i];
+		}
+
+		initMaps();
+	}
+
+<<<<<<< .mine
+=======
+  float stateGrid[width_ * height_ * ( steps_ + 1 )];
+  for ( uint8_t t = 0; t <= steps_; ++t ) {
+    float * sp = &( stateGrid[t * width_ * height_] );
+    float y = y_ + cellSize_ / 2.0;
+    for ( uint8_t j = 0; j < height_; ++j ) {
+      float x = x_ + cellSize_ / 2.0;
+      for ( uint8_t i = 0; i < width_; ++i ) {
+      float p_coll=1.0;	
+	for(uint8_t k = 0; k < people.humans.size(); k++)
+	  p_coll *=(1.0 - PSpace(x,y,people.humans[k].x,people.humans[k].y,people.humans[k].theta, 0.41));
+	*sp=(1.0 - p_coll);
+	*sp++;
+	x += cellSize_; 
+      }
+      y += cellSize_;
+    }
+  grid_PS_.header.stamp = ros::Time::now();
+  grid_PS_Publisher_.publish(grid_PS_);
+  ROS_INFO("Published PS grid");
+}
+>>>>>>> .r882
+
+	void initSubs()
+	{
+
+	  humanSubscriber_= nodeHandle_.subscribe("human_poses", 10, &humanPosesCb_,this);
+	  interactionSubscriber_= nodeHandle_.subscribe("interaction_list",10,&interactionsCb_,this);
+	  globalMapSubscriber_= nodeHandle_.subscribe("/map",10,&globalMapCb_,this);
+
+	}
+
+	void init_gridPublishers(){
+	  //grid_PS_Publisher_ = nodeHandle_.advertise<nav_msgs::OccupancyGrid>("personal_grid", 1);
+	  socialMapPublisher_ = nodeHandle_.advertise<nav_msgs::OccupancyGrid>("social_map", 1);
+	}
+
+	//this function is used to publish personal spaces for humans
+	void set_PSgrid(){
+	  float y = y_ + cellSize_ / 2.0;
+	  for ( uint8_t j = 0; j < height_; ++j )
+	  {
+		  float x = x_ + cellSize_ / 2.0;
+		  for ( uint8_t i = 0; i < width_; ++i )
+		  {
+			  float p_coll=1.0;
+			  for(uint8_t k = 0; k < human_poses_.humans.size(); k++)
+				  p_coll *=(1.0 - PSpace(x,y,human_poses_.humans[k].x,human_poses_.humans[k].y,human_poses_.humans[k].theta));
+			  grid_PS_.data[j*height_+i]=int((1.0 - p_coll)*100+0.5);
+			  x += cellSize_;
+		  }
+		  y += cellSize_;
+		}
+	}
+
+	//this function is used to publish interaction spaces for groups of humans
+	void set_oSgrid(){
+		int val;
+		float y = y_ + cellSize_ / 2.0;
+		for ( uint8_t j = 0; j < height_; ++j )
+		{
+			float x = x_ + cellSize_ / 2.0;
+			for ( uint8_t i = 0; i < width_; ++i )
+			{
+				float p_coll=1.0;
+				for(uint8_t k=0; k < interactions_.formation.size(); k++)
+					p_coll *=(1.0 - EvalGauss(x,y,interactions_.formation[k]));
+				grid_oS_.data[j*height_+i]=int((1.0 - p_coll)*100+0.5);
+				x += cellSize_;
+				//TODO: We have to think how to advertize several grids, one, for each interaction.
+			}
+			y += cellSize_;
+		}
+	}
+	//This function mix the 3 other maps into a single one.
+	void set_social_map(){
+
+		for(unsigned int i=0; i< width_* height_; i++)
+		{
+			social_map_.data[i] = 0;
+		}
+	}
+	// This function is to publish a list of points of the obstacles (occupied regions)
+	// in the format used by move_base.
+	void publish_social_map(){
+		ROS_INFO("here");
+		set_PSgrid();
+		ROS_INFO("here2");
+		set_oSgrid();
+		ROS_INFO("here3");
+		set_social_map();
+		ROS_INFO("here4");
+		social_map_.header.stamp = ros::Time::now();
+		socialMapPublisher_.publish(social_map_);
+		ROS_INFO("Published social map grid");
+	}
+
+}  // namespace name
+
+int main(int argc,char **argv){
+
+  ros::init(argc, argv, "humanGrids");
+  HumanGridRos h_grid;
+  h_grid.initSubs();
+  h_grid.init_gridPublishers();
+  h_grid.globalMapSubscriber_.getNumPublishers();
+  ros::Rate r(5.0);
+  ROS_INFO("Social grid is waiting for global map to be published");
+  //Waiting for the global map to be ready.
+  while (h_grid.globalMapSubscriber_.getNumPublishers()==0)
+	r.sleep();
+  ROS_INFO("Global map is ready");
+
+
+  while (ros::ok())
+    {
+      if(h_grid.is_initialized){
+    	  h_grid.publish_social_map();
+      }
+      else
+      {
+    	  ROS_ERROR("social grid maps are not initialized");
+      }
+      ros::spinOnce();
+      r.sleep();
+	}
+
+  return 0;
+}

@@ -1,0 +1,17 @@
+K 10
+svn:ignore
+V 50
+*~
+*.so
+*.o
+.*
+tmp
+obj
+bin
+msg_gen
+build
+out
+lib
+
+
+END

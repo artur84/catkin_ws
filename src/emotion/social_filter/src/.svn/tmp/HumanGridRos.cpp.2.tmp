@@ -1,0 +1,445 @@
+#include "HumanGridRos.hpp"
+#include "social_fcns.h"
+
+using namespace std;
+
+HumanGridRos::HumanGridRos()
+{
+<<<<<<< .mine
+	grid_complete_ready = false;
+	human_poses_ready = false;
+	HumanGridRos::initSubs();
+	HumanGridRos::init_gridPublishers();
+}
+
+HumanGridRos::~HumanGridRos()
+{
+}
+
+void HumanGridRos::init(float x, float y, float cell_size, uint8_t steps,
+		float timeStep, uint16_t width, uint16_t height)
+{
+	ROS_INFO("Social Grid Initialized with following parameters:");
+	x_ = x;
+	y_ = y;
+	cellSize_ = cell_size;
+	ROS_INFO("cellSize: %f", cellSize_);
+	steps_ = steps;
+	timeStep_ = timeStep;
+	ROS_INFO("timeStep: %f", timeStep_);
+	width_ = width;
+	ROS_INFO("width: %d", width_);
+	height_ = height;
+	ROS_INFO("height: %d", height_);
+	//Init Personal Space grid information
+	grid_PS_.data.resize(width_ * height_);
+	grid_PS_.info.resolution = cellSize_;
+	grid_PS_.info.width = width_;
+	grid_PS_.info.height = height_;
+	grid_PS_.info.origin.position.x = x_;
+	grid_PS_.info.origin.position.y = y_;
+	grid_PS_.info.origin.position.z = 0.0;
+	grid_PS_.header.frame_id = "/map";
+	//Init o space grid information
+	grid_oS_.data.resize(width_ * height_);
+	grid_oS_.info.resolution = cellSize_;
+	grid_oS_.info.width = width_;
+	grid_oS_.info.height = height_;
+	grid_oS_.info.origin.position.x = x_;
+	grid_oS_.info.origin.position.y = y_;
+	grid_oS_.info.origin.position.z = 0.0;
+	grid_oS_.header.frame_id = "/map";
+
+=======
+  ready=false;
+>>>>>>> .r890
+}
+
+void HumanGridRos::humanPosesCb_(const social_filter::humanPoses pos)
+{
+	ROS_INFO("IN human_poses_ callback");
+	human_poses_.humans.clear();
+	social_filter::humanPose human1;
+	for (unsigned int i = 0; i < pos.humans.size(); i++)
+	{
+		try
+		{
+			tf_listener_.waitForTransform("/map", pos.humans[i].header.frame_id,
+					ros::Time(0), ros::Duration(3.0));
+			//this is to have humans in map coordinates
+			transformPosetoMap(&tf_listener_, pos.humans[i], &human1);
+		} catch (tf::TransformException &ex)
+		{
+			ROS_ERROR("%s", ex.what());
+		}
+		human1.header.stamp = pos.humans[i].header.stamp;
+		human1.header.frame_id = pos.humans[i].header.frame_id;
+		human1.linear_velocity = pos.humans[i].linear_velocity;
+		human1.angular_velocity = pos.humans[i].angular_velocity;
+		human1.id = pos.humans[i].id;
+		human_poses_.humans.push_back(human1);
+	}
+	human_poses_ready = true;
+}
+
+<<<<<<< .mine
+void HumanGridRos::interactionsCb_(const social_filter::int_list i_list)
+=======
+
+void HumanGridRos::peopleCallback(const social_filter::humanPoses pos)
+>>>>>>> .r890
+{
+<<<<<<< .mine
+	interactions_.header.frame_id = i_list.header.frame_id;
+	interactions_.header.stamp = i_list.header.stamp;
+	interactions_.formation.clear();
+	for (uint i = 0; i < i_list.formation.size(); i++)
+	{
+		interactions_.formation.push_back(i_list.formation[i]);
+	}
+=======
+  // ROS_INFO("IN people callback");
+  people.humans.clear();
+  social_filter::humanPose human1;
+  for(unsigned int i=0;i<pos.humans.size();i++)
+    {    
+      try{
+      listener.waitForTransform("/map",pos.humans[i].header.frame_id,ros::Time(0),ros::Duration(3.0));
+      //this is to have humans in map coordinates
+      transformPosetoMap(&listener, pos.humans[i], &human1);
+      }
+      catch(tf::TransformException ex){
+	ROS_ERROR("%s",ex.what());
+      }
+      human1.header.stamp=pos.humans[i].header.stamp;
+      human1.header.frame_id=pos.humans[i].header.frame_id;
+       human1.linear_velocity=pos.humans[i].linear_velocity;
+      human1.angular_velocity=pos.humans[i].angular_velocity;
+      human1.id=pos.humans[i].id;
+      people.humans.push_back(human1);
+    }
+  ready=true;
+>>>>>>> .r890
+} 
+//Due to the way the map_server node works, this callback happens only once when the subscriber is created
+void HumanGridRos::global_map_Cb_(const nav_msgs::OccupancyGrid::ConstPtr& msg)
+{
+	ROS_INFO("Complete grid initialized in the callback.");
+	grid_complete_.info.origin.position.x = msg->info.origin.position.x;
+	grid_complete_.info.origin.position.y = msg->info.origin.position.y;
+	grid_complete_.info.width = msg->info.width;
+	grid_complete_.info.height = msg->info.height;
+	grid_complete_.info.resolution = msg->info.resolution;
+	grid_complete_.data.resize(
+			grid_complete_.info.width * grid_complete_.info.height);
+
+<<<<<<< .mine
+	global_map_.info.origin.position.x = msg->info.origin.position.x;
+	global_map_.info.origin.position.y = msg->info.origin.position.y;
+	global_map_.info.width = msg->info.width;
+	global_map_.info.height = msg->info.height;
+	global_map_.info.resolution = msg->info.resolution;
+	global_map_.data.resize(
+			global_map_.info.width * global_map_.info.height);
+  for(unsigned int i=0; i<global_map_.info.width* global_map_.info.height; i++)
+=======
+void HumanGridRos::intCallback(const social_filter::int_list i_list)
+{
+  interactions.header.frame_id = i_list.header.frame_id;
+  interactions.header.stamp = i_list.header.stamp;
+  interactions.formation.clear();
+  for(uint i=0;i<i_list.formation.size();i++)
+>>>>>>> .r890
+  {
+<<<<<<< .mine
+	  global_map_.data[i] = msg->data[i];
+=======
+    interactions.formation.push_back(i_list.formation[i]);
+>>>>>>> .r890
+  }
+	ROS_INFO("cellSize: %f", grid_complete_.info.resolution);
+	ROS_INFO("width: %d", grid_complete_.info.width);
+	ROS_INFO("height: %d", grid_complete_.info.height);
+
+	grid_complete_ready = true;
+}
+
+void HumanGridRos::initSubs()
+{
+<<<<<<< .mine
+
+	humanSubscriber_ = nodeHandle_.subscribe("human_poses", 10,
+			&HumanGridRos::humanPosesCb_, this);
+	interactionSubscriber_ = nodeHandle_.subscribe("interaction_list", 10,
+			&HumanGridRos::interactionsCb_, this);
+	global_map_subscriber_ = nodeHandle_.subscribe("/map", 1,
+			&HumanGridRos::global_map_Cb_, this);
+=======
+      
+  humanSubscriber= nodeHandle.subscribe("/robot_0/human_poses", 10, &HumanGridRos::peopleCallback,this);
+  intSubscriber= nodeHandle.subscribe("/robot_0/interaction_list",10,&HumanGridRos::intCallback,this);
+     
+>>>>>>> .r890
+}
+
+<<<<<<< .mine
+void HumanGridRos::init_gridPublishers()
+{
+	grid_PS_Publisher_ = nodeHandle_.advertise<nav_msgs::OccupancyGrid>(
+			"personal_grid", 1);
+	grid_oS_Publisher_ = nodeHandle_.advertise<nav_msgs::OccupancyGrid>(
+			"interaction_grid", 1);
+	grid_complete_publisher_ = nodeHandle_.advertise<nav_msgs::OccupancyGrid>(
+			"social_grid", 1);
+=======
+void HumanGridRos::init_gridPublisher(
+			  float x, 
+			  float y,
+			  float step,
+			  uint8_t steps,
+			  float timeStep,
+			  uint16_t width,
+			  uint16_t height){
+>>>>>>> .r890
+
+  grid_PS_Publisher_ = new ghmm_ros::GridPublisher ( "/personal_grid", nodeHandle, x, y, step, steps, timeStep, width, height );
+  grid_oS_Publisher_ = new ghmm_ros::GridPublisher ( "/interaction_grid", nodeHandle, x, y, step, steps, timeStep, width, height );
+  x_=x;
+  y_=y;
+  cellSize_=step;
+  steps_=steps;
+  timeStep_=timeStep;
+  width_=width;
+  height_=height;
+}
+
+//this function is used to publish personal spaces for humans
+void HumanGridRos::compute_PSgrid()
+{
+	float y = y_ + cellSize_ / 2.0;
+	for (uint8_t j = 0; j < height_; ++j)
+	{
+		float x = x_ + cellSize_ / 2.0;
+		for (uint8_t i = 0; i < width_; ++i)
+		{
+			float p_coll = 1.0;
+			for (uint8_t k = 0; k < human_poses_.humans.size(); k++)
+				p_coll *= (1.0
+						- PSpace(x, y, human_poses_.humans[k].x,
+								human_poses_.humans[k].y,
+								human_poses_.humans[k].theta));
+			grid_PS_.data[j * height_ + i] = int((1.0 - p_coll) * 100 + 0.5);
+			x += cellSize_;
+		}
+		y += cellSize_;
+	}
+}
+
+<<<<<<< .mine
+//this function is used to publish personal spaces for humans
+void HumanGridRos::publish_PSgrid()
+{
+	HumanGridRos::compute_PSgrid();
+	grid_PS_.header.stamp = ros::Time::now();
+	grid_PS_Publisher_.publish(grid_PS_);
+//  ROS_INFO("Published PS grid");
+=======
+  float stateGrid[width_ * height_ * ( steps_ + 1 )];
+  for ( uint8_t t = 0; t <= steps_; ++t ) {
+    float * sp = &( stateGrid[t * width_ * height_] );
+    float y = y_ + cellSize_ / 2.0;
+    for ( uint8_t j = 0; j < height_; ++j ) {
+      float x = x_ + cellSize_ / 2.0;
+      for ( uint8_t i = 0; i < width_; ++i ) {
+      float p_coll=1.0;	
+	for(uint8_t k = 0; k < people.humans.size(); k++)
+	  p_coll *=(1.0 - PSpace(x,y,people.humans[k].x,people.humans[k].y,people.humans[k].theta,0.42 /*it's magical*/));
+	*sp=(1.0 - p_coll);
+	*sp++;
+	x += cellSize_; 
+      }
+      y += cellSize_;
+    }
+    //  sp = &( stateGrid[t * width_ * height_] );
+    //  for ( uint8_t j = 0; j < height_; ++j ) {
+    //    for ( uint8_t i = 0; i < width_; ++i ) {
+    //  	*sp++ /= people.humans.size()*1.0; 
+    //       }
+    // }
+   
+  }
+   
+  //set to 0.5 in the future
+  ros::Time pred_time = ros::Time::now() + ros::Duration(0.5);
+  (*grid_PS_Publisher_)( 
+		 1,  
+		 &( stateGrid[0] ),
+		 &( stateGrid[width_ * height_ * ( steps_ + 1 )] )
+		  ); //publish grid message
+   
+>>>>>>> .r890
+}
+
+/***
+ * compute_oSgrid
+ */
+void HumanGridRos::compute_oSgrid()
+{
+	float y = y_ + cellSize_ / 2.0; //Why 2?
+	for (uint8_t j = 0; j < height_; ++j)
+	{
+		float x = x_ + cellSize_ / 2.0;
+		for (uint8_t i = 0; i < width_; ++i)
+		{
+			float p_coll = 1.0;
+			for (uint8_t k = 0; k < interactions_.formation.size(); k++)
+				p_coll *= (1.0 - EvalGauss(x, y, interactions_.formation[k]));
+			grid_oS_.data[j * height_ + i] = int((1.0 - p_coll) * 100 + 0.5);
+			x += cellSize_;
+			//TODO: We have to think how to advertize several grids, one, for each interaction.
+		}
+		y += cellSize_;
+	}
+}
+
+<<<<<<< .mine
+/***
+ * publish_oSgrid
+ */
+void HumanGridRos::publish_oSgrid()
+{
+	HumanGridRos::compute_oSgrid();
+	grid_oS_.header.stamp = ros::Time::now();
+	grid_oS_Publisher_.publish(grid_oS_);
+//    ROS_INFO("Published oS grid");
+=======
+  float stateGrid[width_ * height_ * ( steps_ + 1 )];
+  for ( uint8_t t = 0; t <= steps_; ++t ) {
+    float * sp = &( stateGrid[t * width_ * height_] );
+    float y = y_ + cellSize_ / 2.0;
+    for ( uint8_t j = 0; j < height_; ++j ) {
+      float x = x_ + cellSize_ / 2.0;
+      for ( uint8_t i = 0; i < width_; ++i ) {
+        float p_coll=1.0;
+	for(uint8_t k=0; k < interactions.formation.size(); k++)      
+	  p_coll *=(1.0 - EvalGauss(x,y,interactions.formation[k]));
+        *sp=(1.0 - p_coll);
+	*sp++;
+	x += cellSize_; 
+      }
+      y += cellSize_;
+    }
+>>>>>>> .r890
+
+    // sp = &( stateGrid[t * width_ * height_] );
+    
+    // for ( uint8_t j = 0; j < height_; ++j ) {
+    //   for ( uint8_t i = 0; i < width_; ++i ) {
+    // 	*sp++ /= interactions.formation.size()*1.0; 
+    //   }
+    // }
+
+  }
+   
+  //set to 0.5 in the future
+  ros::Time pred_time = ros::Time::now() + ros::Duration(0.5);
+  (*grid_oS_Publisher_)( 
+		 1,  
+		 &( stateGrid[0] ),
+		 &( stateGrid[width_ * height_ * ( steps_ + 1 )] )
+		  ); //publish grid message
+   
+}
+
+/***
+ * compute_grid_complete: PS+OS+map
+ */
+void HumanGridRos::compute_grid_complete()
+{
+	HumanGridRos::compute_PSgrid();
+	HumanGridRos::compute_oSgrid();
+
+	float Tm2ps; //Coordinate transformation from map to PS
+	float Tps2m; //Coordinate transformation from PS to map
+	Tm2ps = grid_complete_.info.resolution / grid_PS_.info.resolution;
+	Tps2m = grid_PS_.info.resolution/grid_complete_.info.resolution;
+
+<<<<<<< .mine
+	uint16_t w_map = grid_complete_.info.width;
+	uint16_t h_map = grid_complete_.info.height;
+	uint16_t w_ps = int(Tps2m * grid_PS_.info.width);//width of PS in map coordinates
+	uint16_t h_ps = int(Tps2m * grid_PS_.info.height);//height of PS grid in global map coordinates
+=======
+  ros::init(argc, argv, "humanGrids");
+  HumanGridRos h_grid;
+  h_grid.initSubs();
+  h_grid.init_gridPublisher(-10.0,-10.0,0.5,10,0.5,40,40);
+  
+  ros::Rate r(10);
+>>>>>>> .r890
+
+<<<<<<< .mine
+	int I;
+	int J;
+
+=======
+>>>>>>> .r890
+
+	ROS_INFO("Tm2ps= %f, w_map= %d, h_map=%d", Tm2ps, w_map, h_map);
+	ROS_INFO("Tps2m= %f, w_ps= %d, h_ps=%d", Tps2m, w_ps, h_ps);
+	//Copy global map data
+	for(unsigned int i=0; i<global_map_.info.width* global_map_.info.height; i++)
+	{
+		  grid_complete_.data[i] = global_map_.data[i];
+	}
+	for (uint16_t j_map = 0; j_map < h_ps; ++j_map)
+	{
+		J = int(Tm2ps*j_map);
+		//ROS_INFO("J=%d", J);
+		for (uint16_t i_map= 0; i_map< w_ps; ++i_map)
+		{
+			I = int(Tm2ps*i_map);
+			//ROS_INFO("I=%d, J=%d", I,J);
+			//ROS_INFO("i=%d, I= %d",i, I);
+			grid_complete_.data[j_map * w_map + i_map] =
+					grid_PS_.data[ J * grid_PS_.info.width + I] + global_map_.data[j_map*w_map+i_map];
+
+		}
+	}
+}
+
+
+/***
+ * publish_grid_complete
+ */
+void HumanGridRos::publish_grid_complete()
+{
+
+	HumanGridRos::compute_grid_complete();
+	grid_complete_.header.stamp = ros::Time::now();
+	grid_complete_publisher_.publish(grid_complete_);
+
+}
+
+int main(int argc, char **argv)
+{
+
+	ros::init(argc, argv, "humanGrids");
+	HumanGridRos h_grid;
+	h_grid.init(0.0, 0.0, 0.5, 10, 0.5, 25, 25);
+
+	ros::Rate r(5);
+
+	while (ros::ok())
+	{
+		if (h_grid.grid_complete_ready && h_grid.human_poses_ready)
+		{
+			h_grid.publish_PSgrid();
+			h_grid.publish_grid_complete();
+		}
+		ros::spinOnce();
+		r.sleep();
+	}
+
+	return 0;
+}

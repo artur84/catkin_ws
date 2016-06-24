@@ -1,0 +1,14 @@
+\subsubsection usage Usage
+\verbatim
+<node name="controller" pkg="controller" type="controller">
+  <param name="k1" type="double" value="1.0" />
+  <param name="k2" type="double" value="1.0" />
+  <param name="k3" type="double" value="1.0" />
+  <param name="k4" type="double" value="1.0" />
+  <param name="Pfm_x" type="double" value="1.0" />
+  <param name="Pfm_y" type="double" value="0.0" />
+  <param name="enable_debug" type="bool" value="False" />
+  <param name="ctrl_laws" type="str" value="parametric" />
+</node>
+\endverbatim
+

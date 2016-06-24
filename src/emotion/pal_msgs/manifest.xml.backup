@@ -1,0 +1,16 @@
+<package>
+  <description brief="pal_msgs">
+
+     Basic data types used in PAL modules.
+
+  </description>
+  <author>Luca Marchetti</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/pal_msgs</url>
+
+	<depend package="geometry_msgs" />
+
+</package>
+
+
