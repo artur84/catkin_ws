@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(trajectory_simulator)
+
+
 # Load catkin and all dependencies required for this package
 # TODO: remove all from COMPONENTS that are not catkin packages.
 find_package(catkin REQUIRED COMPONENTS 
