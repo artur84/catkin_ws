@@ -1,0 +1,9 @@
+\subsubsection parameters ROS parameters
+
+Reads and maintains the following parameters on the ROS server
+
+- \b "~p_g_g_factor" : \b [double] The transition probability p_g_g_factor min: 1.0, default: 100.0, max: 1000.0
+- \b "~p_c_gx_sigma" : \b [double] The standard deviation of the command model p_c_gx_sigma min: 0.1, default: 0.95, max: 5.0
+- \b "~proba_threshold" : \b [double] The confidence necessary to send a Goal min: 0.1, default: 0.9, max: 1.0
+- \b "~discrete_interface" : \b [bool] To enable/disable the discrete mode Set true when using the keyboard min: False, default: False, max: True
+

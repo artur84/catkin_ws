@@ -30,10 +30,9 @@
   <build_depend>dynamic_reconfigure</build_depend>
   <build_depend>cv_bridge</build_depend>
   <build_depend>trajectory_simulator</build_depend>
-  <build_depend>controller</build_depend>
   <build_depend>sound_play</build_depend>
-  <build_depend>social_filter</build_depend>
-
+  <build_depend>message_generation</build_depend>
+  
   <!-- Dependencies needed after this package is compiled. -->
   <run_depend>nav_msgs</run_depend>
   <run_depend>nav_core</run_depend>
@@ -50,9 +49,8 @@
   <run_depend>dynamic_reconfigure</run_depend>
   <run_depend>cv_bridge</run_depend>
   <run_depend>trajectory_simulator</run_depend>
-  <run_depend>controller</run_depend>
   <run_depend>sound_play</run_depend>
-  <run_depend>social_filter</run_depend>
+  <run_depend>message_runtime</run_depend>
 
   <!-- Dependencies needed only for running tests. -->
   <!-- <test_depend>nav_msgs</test_depend> -->

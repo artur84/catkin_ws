@@ -1,0 +1,10 @@
+\subsubsection usage Usage
+\verbatim
+<node name="user_intentions" pkg="user_intentions" type="user_intentions">
+  <param name="p_g_g_factor" type="double" value="100.0" />
+  <param name="p_c_gx_sigma" type="double" value="0.95" />
+  <param name="proba_threshold" type="double" value="0.9" />
+  <param name="discrete_interface" type="bool" value="False" />
+</node>
+\endverbatim
+
