@@ -1,0 +1,10 @@
+robot:
+    ros2ros:
+        host1_address: localhost
+        host1_port: 9090
+        host2_address: robot_faus
+        host2_port: 9090
+        host1_topics: [/ros2ros_test]
+        host1_topics_types: [std_msgs/String]
+        host2_topics: [/cmd_vel]
+        host2_topic_types: [geometry_msgs/Twist]
