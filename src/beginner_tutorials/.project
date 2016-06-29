@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>social_filter-Debug@social_filter</name>
+	<name>beginner_tutorials-Debug@beginner_tutorials</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -47,7 +47,7 @@
 				</dictionary>
 				<dictionary>
 					<key>org.eclipse.cdt.make.core.buildLocation</key>
-					<value>/home/arturo/catkin_ws/build/social_filter</value>
+					<value>/home/arturo/catkin_ws/build/beginner_tutorials</value>
 				</dictionary>
 				<dictionary>
 					<key>org.eclipse.cdt.make.core.useDefaultBuildCmd</key>
@@ -83,7 +83,7 @@
 				</dictionary>
 				<dictionary>
 					<key>org.eclipse.cdt.make.core.build.location</key>
-					<value>/home/arturo/catkin_ws/build/social_filter</value>
+					<value>/home/arturo/catkin_ws/build/beginner_tutorials</value>
 				</dictionary>
 				<dictionary>
 					<key>org.eclipse.cdt.make.core.autoBuildTarget</key>
@@ -111,10 +111,30 @@
 		<link>
 			<name>[Source directory]</name>
 			<type>2</type>
-			<location>/home/arturo/catkin_ws/src/emotion/social_filter</location>
+			<location>/home/arturo/catkin_ws/src/beginner_tutorials</location>
 		</link>
 		<link>
 			<name>[Targets]</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>[Targets]/[exe] differential_robot_voice_control_arduino</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>[Targets]/[exe] listener</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>[Targets]/[exe] strings_test</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>[Targets]/[exe] talker</name>
 			<type>2</type>
 			<locationURI>virtual:/virtual</locationURI>
 		</link>

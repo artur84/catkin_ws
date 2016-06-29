@@ -21,23 +21,15 @@
 <storageModule moduleId="org.eclipse.cdt.core.pathentry">
 <pathentry kind="src" path="[Source directory]"/>
 <pathentry excluding="[Source directory]/|**/CMakeFiles/" kind="out" path=""/>
-<pathentry kind="mac" name="ROS_PACKAGE_NAME" path="" value="&quot;trajectory_simulator&quot;"/>
+<pathentry kind="mac" name="ROS_PACKAGE_NAME" path="" value="&quot;iteshu_robot&quot;"/>
 <pathentry kind="mac" name="ROSCONSOLE_BACKEND_LOG4CXX" path="" value=""/>
-<pathentry include="/home/arturo/catkin_ws/devel/.private/trajectory_simulator/include" kind="inc" path="" system="true"/>
-<pathentry include="/home/arturo/catkin_ws/src/emotion/trajectory_simulator/include" kind="inc" path="" system="true"/>
 <pathentry include="/opt/ros/indigo/include" kind="inc" path="" system="true"/>
+<pathentry include="/usr/include/opencv" kind="inc" path="" system="true"/>
 <pathentry include="/usr/src/gtest/include" kind="inc" path="" system="true"/>
 <pathentry include="/usr/src/gtest" kind="inc" path="" system="true"/>
 </storageModule>
 <storageModule moduleId="org.eclipse.cdt.make.core.buildtargets">
 <buildTargets>
-<target name=": _trajectory_simulator_generate_messages_check_deps_TrajectoryObservation" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
-<buildCommand>/usr/bin/make</buildCommand>
-<buildArguments></buildArguments>
-<buildTarget>_trajectory_simulator_generate_messages_check_deps_TrajectoryObservation</buildTarget>
-<stopOnError>true</stopOnError>
-<useDefaultCommand>false</useDefaultCommand>
-</target>
 <target name=": actionlib_generate_messages_cpp" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
 <buildCommand>/usr/bin/make</buildCommand>
 <buildArguments></buildArguments>
@@ -84,6 +76,27 @@
 <buildCommand>/usr/bin/make</buildCommand>
 <buildArguments></buildArguments>
 <buildTarget>clean_test_results</buildTarget>
+<stopOnError>true</stopOnError>
+<useDefaultCommand>false</useDefaultCommand>
+</target>
+<target name=": diagnostic_msgs_generate_messages_cpp" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>/usr/bin/make</buildCommand>
+<buildArguments></buildArguments>
+<buildTarget>diagnostic_msgs_generate_messages_cpp</buildTarget>
+<stopOnError>true</stopOnError>
+<useDefaultCommand>false</useDefaultCommand>
+</target>
+<target name=": diagnostic_msgs_generate_messages_lisp" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>/usr/bin/make</buildCommand>
+<buildArguments></buildArguments>
+<buildTarget>diagnostic_msgs_generate_messages_lisp</buildTarget>
+<stopOnError>true</stopOnError>
+<useDefaultCommand>false</useDefaultCommand>
+</target>
+<target name=": diagnostic_msgs_generate_messages_py" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>/usr/bin/make</buildCommand>
+<buildArguments></buildArguments>
+<buildTarget>diagnostic_msgs_generate_messages_py</buildTarget>
 <stopOnError>true</stopOnError>
 <useDefaultCommand>false</useDefaultCommand>
 </target>
@@ -147,6 +160,27 @@
 <buildCommand>/usr/bin/make</buildCommand>
 <buildArguments></buildArguments>
 <buildTarget>list_install_components</buildTarget>
+<stopOnError>true</stopOnError>
+<useDefaultCommand>false</useDefaultCommand>
+</target>
+<target name=": move_base_msgs_generate_messages_cpp" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>/usr/bin/make</buildCommand>
+<buildArguments></buildArguments>
+<buildTarget>move_base_msgs_generate_messages_cpp</buildTarget>
+<stopOnError>true</stopOnError>
+<useDefaultCommand>false</useDefaultCommand>
+</target>
+<target name=": move_base_msgs_generate_messages_lisp" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>/usr/bin/make</buildCommand>
+<buildArguments></buildArguments>
+<buildTarget>move_base_msgs_generate_messages_lisp</buildTarget>
+<stopOnError>true</stopOnError>
+<useDefaultCommand>false</useDefaultCommand>
+</target>
+<target name=": move_base_msgs_generate_messages_py" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
+<buildCommand>/usr/bin/make</buildCommand>
+<buildArguments></buildArguments>
+<buildTarget>move_base_msgs_generate_messages_py</buildTarget>
 <stopOnError>true</stopOnError>
 <useDefaultCommand>false</useDefaultCommand>
 </target>
@@ -304,55 +338,6 @@
 <stopOnError>true</stopOnError>
 <useDefaultCommand>false</useDefaultCommand>
 </target>
-<target name=": trajectory_simulator_gencpp" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
-<buildCommand>/usr/bin/make</buildCommand>
-<buildArguments></buildArguments>
-<buildTarget>trajectory_simulator_gencpp</buildTarget>
-<stopOnError>true</stopOnError>
-<useDefaultCommand>false</useDefaultCommand>
-</target>
-<target name=": trajectory_simulator_generate_messages" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
-<buildCommand>/usr/bin/make</buildCommand>
-<buildArguments></buildArguments>
-<buildTarget>trajectory_simulator_generate_messages</buildTarget>
-<stopOnError>true</stopOnError>
-<useDefaultCommand>false</useDefaultCommand>
-</target>
-<target name=": trajectory_simulator_generate_messages_cpp" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
-<buildCommand>/usr/bin/make</buildCommand>
-<buildArguments></buildArguments>
-<buildTarget>trajectory_simulator_generate_messages_cpp</buildTarget>
-<stopOnError>true</stopOnError>
-<useDefaultCommand>false</useDefaultCommand>
-</target>
-<target name=": trajectory_simulator_generate_messages_lisp" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
-<buildCommand>/usr/bin/make</buildCommand>
-<buildArguments></buildArguments>
-<buildTarget>trajectory_simulator_generate_messages_lisp</buildTarget>
-<stopOnError>true</stopOnError>
-<useDefaultCommand>false</useDefaultCommand>
-</target>
-<target name=": trajectory_simulator_generate_messages_py" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
-<buildCommand>/usr/bin/make</buildCommand>
-<buildArguments></buildArguments>
-<buildTarget>trajectory_simulator_generate_messages_py</buildTarget>
-<stopOnError>true</stopOnError>
-<useDefaultCommand>false</useDefaultCommand>
-</target>
-<target name=": trajectory_simulator_genlisp" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
-<buildCommand>/usr/bin/make</buildCommand>
-<buildArguments></buildArguments>
-<buildTarget>trajectory_simulator_genlisp</buildTarget>
-<stopOnError>true</stopOnError>
-<useDefaultCommand>false</useDefaultCommand>
-</target>
-<target name=": trajectory_simulator_genpy" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
-<buildCommand>/usr/bin/make</buildCommand>
-<buildArguments></buildArguments>
-<buildTarget>trajectory_simulator_genpy</buildTarget>
-<stopOnError>true</stopOnError>
-<useDefaultCommand>false</useDefaultCommand>
-</target>
 <target name=": all" path="" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
 <buildCommand>/usr/bin/make</buildCommand>
 <buildArguments></buildArguments>
@@ -383,14 +368,14 @@
 </target>
 <target name="Build" path="[Targets]/[lib] gtest" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
 <buildCommand>/usr/bin/make</buildCommand>
-<buildArguments>-C "/home/arturo/catkin_ws/build/trajectory_simulator" </buildArguments>
+<buildArguments>-C "/home/arturo/catkin_ws/build/iteshu_robot" </buildArguments>
 <buildTarget>gtest</buildTarget>
 <stopOnError>true</stopOnError>
 <useDefaultCommand>false</useDefaultCommand>
 </target>
 <target name="Clean" path="[Targets]/[lib] gtest" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
 <buildCommand>/usr/bin/cmake</buildCommand>
-<buildArguments>-E chdir "/home/arturo/catkin_ws/build/trajectory_simulator/gtest" "/usr/bin/cmake" -P "CMakeFiles/gtest.dir/cmake_clean.cmake"</buildArguments>
+<buildArguments>-E chdir "/home/arturo/catkin_ws/build/iteshu_robot/gtest" "/usr/bin/cmake" -P "CMakeFiles/gtest.dir/cmake_clean.cmake"</buildArguments>
 <buildTarget></buildTarget>
 <stopOnError>true</stopOnError>
 <useDefaultCommand>false</useDefaultCommand>
@@ -411,14 +396,14 @@
 </target>
 <target name="Build" path="[Targets]/[lib] gtest_main" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
 <buildCommand>/usr/bin/make</buildCommand>
-<buildArguments>-C "/home/arturo/catkin_ws/build/trajectory_simulator" </buildArguments>
+<buildArguments>-C "/home/arturo/catkin_ws/build/iteshu_robot" </buildArguments>
 <buildTarget>gtest_main</buildTarget>
 <stopOnError>true</stopOnError>
 <useDefaultCommand>false</useDefaultCommand>
 </target>
 <target name="Clean" path="[Targets]/[lib] gtest_main" targetID="org.eclipse.cdt.make.MakeTargetBuilder">
 <buildCommand>/usr/bin/cmake</buildCommand>
-<buildArguments>-E chdir "/home/arturo/catkin_ws/build/trajectory_simulator/gtest" "/usr/bin/cmake" -P "CMakeFiles/gtest_main.dir/cmake_clean.cmake"</buildArguments>
+<buildArguments>-E chdir "/home/arturo/catkin_ws/build/iteshu_robot/gtest" "/usr/bin/cmake" -P "CMakeFiles/gtest_main.dir/cmake_clean.cmake"</buildArguments>
 <buildTarget></buildTarget>
 <stopOnError>true</stopOnError>
 <useDefaultCommand>false</useDefaultCommand>
@@ -507,6 +492,6 @@
 </cconfiguration>
 </storageModule>
 <storageModule moduleId="cdtBuildSystem" version="4.0.0">
-<project id="trajectory_simulator.null.1" name="trajectory_simulator"/>
+<project id="iteshu_robot.null.1" name="iteshu_robot"/>
 </storageModule>
 </cproject>
